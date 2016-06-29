@@ -1,0 +1,13 @@
+<setup>
+	<protocol>1.0</protocol>
+	<devicename>//./COM11</devicename>
+	<baudrate>57142</baudrate>
+	<head0>53</head0>
+	<head1>52</head1>
+	<head2>51</head2>
+	<rarm0>44</rarm0>
+	<rarm1>43</rarm1>
+	<larm0>41</larm0>
+	<larm1>42</larm1>
+	
+</setup>

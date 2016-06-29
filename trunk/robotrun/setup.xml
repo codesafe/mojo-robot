@@ -1,0 +1,89 @@
+<setup>
+	<global>
+		<protocol>1.0</protocol>
+		<!-- for windows -->
+		<jointdevicename>//./COM11</jointdevicename>
+		<displaydevicename>//./COM15</displaydevicename>
+		<!-- for linux or raps -->
+		<linuxjointdevicename>dev/ttyUSB0</linuxjointdevicename>
+		<linuxdisplaydevicename>dev/ttyUSB0</linuxdisplaydevicename>
+
+		<jointbaudrate>57142</jointbaudrate>
+		<displaybaudrate>115200</displaybaudrate>
+	</global>
+
+	<parts>
+		<!-- Joint -->
+		<larm0 type="joint">
+			<id>41</id>
+			<torque>1</torque>
+			<cwlimit>30</cwlimit>
+			<ccwlimit>330</ccwlimit>
+			<initpos>180</initpos>
+		</larm0>	
+		<larm1 type="joint">
+			<id>42</id>
+			<torque>1</torque>
+			<cwlimit>30</cwlimit>
+			<ccwlimit>330</ccwlimit>
+			<initpos>180</initpos>
+		</larm1>
+		<rarm0 type="joint">
+			<id>43</id>
+			<torque>1</torque>
+			<cwlimit>30</cwlimit>
+			<ccwlimit>330</ccwlimit>
+			<initpos>180</initpos>
+		</rarm0>
+		<rarm1 type="joint">
+			<id>44</id>
+			<torque>1</torque>
+			<cwlimit>30</cwlimit>
+			<ccwlimit>330</ccwlimit>
+			<initpos>180</initpos>
+		</rarm1>
+		<head0 type="joint">
+			<id>53</id>
+			<torque>1</torque>
+			<cwlimit>30</cwlimit>
+			<ccwlimit>330</ccwlimit>
+			<initpos>180</initpos>
+		</head0>		
+		<head1 type="joint">
+			<id>52</id>
+			<torque>1</torque>
+			<cwlimit>30</cwlimit>
+			<ccwlimit>330</ccwlimit>
+			<initpos>180</initpos>
+		</head1>		
+		<head2 type="joint">
+			<id>51</id>
+			<torque>1</torque>
+			<cwlimit>30</cwlimit>
+			<ccwlimit>330</ccwlimit>
+			<initpos>180</initpos>
+		</head2>		
+		
+		<!-- wheel -->
+		<leftwheel type="wheel">
+		  <id>31</id>
+		  <torque>1</torque>
+		</leftwheel>
+
+		<rightwheel type="wheel">
+		  <id>32</id>
+		  <torque>1</torque>      
+		</rightwheel>
+		
+		<!-- Display -->
+		<lefteye type="display">
+			<id>100</id>
+			<storage>flash</storage>
+		</lefteye>
+		<righteye type="display_">
+			<id>110</id>
+			<storage>sdcard</storage>
+		</righteye>		
+	</parts>
+
+</setup>

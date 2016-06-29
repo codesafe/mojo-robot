@@ -1,0 +1,39 @@
+<data>
+	<animation name="test" totaltime="3">
+		<part deviceid="42" >
+			<motion>
+				<starttime>0</starttime>
+				<endtime>0.5</endtime>
+				<angle>10</angle>
+			</motion>
+			<motion>
+				<starttime>0.5</starttime>
+				<endtime>1.0</endtime>
+				<angle>100</angle>
+			</motion>			
+			<motion>
+				<starttime>1.0</starttime>
+				<endtime>2.0</endtime>
+				<angle>30</angle>
+			</motion>
+			<motion>
+				<starttime>2.0</starttime>
+				<endtime>3.0</endtime>
+				<angle>90</angle>
+			</motion>		
+		</part>
+		<part deviceid="43" >
+			<motion>
+				<starttime>0</starttime>
+				<endtime>2.0</endtime>
+				<angle>10</angle>
+			</motion>
+			<motion>
+				<starttime>2.0</starttime>
+				<endtime>3.0</endtime>
+				<angle>90</angle>
+			</motion>
+		</part>		
+	</animation>
+
+</data>
