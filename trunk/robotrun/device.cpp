@@ -21,7 +21,7 @@ Device::~Device()
 bool	Device::init()
 {
 	enablejointport = initdevice("joint");
-	enabledisplayport = initdevice("display");
+	//enabledisplayport = initdevice("display");
 
 	return true;
 }

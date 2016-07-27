@@ -63,33 +63,33 @@ void	PartController::init(XMLNode node)
 		const char *typestr = child.getAttribute("type");
 		if( strcmp(typestr, "display") == 0 )
 		{
-			Display disp;
-			bool ret = disp.init(child);
+			Display *disp = new Display();
+			bool ret = disp->init(child);
 			if( ret )
 			{
-				if( disp.reset() )
-					partlist.insert(std::make_pair(disp.getid(), disp));
+				if( disp->reset() )
+					partlist.insert(std::make_pair(disp->getid(), disp));
 			}
 
 		}
 		else if( strcmp(typestr, "joint") == 0 )
 		{
-			Joint joint;
-			bool ret = joint.init(child);
+			Joint *joint = new Joint();
+			bool ret = joint->init(child);
 			if( ret )
 			{
-				if( joint.reset() )
-					partlist.insert(std::make_pair(joint.getid(), joint));
+				if( joint->reset() )
+					partlist.insert(std::make_pair(joint->getid(), joint));
 			}
 		}
 		else if( strcmp(typestr, "wheel") == 0 )
 		{
-			Wheel wheel;
-			bool ret = wheel.init(child);
+			Wheel *wheel = new Wheel();
+			bool ret = wheel->init(child);
 			if( ret )
 			{
-				if( wheel.reset() )
-					partlist.insert(std::make_pair(wheel.getid(), wheel));
+				if( wheel->reset() )
+					partlist.insert(std::make_pair(wheel->getid(), wheel));
 			}
 		}
 		else
@@ -101,9 +101,12 @@ void	PartController::init(XMLNode node)
 
 void	PartController::uninit()
 {
-	std::map<int, Part>::iterator it = partlist.begin();
+	std::map<int, Part*>::iterator it = partlist.begin();
 	for(; it != partlist.end(); it++)
-		it->second.uninit();
+	{
+		it->second->uninit();
+		delete it->second;
+	}
 
 	partlist.clear();
 }
@@ -111,10 +114,10 @@ void	PartController::uninit()
 bool	PartController::addsendqueuecommand(uint8_t id, uint16_t command, uint16_t param)
 {
 	bool ret = false;
-	std::map<int, Part>::iterator it = partlist.find(id);
+	std::map<int, Part*>::iterator it = partlist.find(id);
 	if (it != partlist.end())
 	{
-		it->second.addsendcommand(command, param);
+		it->second->addsendcommand(command, param);
 	}
 	else
 	{
@@ -132,10 +135,10 @@ bool	PartController::sendsendqueuecommand()
 bool	PartController::sendcommand(int id, uint16_t command , uint16_t param)
 {
 	bool ret = false;
-	std::map<int, Part>::iterator it = partlist.find(id);
+	std::map<int, Part*>::iterator it = partlist.find(id);
 	if( it != partlist.end() )
 	{
-		ret = it->second.sendcommand(command , param);
+		ret = it->second->sendcommand(command , param);
 	}
 	else
 	{
@@ -146,14 +149,15 @@ bool	PartController::sendcommand(int id, uint16_t command , uint16_t param)
 
 bool	PartController::recvcommand(int id, uint16_t command, uint16_t &param)
 {
-	std::map<int, Part>::iterator it = partlist.find(id);
+	bool ret = false;
+	std::map<int, Part*>::iterator it = partlist.find(id);
 	if( it != partlist.end() )
 	{
-		it->second.recvcommand(command, param);
+		ret = it->second->recvcommand(command, param);
 	}
 	else
 	{
 		Logger::getInstance()->log("Not found parts : %d\n", id);
 	}
-	return false;
+	return ret;
 }

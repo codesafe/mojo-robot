@@ -57,7 +57,7 @@ private:
 	PartController();
 	~PartController();
 
-	std::map<int, Part> partlist;
+	std::map<int, Part*> partlist;
 	static PartController * instance;
 };
 

@@ -89,7 +89,7 @@ bool	Joint::reset()
 	}
 	if(DXL2DEGREE(param) != cwlimit)
 	{
-		Logger::getInstance()->log("%d : cwlimit is not match : cwlimit : %d, recv cwlimit : \n", id, cwlimit, param);
+		Logger::getInstance()->log("%d : cwlimit is not match : cwlimit : %d, recv cwlimit : %d\n", id, cwlimit, param);
 
 		ret = Device::getInstance()->send(id, CW_LIMIT_ANGLE, 2, cwlimit);
 		if( ret == true )

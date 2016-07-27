@@ -2,7 +2,7 @@
 	<global>
 		<protocol>1.0</protocol>
 		<!-- for windows -->
-		<jointdevicename>//./COM11</jointdevicename>
+		<jointdevicename>//./COM3</jointdevicename>
 		<displaydevicename>//./COM15</displaydevicename>
 		<!-- for linux or raps -->
 		<linuxjointdevicename>dev/ttyUSB0</linuxjointdevicename>
@@ -65,6 +65,7 @@
 		</head2>		
 		
 		<!-- wheel -->
+<!--    
 		<leftwheel type="wheel">
 		  <id>31</id>
 		  <torque>1</torque>
@@ -74,8 +75,9 @@
 		  <id>32</id>
 		  <torque>1</torque>      
 		</rightwheel>
-		
+-->		
 		<!-- Display -->
+<!--    
 		<lefteye type="display">
 			<id>100</id>
 			<storage>flash</storage>
@@ -84,6 +86,7 @@
 			<id>110</id>
 			<storage>sdcard</storage>
 		</righteye>		
+-->    
 	</parts>
 
 </setup>
