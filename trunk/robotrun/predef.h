@@ -42,6 +42,11 @@
 #define MOVE_SPEED				32	// 0 ~ 1024
 #define CURRENT_POSITION		36	// 현재 위치 read
 
+#define D_PARAM					26	// PID - D
+#define I_PARAM					27	// PID - I
+#define P_PARAM					28	// PID - P
+
+
 // 0~1023 범위의 값을 사용하면 CCW방향으로 회전하며 0으로 설정하면 정지합니다.
 // 1024~2047 범위의 값을 사용하면 CW방향으로 회전하며 1024으로 설정하면 정지합니다.
 #define WHEEL_SPEED				32	

@@ -7,6 +7,9 @@ Joint::Joint()
 	initpos = 0;
 	cwlimit = 0;
 	ccwlimit = 0;
+	p_param = -1;
+	i_param = -1;
+	d_param = -1;
 }
 
 Joint::~Joint()
@@ -44,6 +47,18 @@ bool	Joint::init(XMLNode node)
 		else if(strcmp(name, "torque") == 0)
 		{
 			torque = (xmltoi(value) == 1 ? true : false);
+		}
+		else if (strcmp(name, "p-param") == 0)
+		{
+			p_param = (uint16_t)xmltoi(value);
+		}
+		else if (strcmp(name, "i-param") == 0)
+		{
+			i_param = (uint16_t)xmltoi(value);
+		}
+		else if (strcmp(name, "d-param") == 0)
+		{
+			d_param = (uint16_t)xmltoi(value);
 		}
 	}
 
@@ -135,6 +150,90 @@ bool	Joint::reset()
 	{
 		Logger::getInstance()->log("%d : ccwlimit is good!\n", id);
 	}
+
+	// Init PID param
+
+	// P
+	ret = Device::getInstance()->recv(id, P_PARAM, param);
+	if (ret == false)
+	{
+		Logger::getInstance()->log("%d : p-param recv error!! \n", id);
+		return false;
+	}
+	if (p_param >= 0)
+	{
+		// 설정값과 달라 셋!
+		if (param != p_param)
+		{
+			Logger::getInstance()->log("%d : p_param is not match : p_param : %d, recv p_param : %d\n", id, p_param, param);
+		}
+
+		ret = Device::getInstance()->send(id, P_PARAM, 2, (uint16_t)p_param);
+		if (ret == true)
+		{
+			Logger::getInstance()->log("%d : adjust p_param to %d \n", id, p_param);
+		}
+		else if (ret == false)
+		{
+			Logger::getInstance()->log("%d : set p_param send error!! \n", id);
+			return false;
+		}
+	}
+
+	// I
+	ret = Device::getInstance()->recv(id, I_PARAM, param);
+	if (ret == false)
+	{
+		Logger::getInstance()->log("%d : i-param recv error!! \n", id);
+		return false;
+	}
+	if (i_param >= 0)
+	{
+		// 설정값과 달라 셋!
+		if (param != i_param)
+		{
+			Logger::getInstance()->log("%d : i_param is not match : i_param : %d, recv i_param : %d\n", id, i_param, param);
+		}
+
+		ret = Device::getInstance()->send(id, I_PARAM, 2, (uint16_t)i_param);
+		if (ret == true)
+		{
+			Logger::getInstance()->log("%d : adjust i_param to %d \n", id, i_param);
+		}
+		else if (ret == false)
+		{
+			Logger::getInstance()->log("%d : set i_param send error!! \n", id);
+			return false;
+		}
+	}
+
+	// D
+	ret = Device::getInstance()->recv(id, D_PARAM, param);
+	if (ret == false)
+	{
+		Logger::getInstance()->log("%d : d-param recv error!! \n", id);
+		return false;
+	}
+	if (d_param >= 0)
+	{
+		// 설정값과 달라 셋!
+		if (param != d_param)
+		{
+			Logger::getInstance()->log("%d : p_param is not match : d_param : %d, recv d_param : %d\n", id, d_param, param);
+		}
+
+		ret = Device::getInstance()->send(id, D_PARAM, 2, (uint16_t)d_param);
+		if (ret == true)
+		{
+			Logger::getInstance()->log("%d : adjust d_param to %d \n", id, d_param);
+		}
+		else if (ret == false)
+		{
+			Logger::getInstance()->log("%d : set d_param send error!! \n", id);
+			return false;
+		}
+	}
+
 
 /*
 	// set to init position

@@ -27,7 +27,12 @@ private:
 	uint16_t	initpos;
 	uint16_t	cwlimit;
 	uint16_t	ccwlimit;
+
+	int			p_param;
+	int			i_param;
+	int			d_param;
 };
+
 
 
 #endif

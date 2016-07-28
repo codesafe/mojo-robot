@@ -20,6 +20,9 @@
 			<cwlimit>30</cwlimit>
 			<ccwlimit>330</ccwlimit>
 			<initpos>180</initpos>
+      <p-param></p-param>
+      <i-param></i-param>
+      <d-param></d-param>
 		</larm0>	
 		<larm1 type="joint">
 			<id>42</id>
@@ -62,9 +65,15 @@
 			<cwlimit>30</cwlimit>
 			<ccwlimit>330</ccwlimit>
 			<initpos>180</initpos>
-		</head2>		
-		
-		<!-- wheel -->
+		</head2>
+    <mouth type="joint">
+      <id>54</id>
+      <torque>1</torque>
+      <cwlimit>184</cwlimit>
+      <ccwlimit>210</ccwlimit>
+      <initpos>190</initpos>
+    </mouth>
+    <!-- wheel -->
 <!--    
 		<leftwheel type="wheel">
 		  <id>31</id>
