@@ -92,6 +92,9 @@
     <Filter Include="header">
       <UniqueIdentifier>{2690d7a8-30fa-4545-b409-0dbf6022df5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Exporter">
+      <UniqueIdentifier>{ac7ad75b-c4c5-409a-bf81-89e7059614a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="setup.xml">
@@ -104,6 +107,9 @@
   <ItemGroup>
     <None Include="make\Makefile">
       <Filter>make</Filter>
+    </None>
+    <None Include="maxexporter.ms">
+      <Filter>Exporter</Filter>
     </None>
   </ItemGroup>
 </Project>
