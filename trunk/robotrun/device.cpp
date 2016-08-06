@@ -159,13 +159,23 @@ bool	Device::send(uint8_t id, uint16_t command, uint16_t commandsize, uint16_t p
 	return true;
 }
 
-bool	Device::recv(uint8_t id, uint16_t command, uint16_t &param)
+bool	Device::recv(uint8_t id, uint16_t command, uint16_t commandsize, uint16_t &param)
 {
 	if( enablejointport == false ) return false;
 
 	uint8_t dxl_error = 0;
 	int dxl_comm_result = COMM_TX_FAIL;
-	dxl_comm_result = packetHandler->read2ByteTxRx(portHandler, id, command, &param, &dxl_error);
+
+	if(commandsize == 1)
+	{
+		uint8_t p = (uint8_t)param;
+		dxl_comm_result = packetHandler->read1ByteTxRx(portHandler, id, command, &p, &dxl_error);
+		param = p;
+	}
+	else
+	{
+		dxl_comm_result = packetHandler->read2ByteTxRx(portHandler, id, command, &param, &dxl_error);
+	}
 
 	if (dxl_comm_result != COMM_SUCCESS)
 	{

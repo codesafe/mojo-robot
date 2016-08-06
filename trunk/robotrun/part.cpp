@@ -118,6 +118,7 @@ bool	PartController::addsendqueuecommand(uint8_t id, uint16_t command, uint16_t 
 	if (it != partlist.end())
 	{
 		it->second->addsendcommand(command, param);
+		ret = true; 
 	}
 	else
 	{

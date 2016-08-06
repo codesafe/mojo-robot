@@ -18,7 +18,7 @@ public :
 	bool	init();
 	void	uninit();
 	bool	send(uint8_t id, uint16_t command, uint16_t commandsize, uint16_t param);
-	bool	recv(uint8_t id, uint16_t command, uint16_t &param);
+	bool	recv(uint8_t id, uint16_t command, uint16_t commandsize, uint16_t &param);
 
 	bool	addsendqueue(uint8_t id, uint16_t command, uint16_t param);
 	bool	sendqueue();

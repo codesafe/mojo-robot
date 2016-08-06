@@ -173,6 +173,9 @@ bool	Motion::_play(int id, int angle, float speed)
 		uint16_t p = SPEEDVALUE(speed, destangle);
 		ret = PartController::getInstance()->addsendqueuecommand(id, MOVE_SPEED, p);
 		ret = PartController::getInstance()->addsendqueuecommand(id, DEST_POSITION, DEGREE2DXL(angle));
+
+
+		Logger::getInstance()->log("change motion! \n");
 	}
 
 #else
