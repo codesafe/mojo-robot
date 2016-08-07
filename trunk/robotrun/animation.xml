@@ -927,7 +927,7 @@
       <motion>
         <starttime>1f</starttime>
         <endtime>1.5f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>1.5f</starttime>
@@ -937,7 +937,7 @@
       <motion>
         <starttime>1.8f</starttime>
         <endtime>2.5f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>2.5f</starttime>
@@ -947,7 +947,7 @@
       <motion>
         <starttime>2.8f</starttime>
         <endtime>3.5f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>3.5f</starttime>
@@ -957,7 +957,7 @@
       <motion>
         <starttime>3.8f</starttime>
         <endtime>4.5f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>4.5f</starttime>
@@ -972,7 +972,7 @@
       <motion>
         <starttime>5f</starttime>
         <endtime>5.4f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>5.4f</starttime>
@@ -982,7 +982,7 @@
       <motion>
         <starttime>5.7f</starttime>
         <endtime>6.4f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>6.4f</starttime>
@@ -992,7 +992,7 @@
       <motion>
         <starttime>6.7f</starttime>
         <endtime>7.4f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>7.4f</starttime>
@@ -1002,7 +1002,7 @@
       <motion>
         <starttime>7.7f</starttime>
         <endtime>8.4f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>8.4f</starttime>
@@ -1017,7 +1017,7 @@
       <motion>
         <starttime>8.9f</starttime>
         <endtime>9.2625f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>9.2625f</starttime>
@@ -1027,7 +1027,7 @@
       <motion>
         <starttime>9.5625f</starttime>
         <endtime>10.2625f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>10.2625f</starttime>
@@ -1037,7 +1037,7 @@
       <motion>
         <starttime>10.5625f</starttime>
         <endtime>11.2625f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>11.2625f</starttime>
@@ -1047,7 +1047,7 @@
       <motion>
         <starttime>11.5625f</starttime>
         <endtime>12.2625f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>12.2625f</starttime>
@@ -1062,7 +1062,7 @@
       <motion>
         <starttime>12.7625f</starttime>
         <endtime>13.1313f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>13.1313f</starttime>
@@ -1072,7 +1072,7 @@
       <motion>
         <starttime>13.4312f</starttime>
         <endtime>14.1313f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>14.1313f</starttime>
@@ -1082,7 +1082,7 @@
       <motion>
         <starttime>14.4312f</starttime>
         <endtime>15.1313f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>15.1313f</starttime>
@@ -1092,7 +1092,7 @@
       <motion>
         <starttime>15.4312f</starttime>
         <endtime>16.1313f</endtime>
-        <angle>170.0</angle>
+        <angle>190.0</angle>
       </motion>
       <motion>
         <starttime>16.1313f</starttime>

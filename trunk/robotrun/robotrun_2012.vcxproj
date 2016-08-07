@@ -112,7 +112,9 @@
     <ClInclude Include="xmlparser.h" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="animation.xml" />
+    <Xml Include="animation.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="setup.xml">
       <SubType>Designer</SubType>
     </Xml>
