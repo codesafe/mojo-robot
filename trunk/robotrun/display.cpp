@@ -55,7 +55,7 @@ bool	Display::reset()
 			ret = Device::getInstance()->sendcommand(CMD_UPDATE);
 	}
 
-	return ret;
+	return ret == COMM_SUCCESS ? true : false;
 }
 
 bool	Display::sendcommand(uint16_t command, uint16_t param)

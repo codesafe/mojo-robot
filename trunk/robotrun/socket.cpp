@@ -32,6 +32,7 @@ bool	Socket::init()
 	server.sin_port = htons(SERVER_PORT);
 
 	//set_nonblock
+/*
 #ifdef __linux__
 	int flags = fcntl(sock, F_GETFL, 0);
 	//assert(flags != -1);
@@ -40,6 +41,9 @@ bool	Socket::init()
 	unsigned long arg = 1;
 	if( ioctlsocket(sock, FIONBIO, &arg) != 0) return false;
 #endif
+
+*/
+
 	return true;
 }
 
@@ -51,7 +55,8 @@ void	Socket::uninit()
 bool	Socket::connect()
 {
 	//Connect to server
-	if (::connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0)
+	int err = ::connect(sock, (struct sockaddr *)&server, sizeof(server));
+	if ( err < 0)
 	{
 		Logger::getInstance()->log("connect failed. Error!");
 		return false;
@@ -71,19 +76,20 @@ void	Socket::closesocket()
 }
 
 // select socket
-void	Socket::update()
+bool	Socket::update()
 {
 	fd_set read_flags, write_flags;
 	struct timeval waitd;          // the max wait time for an event
 	int sel;
 
 	waitd.tv_sec = 10;
+	waitd.tv_usec = 0;
 	FD_ZERO(&read_flags);
 	FD_ZERO(&write_flags);
 	FD_SET(sock, &read_flags);
 
 	sel = select(sock + 1, &read_flags, &write_flags, (fd_set*)0, &waitd);
-	if (sel < 0) return;	// 아무것도 없다!
+	if (sel < 0) return true;	// 아무것도 없다!
 
 	// 읽을것이 있으면 read
 	if (FD_ISSET(sock, &read_flags)) 
@@ -98,7 +104,7 @@ void	Socket::update()
 		{
 			Logger::getInstance()->log("Socket recv. Error!");
 			closesocket();
-			return;
+			return false;
 		}
 		else
 		{
@@ -146,6 +152,8 @@ void	Socket::update()
 			sendbuffer.currentsize += sendsize;
 		}
 	}
+
+	return true;
 }
 
 
@@ -194,3 +202,19 @@ bool	Socket::sendpacket(int packetsize, char *packet)
 	}
 	return true;
 }
+
+// Read packet for parse
+bool	Socket::recvpacket(SocketBuffer *buffer)
+{
+	if( !recvbufferlist.empty() )
+	{
+		buffer->totalsize = recvbufferlist[0].totalsize;
+		buffer->currentsize = recvbufferlist[0].currentsize;
+		memcpy(buffer->buffer, recvbufferlist[0].buffer, SOCKET_BUFFER);
+		recvbufferlist.pop_front();
+		return true;
+	}
+
+	return false;
+}
+

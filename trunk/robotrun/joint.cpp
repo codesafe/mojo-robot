@@ -68,7 +68,7 @@ bool	Joint::init(XMLNode node)
 void	Joint::uninit()
 {
 	bool ret = false;
-	if( torque )
+	if( enable && torque )
 	{
 		ret = Device::getInstance()->send(id, TORQUEMODE, 1, DEVICE_DISABLE);
 		if( ret == false )
@@ -78,9 +78,9 @@ void	Joint::uninit()
 
 bool	Joint::reset()
 {
-	// TODO. 초기화 에러 유무 검사
-	// TODO. 임계각 같은 초기 설정 값 일치하는가 검사
-	// TODO. 기본 포지션을 이동
+	// 초기화 에러 유무 검사
+	// 임계각 같은 초기 설정 값 일치하는가 검사
+	// 기본 포지션을 이동
 	uint16_t param = 0;
 	bool ret = false;
 	
@@ -261,8 +261,8 @@ bool	Joint::reset()
 	}
 */
 	ret = Device::getInstance()->addsendqueue(id, DEST_POSITION, DEGREE2DXL(initpos));
-	ret = Device::getInstance()->addsendqueue(id, MOVE_SPEED, 512);
-
+	ret = Device::getInstance()->addsendqueue(id, MOVE_SPEED, 0);
+	enable = true;
 
 	return true;
 }

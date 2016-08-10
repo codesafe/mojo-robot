@@ -6,6 +6,7 @@
 
 Part::Part()
 {
+	enable = false;
 }
 
 Part::~Part()
@@ -39,6 +40,7 @@ void	Part::uninit()
 
 bool Part::reset()
 {
+	enable = true;
 	return true;
 }
 

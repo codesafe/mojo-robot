@@ -37,7 +37,7 @@ bool	Wheel::init(XMLNode node)
 void	Wheel::uninit()
 {
 	bool ret = false;
-	if( torque )
+	if( torque && enable)
 	{
 		ret = Device::getInstance()->send(id, TORQUEMODE, 1, DEVICE_DISABLE);
 		if( ret == false )
@@ -63,5 +63,6 @@ bool	Wheel::reset()
 	}
 
 	ret = Device::getInstance()->addsendqueue(id, MOVE_SPEED, 0);
+	enable = true;
 	return true;
 }

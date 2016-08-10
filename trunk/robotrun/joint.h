@@ -23,6 +23,7 @@ public :
 	bool	recvcommand(uint16_t command, uint16_t &param);
 
 private:
+
 	bool		torque;
 	uint16_t	initpos;
 	uint16_t	cwlimit;

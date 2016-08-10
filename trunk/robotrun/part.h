@@ -27,6 +27,7 @@ public :
 	virtual bool	recvcommand(uint16_t command, uint16_t &param) { return false; }
 
 protected :
+	bool	enable;		// can use ?
 	int		id;
 	int		type;		// part 종류
 	std::string	name;

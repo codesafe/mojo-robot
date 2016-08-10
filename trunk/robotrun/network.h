@@ -16,12 +16,19 @@ public :
 
 	void	init();
 	void	uninit();
+	bool	connect();
+
+	void	update();
+	bool	read();
+	bool	write();
 
 private :
 	Network();
 	~Network();
 
 	static Network *	instance;
+
+	bool		enable;
 	Socket	*	socket;
 };
 

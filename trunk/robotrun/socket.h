@@ -52,9 +52,10 @@ public :
 
 	bool	connect();
 	void	closesocket();
-	void	update();
+	bool	update();
 
 	bool	sendpacket(int packetsize, char *packet);		// 실제로 보내는것 아님
+	bool	recvpacket(SocketBuffer *buffer);
 
 private :
 	void	senddone();

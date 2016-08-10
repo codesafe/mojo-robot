@@ -107,6 +107,8 @@ bool initapplication()
 	}
 #endif
 	Network::getinstance()->init();
+	Network::getinstance()->connect();
+
 	return true;
 }
 
@@ -158,7 +160,9 @@ int main()
 #else
 			Sleep(0);
 #endif
+			Network::getinstance()->update();
 			Animation::getInstance()->update();
+
 
 // 			clock_t t = Timer::getInstance()->getticktime();
 // 			printf("Time %d : \n", t);
