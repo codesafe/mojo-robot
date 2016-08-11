@@ -30,20 +30,6 @@ bool	Socket::init()
 	server.sin_addr.s_addr = inet_addr(SERVER_ADD);
 	server.sin_family = AF_INET;
 	server.sin_port = htons(SERVER_PORT);
-
-	//set_nonblock
-/*
-#ifdef __linux__
-	int flags = fcntl(sock, F_GETFL, 0);
-	//assert(flags != -1);
-	if (fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) return false;
-#else
-	unsigned long arg = 1;
-	if( ioctlsocket(sock, FIONBIO, &arg) != 0) return false;
-#endif
-
-*/
-
 	return true;
 }
 
@@ -61,6 +47,19 @@ bool	Socket::connect()
 		Logger::getInstance()->log("connect failed. Error!");
 		return false;
 	}
+
+	//set_nonblock
+/*
+#ifdef __linux__
+	int flags = fcntl(sock, F_GETFL, 0);
+	//assert(flags != -1);
+	if (fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) return false;
+#else
+	unsigned long arg = 1;
+	if( ioctlsocket(sock, FIONBIO, &arg) != 0) return false;
+#endif
+
+*/
 	return true;
 }
 
