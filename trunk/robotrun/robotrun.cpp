@@ -4,6 +4,7 @@
 #include "timer.h"
 #include "animation.h"
 #include "network.h"
+#include "commander.h"
 
 #ifdef _WIN32
 #include "pthread.h"
@@ -126,6 +127,18 @@ void initthread()
 	err = pthread_create(&tid, NULL, thr_fn, NULL);
 }
 
+//////////////////////////////////////////////////////////////////////////
+
+void mainupdate()
+{
+	Network::getinstance()->update();
+	Network::getinstance()->read();
+	Animation::getInstance()->update();
+
+	Commander::getinstance()->update();
+}
+
+//////////////////////////////////////////////////////////////////////////
 
 int main()
 {
@@ -136,33 +149,19 @@ int main()
 	
 	bool ret = loadsetup();
 	loadanimation();
-/*
-	if( ret == false )
-	{
-		if (getch() == ESC_ASCII_VALUE)
-			return 0;
-	}
-	else*/
-	{
-		printf("Press any key to continue! (or press ESC to quit!)\n");
-		if (getch() == ESC_ASCII_VALUE)
-		{
-			releaseall();
-			return 0;
-		}
+		
+//		Animation::getInstance()->play("test");
 
-		Animation::getInstance()->play("test");
-
-		while (1)
-		{
+	while (1)
+	{
 #ifdef __linux__			
 			sleep(0);
 #else
 			Sleep(0);
 #endif
-			Network::getinstance()->update();
-			Animation::getInstance()->update();
+		mainupdate();
 
+//			Animation::getInstance()->update();
 
 // 			clock_t t = Timer::getInstance()->getticktime();
 // 			printf("Time %d : \n", t);
@@ -170,9 +169,15 @@ int main()
 // 			float s = Timer::getInstance()->getsecond();
 // 			printf("Second %f : \n", s);
 	
-		}
 
-		releaseall();
+#ifdef TESTBUILD
+// 		if (getch() == ESC_ASCII_VALUE)
+// 		{
+// 			releaseall();
+// 			break;
+// 		}
+#endif
+
 	}
 
 	return 0;

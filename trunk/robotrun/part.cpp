@@ -164,3 +164,15 @@ bool	PartController::recvcommand(int id, uint16_t command, uint16_t &param)
 	}
 	return ret;
 }
+
+
+Part*	PartController::getpart(int type, int id)
+{
+	std::map<int, Part*>::iterator it = partlist.find(id);
+	if( it != partlist.end() )
+	{
+		if( it->second->gettype() == type )
+			return it->second;
+	}
+	return NULL;
+}

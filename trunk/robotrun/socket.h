@@ -54,7 +54,7 @@ public :
 	void	closesocket();
 	bool	update();
 
-	bool	sendpacket(int packetsize, char *packet);		// 실제로 보내는것 아님
+	bool	sendpacket(char *packet,int packetsize);		// 실제로 보내는것 아님
 	bool	recvpacket(SocketBuffer *buffer);
 
 private :

@@ -87,9 +87,9 @@
     <mouth type="joint">
       <id>54</id>
       <torque>1</torque>
-      <cwlimit>180</cwlimit>
-      <ccwlimit>270</ccwlimit>
-      <initpos>180</initpos>
+      <cwlimit>200</cwlimit>
+      <ccwlimit>260</ccwlimit>
+      <initpos>230</initpos>
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>

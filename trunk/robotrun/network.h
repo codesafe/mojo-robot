@@ -3,7 +3,6 @@
 
 #include "socket.h"
 
-
 class Network
 {
 public :
@@ -20,7 +19,11 @@ public :
 
 	void	update();
 	bool	read();
-	bool	write();
+	bool	write(char packet, char *data, int datasize);
+
+private :
+	void	parsepacket(SocketBuffer *buffer);
+	int		getpackettype(char packet);
 
 private :
 	Network();

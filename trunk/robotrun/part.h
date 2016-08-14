@@ -26,6 +26,8 @@ public :
 	virtual bool	sendcommand(uint16_t command , uint16_t param) { return false; }
 	virtual bool	recvcommand(uint16_t command, uint16_t &param) { return false; }
 
+	int gettype() { return type; }
+
 protected :
 	bool	enable;		// can use ?
 	int		id;
@@ -53,6 +55,8 @@ public :
 	bool	sendsendqueuecommand();
 	bool	sendcommand(int id, uint16_t command, uint16_t param);
 	bool	recvcommand(int id, uint16_t command, uint16_t &param);
+
+	Part*	getpart(int type, int id);
 
 private:
 	PartController();

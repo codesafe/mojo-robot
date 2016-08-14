@@ -281,3 +281,12 @@ bool	Joint::recvcommand(uint16_t command, uint16_t &param)
 {
 	return Device::getInstance()->recv(id, command, 2, param);
 }
+
+int		Joint::trimangle(int angle)
+{
+	if( angle < cwlimit )
+		angle = cwlimit;
+	if( angle > ccwlimit )
+		angle = ccwlimit;
+	return angle;
+}

@@ -5,6 +5,7 @@
 #pragma comment(lib, "ws2_32.lib")
 #endif
 
+#define	USE_NONEBLOCK
 
 Socket::Socket()
 {
@@ -48,18 +49,20 @@ bool	Socket::connect()
 		return false;
 	}
 
+
 	//set_nonblock
-/*
-#ifdef __linux__
-	int flags = fcntl(sock, F_GETFL, 0);
-	//assert(flags != -1);
-	if (fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) return false;
-#else
-	unsigned long arg = 1;
-	if( ioctlsocket(sock, FIONBIO, &arg) != 0) return false;
+#ifdef USE_NONEBLOCK
+	#ifdef __linux__
+		int flags = fcntl(sock, F_GETFL, 0);
+		//assert(flags != -1);
+		if (fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) return false;
+	#else
+		unsigned long arg = 1;
+		if( ioctlsocket(sock, FIONBIO, &arg) != 0) return false;
+	#endif
 #endif
 
-*/
+
 	return true;
 }
 
@@ -81,8 +84,8 @@ bool	Socket::update()
 	struct timeval waitd;          // the max wait time for an event
 	int sel;
 
-	waitd.tv_sec = 10;
-	waitd.tv_usec = 0;
+	waitd.tv_sec = 0;
+	waitd.tv_usec = 100;
 	FD_ZERO(&read_flags);
 	FD_ZERO(&write_flags);
 	FD_SET(sock, &read_flags);
@@ -121,7 +124,7 @@ bool	Socket::update()
 			else
 			{
 				// 처음 받음
-				int psize = (int)in;
+				int psize = (int&)*in;
 				recvbuffer.totalsize = psize;
 				recvbuffer.currentsize = recvsize - sizeof(int);
 				memcpy(recvbuffer.buffer, in + sizeof(int), recvsize - sizeof(int));
@@ -182,7 +185,7 @@ void	Socket::senddone()
 	}
 }
 
-bool	Socket::sendpacket(int packetsize, char *packet)
+bool	Socket::sendpacket(char *packet,int packetsize)
 {
 	if (sendbuffer.totalsize > 0)
 	{

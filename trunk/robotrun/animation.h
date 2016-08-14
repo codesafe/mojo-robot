@@ -23,8 +23,9 @@ public :
 	bool	init(XMLNode node);
 	void	uninit();
 
-	void	update();
+	bool	update();
 	bool	play();
+	void	stop();
 
 	std::string	getname();
 	float	gettotaltime() { return totaltime; }
@@ -49,6 +50,13 @@ private:
 
 //////////////////////////////////////////////////////////////////////////
 
+struct ANIFILE
+{
+	int	version;
+	std::string		filename;
+};
+
+
 class Animation
 {
 public:
@@ -65,7 +73,9 @@ public:
 
 	void	load(std::string filename);
 	void	play(std::string name);
+	void	stop();
 	bool	isplaying();
+
 
 private:
 
@@ -74,6 +84,7 @@ private:
 
 	Motion	*	currentmotion;
 	std::map<std::string, Motion*>		animationlist;		// key : motion name , value :   motion
+	std::vector<ANIFILE>				animationfilelist;
 
 	static Animation *	instance;
 };

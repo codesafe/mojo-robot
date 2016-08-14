@@ -3,6 +3,7 @@
 #include "timer.h"
 #include "device.h"
 #include "part.h"
+#include "joint.h"
 
 Motion::Motion()
 {
@@ -78,10 +79,15 @@ std::string	Motion::getname()
 }
 
 // update !!
-void	Motion::update()
+bool	Motion::update()
 {
+	bool ret = true;
 	if( state == STATE_IDLE || state == STATE_STOPPED )
-		return;
+	{
+		if(state == STATE_STOPPED) setstate(STATE_IDLE);
+		ret = false;
+		return ret;
+	}
 
 	// 업데이트
 	bool needsend = false;
@@ -122,9 +128,13 @@ void	Motion::update()
 		PartController::getInstance()->sendsendqueuecommand();
 
 	if(totaltime <= updatetime)
+	{
 		setstate(STATE_STOPPED);
+		ret = false;
+	}
 
 	printf("time -> %f\n", updatetime);
+	return ret;
 }
 
 // 모션 플레이
@@ -145,13 +155,22 @@ bool	Motion::play()
 		int id = it->first;
 		int angle = it->second[0].angle;
 		float speed = it->second[0].endtime - it->second[0].starttime;
+
+		// ccw / cw 제한각 안쪽으로 trim
+		Part *part = PartController::getInstance()->getpart(PART_TYPE_JOINT, id);
+		if( part != NULL )
+		{
+			Joint *joint = (Joint*)part;
+			angle = joint->trimangle(angle);
+		}
+
 		ret = _play(id, angle, speed);
 		if( ret )
 			it->second.pop_front();
 	}
 
 	ret = PartController::getInstance()->sendsendqueuecommand();
-	state = STATE_RUNNING;
+	setstate(STATE_RUNNING);
 	updatetime = 0;
 	starttime = Timer::getInstance()->getticktime();
 
@@ -193,6 +212,13 @@ bool	Motion::_play(int id, int angle, float speed)
 	return ret;
 }
 
+// 에니메이션 정지!!
+void	Motion::stop()
+{
+	currentmotion.clear();
+	setstate(STATE_STOPPED);
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -219,6 +245,8 @@ void	Animation::uninit()
 		delete it->second;
 
 	animationlist.clear();
+	animationfilelist.clear();
+	currentmotion = NULL;
 }
 
 // 에니메이션 완료 추적 / 다음 part연결
@@ -226,23 +254,46 @@ void	Animation::update()
 {
 	if( currentmotion != NULL )
 	{
-		currentmotion->update();
+		bool ret = currentmotion->update();
+		if(ret == false)
+			currentmotion = NULL;
 	}
 }
 
 // 에니메이션 로딩 / parse
 void	Animation::load(std::string filename)
 {
+	uninit();
+
 	XMLNode root = XMLNode::openFileHelper(filename.c_str(), "");
 	for (int i = 0; i < root.nChildNode(); i++)
 	{
 		XMLNode aninode = root.getChildNode(i);
-		const char *name = aninode.getAttribute("name");
+		const char *version = aninode.getAttribute("version");
+		const char *filename = aninode.getAttribute("filename");
 
-		Motion *motion = new Motion();
-		motion->init(aninode);
-		animationlist.insert(std::make_pair(name, motion));
+		ANIFILE anifile;
+		anifile.version = atoi(version);
+		anifile.filename = filename;
+		animationfilelist.push_back(anifile);
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+
+	for(size_t i=0; i<animationfilelist.size(); i++)
+	{
+		XMLNode root = XMLNode::openFileHelper(animationfilelist[i].filename.c_str(), "");
+		for (int i = 0; i < root.nChildNode(); i++)
+		{
+			XMLNode aninode = root.getChildNode(i);
+			const char *name = aninode.getAttribute("name");
+
+			Motion *motion = new Motion();
+			motion->init(aninode);
+			animationlist.insert(std::make_pair(name, motion));
+		}
+	}
+
 
 }
 
@@ -264,9 +315,21 @@ void	Animation::play(std::string name)
 	}
 }
 
+// 정지!! forcestop 
+void	Animation::stop()
+{
+	if( currentmotion != NULL)
+	{
+		currentmotion->stop();
+		currentmotion = NULL;
+	}
+}
 
 bool	Animation::isplaying()
 {
+	// 모션들이 멈추었나??
+	if( currentmotion != NULL )
+		return currentmotion->getstate() == STATE_RUNNING ? true : false;
 
 	return false;
 }

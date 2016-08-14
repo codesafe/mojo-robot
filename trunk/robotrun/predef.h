@@ -26,6 +26,10 @@
 
 //////////////////////////////////////////////////////////////////////////
 
+
+#define	TESTBUILD
+
+
 #define ESC_ASCII_VALUE			0x1b
 #define PROTOCOL_VERSION		1.0
 //#define PROTOCOL_VERSION		2.0
@@ -81,5 +85,27 @@
 #define SERVER_ADD			"127.0.0.1"
 #define SERVER_PORT			8888
 #define SOCKET_BUFFER		4096
+
+
+// network packet
+
+// response packet
+#define RESPONSE_OK		0x05
+#define RESPONSE_FAIL	0x06
+
+// command packet
+#define DEVICERESET		0x10
+#define	PLAYMOTION		0x20
+#define WHEEL_FORWARD	0x30
+#define WHEEL_BACKWARD	0x31
+#define DISPLAY_PIC		0x40
+
+
+// Command type
+#define COMMAND_DEVICE		0x10
+#define COMMAND_ANIMATION	0x20
+#define COMMAND_WHEEL		0x30
+#define COMMAND_DISPLAY		0x40
+
 
 #endif

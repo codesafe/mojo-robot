@@ -22,6 +22,7 @@ public :
 	bool	sendcommand(uint16_t command , uint16_t param);
 	bool	recvcommand(uint16_t command, uint16_t &param);
 
+	int		trimangle(int angle);
 private:
 
 	bool		torque;

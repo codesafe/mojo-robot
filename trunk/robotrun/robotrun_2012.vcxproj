@@ -84,6 +84,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="commander.cpp" />
     <ClCompile Include="device.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="joint.cpp" />
@@ -99,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
+    <ClInclude Include="commander.h" />
     <ClInclude Include="device.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="e-ink.h" />
@@ -118,6 +120,8 @@
     <Xml Include="setup.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="test01.xml" />
+    <Xml Include="test02.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="make\Makefile" />
