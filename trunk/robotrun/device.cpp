@@ -521,7 +521,7 @@ int		Device::sendcommand(uint8_t command, uint8_t *param, int length)
 void	Device::Sleep(int t)
 {
 #ifdef __linux__			
-	sleep(t);
+	usleep(t * 1000);
 #else
 	Sleep(t);
 #endif
