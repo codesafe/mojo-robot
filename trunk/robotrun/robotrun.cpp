@@ -44,6 +44,7 @@ bool loadglobalinfo(XMLNode pnode)
 	{
 		XMLNode node = pnode.getChildNode(i);
 
+
 		const char *name = node.getName();
 		const char *value = node.getText();
 		MemDB::getInstance()->setValue(name, value);
