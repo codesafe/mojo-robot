@@ -87,11 +87,15 @@ bool	Joint::reset()
 	// enable torque mode
 	if( torque )
 	{
-		ret = Device::getInstance()->send(id, TORQUEMODE, 1, DEVICE_ENABLE);
-		if( ret == false )
+		ret = Device::getInstance()->recv(id, TORQUEMODE, 1, param);
+		if( param != 1)
 		{
-			Logger::getInstance()->log("%d : torque set error!! \n", id);
-			return false;
+			ret = Device::getInstance()->send(id, TORQUEMODE, 1, DEVICE_ENABLE);
+			if( ret == false )
+			{
+				Logger::getInstance()->log("%d : torque set error!! \n", id);
+				return false;
+			}
 		}
 	}
 
@@ -152,7 +156,6 @@ bool	Joint::reset()
 	}
 
 	// Init PID param
-
 	// P
 	param = 0;
 	ret = Device::getInstance()->recv(id, P_PARAM, 1, param);
@@ -262,6 +265,7 @@ bool	Joint::reset()
 */
 	ret = Device::getInstance()->addsendqueue(id, DEST_POSITION, DEGREE2DXL(initpos));
 	ret = Device::getInstance()->addsendqueue(id, MOVE_SPEED, 0);
+	ret = Device::getInstance()->sendqueue();
 	enable = true;
 
 	return true;

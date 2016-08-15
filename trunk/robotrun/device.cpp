@@ -54,7 +54,7 @@ bool	Device::initdevice(std::string part)
 			return false;
 		}
 
-		Sleep(100);
+		//Sleep(100);
 
 		int oldbaudrate = portHandler->getBaudRate();
 		// Set port baudrate
@@ -73,7 +73,7 @@ bool	Device::initdevice(std::string part)
 			}
 		}
 
-		Sleep(300);
+		//Sleep(300);
 
 		groupRead = new dynamixel::GroupBulkRead(portHandler, packetHandler);
 #ifndef NEWGROUPWRITE
@@ -97,7 +97,7 @@ bool	Device::initdevice(std::string part)
 		displayportHandler = dynamixel::PortHandler::getPortHandler(MemDB::getInstance()->getValue("linuxdisplaydevicename").c_str());
 		Logger::getInstance()->log("Try to getHandler %s\n", MemDB::getInstance()->getValue("linuxdisplaydevicename").c_str());
 #endif
-		Sleep(100);
+		//Sleep(100);
 
 		if (displayportHandler->openPort())
 		{
@@ -110,7 +110,7 @@ bool	Device::initdevice(std::string part)
 			return false;
 		}
 
-		Sleep(300);
+		//Sleep(300);
 
 		// Set port baudrate
 		int dispbaudrate = MemDB::getInstance()->getIntValue("displaybaudrate");
