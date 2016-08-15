@@ -5,7 +5,7 @@
 #pragma comment(lib, "ws2_32.lib")
 #endif
 
-#define	USE_NONEBLOCK
+//#define	USE_NONEBLOCK
 
 Socket::Socket()
 {
