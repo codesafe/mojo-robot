@@ -523,6 +523,6 @@ void	Device::Sleep(int t)
 #ifdef __linux__			
 	usleep(t * 1000);
 #else
-	Sleep(t);
+	::Sleep(t);
 #endif
 }
