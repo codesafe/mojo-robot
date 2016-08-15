@@ -10,6 +10,7 @@
 
 		<jointbaudrate>57142</jointbaudrate>
 		<displaybaudrate>115200</displaybaudrate>
+    <serveraddress>127.0.0.1</serveraddress>
 	</global>
 
 	<parts>

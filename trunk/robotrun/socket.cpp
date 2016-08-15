@@ -27,8 +27,11 @@ bool	Socket::init()
 	}
 	// puts("Socket created");
 
+
+	std::string serveradd = MemDB::getInstance()->getValue("serveraddress");
+
 	memset((void *)&server, 0x00, sizeof(server));
-	server.sin_addr.s_addr = inet_addr(SERVER_ADD);
+	server.sin_addr.s_addr = inet_addr(serveradd.c_str());
 	server.sin_family = AF_INET;
 	server.sin_port = htons(SERVER_PORT);
 	return true;
