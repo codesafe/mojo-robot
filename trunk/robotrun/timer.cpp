@@ -26,7 +26,7 @@ void	Timer::uninit()
 
 long	Timer::getticktime()
 {
-#if 1
+#if 0
 	return clock();
 #else
 	#ifdef WIN32
