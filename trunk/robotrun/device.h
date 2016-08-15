@@ -46,6 +46,8 @@ public :
 	int		recvcommand();
 	int		sendcommand(uint8_t command, uint8_t *param = NULL, int length = 0);
 
+	void	Sleep(int t);
+
 private :
 	Device();
 	~Device();
