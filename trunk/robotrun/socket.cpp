@@ -25,10 +25,8 @@ bool	Socket::init()
 		Logger::getInstance()->log("Could not create socket");
 		return false;
 	}
-	// puts("Socket created");
-
-
 	std::string serveradd = MemDB::getInstance()->getValue("serveraddress");
+	Logger::getInstance()->log("server address : %s\n", serveradd.c_str());
 
 	memset((void *)&server, 0x00, sizeof(server));
 	server.sin_addr.s_addr = inet_addr(serveradd.c_str());
@@ -48,7 +46,7 @@ bool	Socket::connect()
 	int err = ::connect(sock, (struct sockaddr *)&server, sizeof(server));
 	if ( err < 0)
 	{
-		Logger::getInstance()->log("connect failed. Error!");
+		Logger::getInstance()->log("connect failed. Error!\n");
 		return false;
 	}
 
