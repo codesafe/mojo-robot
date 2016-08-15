@@ -92,7 +92,7 @@ bool	Motion::update()
 	// 업데이트
 	bool needsend = false;
 	double ctime = Timer::getInstance()->getCurrentTime();
-	updatetime = (float)(ctime - starttime)/(float)CLOCKS_PER_SEC;
+	updatetime = (float)(ctime - starttime)/(float)1000.f;
 
 	std::map< int, std::deque<_MOTION> >::iterator it = currentmotion.begin();
 	for(; it != currentmotion.end(); it++)
