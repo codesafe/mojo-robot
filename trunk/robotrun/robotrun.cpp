@@ -156,9 +156,9 @@ int main()
 	while (1)
 	{
 #ifdef __linux__			
-			sleep(0);
+			usleep(0);
 #else
-			Sleep(0);
+			::Sleep(0);
 #endif
 		mainupdate();
 
