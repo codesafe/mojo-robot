@@ -3,9 +3,6 @@
 #endif
 #include "device.h"
 
-
-#define NEWGROUPWRITE
-
 Device *	Device::instance = NULL;
 
 //	모든 디바이스 Data send / recieve
@@ -57,27 +54,36 @@ bool	Device::initdevice(std::string part)
 			return false;
 		}
 
+		sleep(100);
+
+		int oldbaudrate = portHandler->getBaudRate();
 		// Set port baudrate
 		int baudrate = MemDB::getInstance()->getIntValue("jointbaudrate");
-		if (portHandler->setBaudRate(baudrate))
+		if( oldbaudrate != baudrate )
 		{
-			Logger::getInstance()->log("Succeeded to change the baudrate : %d !\n", baudrate);
+			if (portHandler->setBaudRate(baudrate))
+			{
+				Logger::getInstance()->log("Succeeded to change the baudrate : %d !\n", baudrate);
+			}
+			else
+			{
+				Logger::getInstance()->log("Failed to change the baudrate!\n");
+				Logger::getInstance()->log("Press any key to terminate...\n");
+				return false;
+			}
 		}
-		else
-		{
-			Logger::getInstance()->log("Failed to change the baudrate!\n");
-			Logger::getInstance()->log("Press any key to terminate...\n");
-			return false;
-		}
+
+		sleep(300);
 
 		groupRead = new dynamixel::GroupBulkRead(portHandler, packetHandler);
-
+#ifndef NEWGROUPWRITE
 		// group write init
 		for(int i=0; i<ORDERNUM; i++)
 		{
 			dynamixel::GroupSyncWrite *gw = new dynamixel::GroupSyncWrite(portHandler, packetHandler, order[i], 2);
 			groupwritelist.insert(std::make_pair(order[i], gw));
 		}
+#endif
 	}
 	else if( part == "display" )
 	{
@@ -91,6 +97,7 @@ bool	Device::initdevice(std::string part)
 		displayportHandler = dynamixel::PortHandler::getPortHandler(MemDB::getInstance()->getValue("linuxdisplaydevicename").c_str());
 		Logger::getInstance()->log("Try to getHandler %s\n", MemDB::getInstance()->getValue("linuxdisplaydevicename").c_str());
 #endif
+		sleep(100);
 
 		if (displayportHandler->openPort())
 		{
@@ -103,17 +110,23 @@ bool	Device::initdevice(std::string part)
 			return false;
 		}
 
+		sleep(300);
+
 		// Set port baudrate
 		int dispbaudrate = MemDB::getInstance()->getIntValue("displaybaudrate");
-		if (displayportHandler->setBaudRate(dispbaudrate))
+		int oldbaudrate = displayportHandler->getBaudRate();
+		if( oldbaudrate != dispbaudrate )
 		{
-			Logger::getInstance()->log("Succeeded to change the dispbaudrate : %d !\n", dispbaudrate);
-		}
-		else
-		{
-			Logger::getInstance()->log("Failed to change the dispbaudrate!\n");
-			Logger::getInstance()->log("Press any key to terminate...\n");
-			return false;
+			if (displayportHandler->setBaudRate(dispbaudrate))
+			{
+				Logger::getInstance()->log("Succeeded to change the dispbaudrate : %d !\n", dispbaudrate);
+			}
+			else
+			{
+				Logger::getInstance()->log("Failed to change the dispbaudrate!\n");
+				Logger::getInstance()->log("Press any key to terminate...\n");
+				return false;
+			}
 		}
 	}
 
@@ -123,8 +136,11 @@ bool	Device::initdevice(std::string part)
 
 void	Device::uninit()
 {
+
+#ifndef NEWGROUPWRITE
 	for(int i=0; i<ORDERNUM; i++)
 		delete groupwritelist[order[i]];
+#endif
 
 	delete groupRead;
 	portHandler->closePort();
@@ -500,4 +516,13 @@ int		Device::sendcommand(uint8_t command, uint8_t *param, int length)
 
 	// 결과를 받아야 하나?? --> ok 메시지?
 	return recvcommand();
+}
+
+void	Device::sleep(int t)
+{
+#ifdef __linux__			
+	sleep(t);
+#else
+	Sleep(t);
+#endif
 }

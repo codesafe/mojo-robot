@@ -3,6 +3,9 @@
 
 #include "predef.h"
 
+#define NEWGROUPWRITE
+
+
 // device init / setup 
 
 struct GROUPWRITE
@@ -57,8 +60,11 @@ private :
 	dynamixel::PacketHandler *packetHandler;
 
 	dynamixel::GroupBulkRead *groupRead;
+	
+#ifndef NEWGROUPWRITE
 	// this is for groupwrite position
 	std::map<int, dynamixel::GroupSyncWrite*>	groupwritelist;
+#endif
 
 	std::vector<GROUPWRITE>	groupwriteinfolist;
 
