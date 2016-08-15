@@ -3,6 +3,9 @@
 #endif
 #include "device.h"
 
+
+#define NEWGROUPWRITE
+
 Device *	Device::instance = NULL;
 
 //	모든 디바이스 Data send / recieve
@@ -200,6 +203,15 @@ bool	Device::addsendqueue(uint8_t id, uint16_t command, uint16_t param)
 {
 	if( enablejointport == false ) return false;
 
+#ifdef NEWGROUPWRITE
+	GROUPWRITE info;
+	info.id = id;
+	info.command = command;
+	info.param = param;
+	info.data_length = 2;		// ??
+	groupwriteinfolist.push_back(info);
+
+#else
 	uint8_t params[2];
 	params[0] = DXL_LOBYTE(DXL_LOWORD(param));
 	params[1] = DXL_HIBYTE(DXL_LOWORD(param));
@@ -207,6 +219,9 @@ bool	Device::addsendqueue(uint8_t id, uint16_t command, uint16_t param)
 	bool dxl_addparam_result = false;
 	dxl_addparam_result = groupwritelist[command]->addParam(id, params);
 	return dxl_addparam_result;
+#endif
+
+	return true;
 }
 
 //
@@ -217,6 +232,54 @@ bool	Device::sendqueue()
 {
 	if( enablejointport == false ) return false;
 
+#ifdef NEWGROUPWRITE
+	int dxl_comm_result = COMM_TX_FAIL;
+	std::vector<dynamixel::GroupSyncWrite*>	grouplist;
+
+	// group write 준비
+	for (size_t i=0; i<groupwriteinfolist.size(); i++)
+	{
+		dynamixel::GroupSyncWrite *gw = new dynamixel::GroupSyncWrite(portHandler, packetHandler, groupwriteinfolist[i].command, groupwriteinfolist[i].data_length);
+
+		uint8_t params[2];
+		params[0] = DXL_LOBYTE(DXL_LOWORD(groupwriteinfolist[i].param));
+		params[1] = DXL_HIBYTE(DXL_LOWORD(groupwriteinfolist[i].param));
+
+		bool dxl_addparam_result = false;
+		dxl_addparam_result = gw->addParam(groupwriteinfolist[i].id, params);
+
+		if( dxl_addparam_result == false )
+		{
+			Logger::getInstance()->log("Group write add param error. %d , %d\n", groupwriteinfolist[i].id, groupwriteinfolist[i].command);
+			delete gw;
+			return false;
+		}
+
+		grouplist.push_back(gw);
+	}
+	groupwriteinfolist.clear();
+
+	// send to device
+	bool ret = true;
+	for(size_t i=0; i<grouplist.size(); i++)
+	{
+		int dxl_comm_result = COMM_TX_FAIL;
+		dxl_comm_result = grouplist[i]->txPacket();
+		if (dxl_comm_result != COMM_SUCCESS)
+		{
+			Logger::getInstance()->log("sendqueue not success %d \n", dxl_comm_result);
+			packetHandler->printTxRxResult(dxl_comm_result);
+			ret = false;
+		}
+	}
+
+	// clear
+	for(size_t i=0; i<grouplist.size(); i++)
+		delete grouplist[i];
+
+	grouplist.clear();
+	return ret;
+#else
 	int dxl_comm_result = COMM_TX_FAIL;
 	for( int i=0; i<2; i++)
 	{
@@ -234,6 +297,7 @@ bool	Device::sendqueue()
 		it->second->clearParam();
 
 	return true;
+#endif
 }
 
 // 가져올 데이터들 등록

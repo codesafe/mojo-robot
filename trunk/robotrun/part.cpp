@@ -44,6 +44,21 @@ bool Part::reset()
 	return true;
 }
 
+bool	Part::addsendcommand(uint16_t command, uint16_t param) 
+{ 
+	return Device::getInstance()->addsendqueue(id, command, param);
+}
+
+bool	Part::sendcommand(uint16_t command , uint16_t param) 
+{ 
+	return Device::getInstance()->addsendqueue(id, command, param);
+}
+
+bool	Part::recvcommand(uint16_t command, uint16_t &param) 
+{ 
+	return Device::getInstance()->recv(id, command, 2, param);
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -175,4 +190,17 @@ Part*	PartController::getpart(int type, int id)
 			return it->second;
 	}
 	return NULL;
+}
+
+// 이름으로 device id
+int		PartController::getid(std::string name)
+{
+	std::map<int, Part*>::iterator it = partlist.begin();
+	for(; it != partlist.end(); it++)
+	{
+		if( it->second->getname() == name )
+			return it->second->getid();
+	}
+
+	return -1;
 }

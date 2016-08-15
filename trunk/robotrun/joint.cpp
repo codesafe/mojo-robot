@@ -267,6 +267,7 @@ bool	Joint::reset()
 	return true;
 }
 
+/*
 bool	Joint::addsendcommand(uint16_t command, uint16_t param) 
 { 
 	return Device::getInstance()->addsendqueue(id, command, param);
@@ -281,6 +282,7 @@ bool	Joint::recvcommand(uint16_t command, uint16_t &param)
 {
 	return Device::getInstance()->recv(id, command, 2, param);
 }
+*/
 
 int		Joint::trimangle(int angle)
 {

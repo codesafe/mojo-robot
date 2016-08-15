@@ -5,6 +5,16 @@
 
 // device init / setup 
 
+struct GROUPWRITE
+{
+	uint8_t id;
+	uint16_t command;
+	uint16_t param;
+	uint16_t data_length;
+
+};
+
+
 class Device
 {
 public :
@@ -49,6 +59,8 @@ private :
 	dynamixel::GroupBulkRead *groupRead;
 	// this is for groupwrite position
 	std::map<int, dynamixel::GroupSyncWrite*>	groupwritelist;
+
+	std::vector<GROUPWRITE>	groupwriteinfolist;
 
 	//////////////////////////////////////////////////////////////////////////	For e-ink display
 

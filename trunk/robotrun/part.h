@@ -22,9 +22,9 @@ public :
 	int				getid() { return id; }
 	std::string		getname() { return name; }
 
-	virtual bool	addsendcommand(uint16_t command, uint16_t param) { return false; }
-	virtual bool	sendcommand(uint16_t command , uint16_t param) { return false; }
-	virtual bool	recvcommand(uint16_t command, uint16_t &param) { return false; }
+	virtual bool	addsendcommand(uint16_t command, uint16_t param);
+	virtual bool	sendcommand(uint16_t command , uint16_t param);
+	virtual bool	recvcommand(uint16_t command, uint16_t &param);
 
 	int gettype() { return type; }
 
@@ -57,6 +57,7 @@ public :
 	bool	recvcommand(int id, uint16_t command, uint16_t &param);
 
 	Part*	getpart(int type, int id);
+	int		getid(std::string name);
 
 private:
 	PartController();

@@ -20,6 +20,10 @@ public :
 
 private:
 	bool		torque;
+	int			torquelimit;
+	int			p_param;
+	int			i_param;
+	int			d_param;
 };
 
 

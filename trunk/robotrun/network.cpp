@@ -63,10 +63,7 @@ bool	Network::read()
 		}
 	}
 	else
-	{
-		Logger::getInstance()->log("socket not connected\n");
 		return false;
-	}
 
 	return true;
 }
@@ -87,10 +84,10 @@ bool	Network::write(char packet, char *data, int datasize)
 
 void	Network::parsepacket(SocketBuffer *buffer)
 {
-	char packet = (char)buffer->buffer;
+	char packet = (char&)*(buffer->buffer);
 	int type = getpackettype(packet);
 
-	int buffersize = buffer->totalsize - (sizeof(int) + sizeof(char));
+	int buffersize = buffer->totalsize - sizeof(char);
 	Commander::getinstance()->addcommand( type, packet, buffer->buffer + sizeof(char), buffersize );
 }
 
@@ -108,10 +105,10 @@ int	Network::getpackettype(char packet)
 			break;
 
 		case WHEEL_FORWARD :
-			type = COMMAND_WHEEL;
-			break;
-
 		case WHEEL_BACKWARD :
+		case WHEEL_STOP :
+		case WHEEL_TURNLEFT :
+		case WHEEL_TURNRIGHT :
 			type = COMMAND_WHEEL;
 			break;
 

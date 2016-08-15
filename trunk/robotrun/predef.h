@@ -40,6 +40,7 @@
 
 // Control Address
 #define TORQUEMODE				24	// 토크 모드
+#define TORQUELIMIT				14	// 토크 limit
 #define CW_LIMIT_ANGLE			6
 #define CCW_LIMIT_ANGLE			8
 #define DEST_POSITION			30	// 0 ~ 4096
@@ -54,6 +55,8 @@
 // 0~1023 범위의 값을 사용하면 CCW방향으로 회전하며 0으로 설정하면 정지합니다.
 // 1024~2047 범위의 값을 사용하면 CW방향으로 회전하며 1024으로 설정하면 정지합니다.
 #define WHEEL_SPEED				32	
+// Wheel의 반대쪽 값 변환
+#define REVERSEWHEEL(A)			(A+1024)
 
 // part type list
 #define PART_TYPE_NONE			0
@@ -96,8 +99,13 @@
 // command packet
 #define DEVICERESET		0x10
 #define	PLAYMOTION		0x20
-#define WHEEL_FORWARD	0x30
-#define WHEEL_BACKWARD	0x31
+
+#define WHEEL_FORWARD		0x30
+#define WHEEL_BACKWARD		0x31
+#define WHEEL_STOP			0x32
+#define WHEEL_TURNLEFT		0x33
+#define WHEEL_TURNRIGHT		0x34
+
 #define DISPLAY_PIC		0x40
 
 

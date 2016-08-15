@@ -1,6 +1,6 @@
 ﻿#include "commander.h"
 #include "animation.h"
-
+#include "part.h"
 
 Commander *	Commander::instance = NULL;
 
@@ -15,17 +15,19 @@ Commander::~Commander()
 
 }
 
-void	Commander::addcommand(int type, char command, char *data, int datalen)
+void	Commander::addcommand(int type, char packet, char *data, int datalen)
 {
 	Command com;
 	com.type = type;
-	com.command = command;
-	memcpy(com.data, data, SOCKET_BUFFER);
+	com.packet = packet;
+	memcpy(com.data, data, datalen);
 	commandlist.push_back(com);
 }
 
 void	Commander::update()
 {
+	std::deque<Command>::iterator it;
+
 	for(size_t i=0; i<commandlist.size(); i++)
 	{
 		if( commandlist[i].type == COMMAND_DEVICE )
@@ -34,12 +36,88 @@ void	Commander::update()
 		}
 	}
 
-	for(size_t i=0; i<commandlist.size(); i++)
+	for(it = commandlist.begin(); it != commandlist.end();)
 	{
-		if( commandlist[i].type == COMMAND_WHEEL )
+		if( it->type == COMMAND_WHEEL )
 		{
 			// TODO. 바로 처리
+			bool ret = false;
+			switch(it->packet)
+			{
+			case WHEEL_FORWARD :
+				{
+					int lwheelid = PartController::getInstance()->getid("leftwheel");
+					int rwheelid = PartController::getInstance()->getid("rightwheel");
+
+					int p = (int&)*(it->data);
+					uint16_t param = p;
+					ret = PartController::getInstance()->addsendqueuecommand(lwheelid, MOVE_SPEED, param);
+					ret = PartController::getInstance()->addsendqueuecommand(rwheelid, MOVE_SPEED, REVERSEWHEEL(param));
+					ret = PartController::getInstance()->sendsendqueuecommand();
+				}
+				break;
+			case WHEEL_BACKWARD :
+				{
+					int lwheelid = PartController::getInstance()->getid("leftwheel");
+					int rwheelid = PartController::getInstance()->getid("rightwheel");
+					int p = (int&)*(it->data);
+					uint16_t param = p;
+					ret = PartController::getInstance()->addsendqueuecommand(lwheelid, MOVE_SPEED, REVERSEWHEEL(param));
+					ret = PartController::getInstance()->addsendqueuecommand(rwheelid, MOVE_SPEED, param);
+					ret = PartController::getInstance()->sendsendqueuecommand();
+				}
+				break;
+
+			case WHEEL_TURNLEFT :
+				{
+					int lwheelid = PartController::getInstance()->getid("leftwheel");
+					int rwheelid = PartController::getInstance()->getid("rightwheel");
+					
+					int lp = (int&)*(it->data);
+					int rp = (int&)*(it->data+sizeof(int));
+
+					uint16_t lparam = lp;
+					uint16_t rparam = rp;
+
+					ret = PartController::getInstance()->addsendqueuecommand(lwheelid, MOVE_SPEED, lparam);
+					ret = PartController::getInstance()->addsendqueuecommand(rwheelid, MOVE_SPEED, rparam);
+					ret = PartController::getInstance()->sendsendqueuecommand();
+				}
+				break;
+
+			case WHEEL_TURNRIGHT :
+				{
+					int lwheelid = PartController::getInstance()->getid("leftwheel");
+					int rwheelid = PartController::getInstance()->getid("rightwheel");
+
+					int lp = (int&)*(it->data);
+					int rp = (int&)*(it->data+sizeof(int));
+
+					uint16_t lparam = lp;
+					uint16_t rparam = rp;
+
+					ret = PartController::getInstance()->addsendqueuecommand(lwheelid, MOVE_SPEED, lparam);
+					ret = PartController::getInstance()->addsendqueuecommand(rwheelid, MOVE_SPEED, rparam);
+					ret = PartController::getInstance()->sendsendqueuecommand();
+				}
+				break;
+
+			case WHEEL_STOP :
+				{
+					int lwheelid = PartController::getInstance()->getid("leftwheel");
+					int rwheelid = PartController::getInstance()->getid("rightwheel");
+					ret = PartController::getInstance()->addsendqueuecommand(lwheelid, MOVE_SPEED, REVERSEWHEEL(0));
+					ret = PartController::getInstance()->addsendqueuecommand(rwheelid, MOVE_SPEED, 0);
+					ret = PartController::getInstance()->sendsendqueuecommand();
+				}
+				break;
+			}
+
+			it = commandlist.erase(it);
+			continue;
 		}
+
+		it++;
 	}
 
 	for(size_t i=0; i<commandlist.size(); i++)
@@ -51,8 +129,7 @@ void	Commander::update()
 	}
 	
 	// 에니메이션 처리
-	std::deque<Command>::iterator it = commandlist.begin();
-	for(; it != commandlist.end(); it++)
+	for(it = commandlist.begin(); it != commandlist.end(); it++)
 	{
 		if( it->type == COMMAND_ANIMATION )
 		{

@@ -7,12 +7,12 @@
 struct Command
 {
 	int	type;
-	char command;
+	char packet;
 	char data[SOCKET_BUFFER];
 
 	Command()
 	{
-		command = 0;
+		packet = 0;
 		memset(data, 0, SOCKET_BUFFER);
 	}
 };
@@ -28,7 +28,7 @@ public :
 		return instance;
 	}
 
-	void	addcommand(int type, char command, char *data, int datalen);
+	void	addcommand(int type, char packet, char *data, int datalen);
 	void	update();
 
 private :	

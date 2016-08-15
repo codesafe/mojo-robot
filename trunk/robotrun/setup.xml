@@ -95,17 +95,25 @@
       <d-param>0</d-param>
     </mouth>
     <!-- wheel -->
-<!--    
+
 		<leftwheel type="wheel">
-		  <id>31</id>
+		  <id>32</id>
 		  <torque>1</torque>
-		</leftwheel>
+      <torquelimit>512</torquelimit>
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+    </leftwheel>
 
 		<rightwheel type="wheel">
-		  <id>32</id>
-		  <torque>1</torque>      
-		</rightwheel>
--->		
+		  <id>31</id>
+		  <torque>1</torque>
+      <torquelimit>512</torquelimit>
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+    </rightwheel>
+
 		<!-- Display -->
 <!--    
 		<lefteye type="display">
