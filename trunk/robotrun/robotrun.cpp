@@ -143,11 +143,11 @@ void mainupdate()
 int main()
 {
 //	initthread();
+	bool ret = loadsetup();
 
 	if (initapplication() == false)
 		return -1;
-	
-	bool ret = loadsetup();
+
 	loadanimation();
 		
 //		Animation::getInstance()->play("test");
