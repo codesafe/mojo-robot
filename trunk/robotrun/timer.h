@@ -3,18 +3,18 @@
 
 #include "predef.h"
 
-#if 1
-#include <ctime>
-#include <chrono>
+
+#ifdef WIN32
+	#include <ctime>
+	#include <chrono>
 #else
-
-	#ifdef WIN32
-		#include <ctime>
-		#include <chrono>
-	#else
-		#include <sys/time.h>
-	#endif
-
+	#include <stdio.h>
+	#include <fcntl.h>
+	#include <string.h>
+	#include <unistd.h>
+	#include <termios.h>
+	#include <time.h>
+	#include <sys/time.h>
 #endif
 
 class Timer
@@ -32,8 +32,7 @@ public:
 
 	long	getticktime();
 	float	getsecond();
-
-	std::chrono::system_clock::time_point gettime();
+	double	getCurrentTime();
 
 private:
 
@@ -42,6 +41,9 @@ private:
 
 	static Timer *	instance;
 
+#ifdef WIN32
+	LARGE_INTEGER freq_, counter_;
+#endif
 };
 
 

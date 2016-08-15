@@ -53,9 +53,15 @@ float Timer::getsecond()
 #endif
 }
 
-std::chrono::system_clock::time_point Timer::gettime()
+double Timer::getCurrentTime()
 {
-	std::chrono::system_clock::time_point tp;
-	return std::chrono::system_clock::now();
+#ifdef WIN32
+	QueryPerformanceCounter(&counter_);
+	QueryPerformanceFrequency(&freq_);
+	return (double)counter_.QuadPart / (double)freq_.QuadPart * 1000.0;
+#else
+	struct timespec tv;
+	clock_gettime( CLOCK_REALTIME, &tv);
+	return ((double)tv.tv_sec*1000.0 + (double)tv.tv_nsec*0.001*0.001);
+#endif
 }
-

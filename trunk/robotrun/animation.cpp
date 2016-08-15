@@ -91,8 +91,8 @@ bool	Motion::update()
 
 	// 업데이트
 	bool needsend = false;
-	clock_t ctime = Timer::getInstance()->getticktime();
-	updatetime = (float)(ctime - starttime) / (float)CLOCKS_PER_SEC;
+	double ctime = Timer::getInstance()->getCurrentTime();
+	updatetime = (float)(ctime - starttime);
 
 	std::map< int, std::deque<_MOTION> >::iterator it = currentmotion.begin();
 	for(; it != currentmotion.end(); it++)
@@ -172,7 +172,7 @@ bool	Motion::play()
 	ret = PartController::getInstance()->sendsendqueuecommand();
 	setstate(STATE_RUNNING);
 	updatetime = 0;
-	starttime = Timer::getInstance()->getticktime();
+	starttime = Timer::getInstance()->getCurrentTime();
 
 	return ret;
 }

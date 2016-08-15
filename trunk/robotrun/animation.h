@@ -38,7 +38,7 @@ private:
 
 	int				state;
 
-	clock_t			starttime;
+	double			starttime;
 	float			updatetime;
 
 	float			totaltime;
