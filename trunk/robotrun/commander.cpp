@@ -79,8 +79,8 @@ void	Commander::update()
 					uint16_t lparam = lp;
 					uint16_t rparam = rp;
 
-					ret = PartController::getInstance()->addsendqueuecommand(lwheelid, MOVE_SPEED, lparam);
-					ret = PartController::getInstance()->addsendqueuecommand(rwheelid, MOVE_SPEED, rparam);
+					ret = PartController::getInstance()->addsendqueuecommand(lwheelid, MOVE_SPEED, REVERSEWHEEL(lparam));
+					ret = PartController::getInstance()->addsendqueuecommand(rwheelid, MOVE_SPEED, REVERSEWHEEL(rparam));
 					ret = PartController::getInstance()->sendsendqueuecommand();
 				}
 				break;
