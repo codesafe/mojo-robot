@@ -133,7 +133,7 @@ bool	Motion::update()
 		ret = false;
 	}
 
-	printf("time -> %f\n", updatetime);
+	//printf("time -> %f\n", updatetime);
 	return ret;
 }
 

@@ -45,6 +45,8 @@ void	Network::update()
 			Logger::getInstance()->log("socket disconnected\n");
 			enable = false;
 		}
+
+		read();
 	}
 }
 

@@ -27,7 +27,6 @@ void	Commander::addcommand(int type, char packet, char *data, int datalen)
 void	Commander::update()
 {
 	std::deque<Command>::iterator it;
-
 	for(size_t i=0; i<commandlist.size(); i++)
 	{
 		if( commandlist[i].type == COMMAND_DEVICE )

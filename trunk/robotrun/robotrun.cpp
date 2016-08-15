@@ -132,10 +132,14 @@ void initthread()
 
 void mainupdate()
 {
-	Network::getinstance()->update();
-	Network::getinstance()->read();
-	Animation::getInstance()->update();
+#if WIN32
+	::Sleep(0);
+#else
+	::sleep(0);
+#endif
 
+	Network::getinstance()->update();
+	Animation::getInstance()->update();
 	Commander::getinstance()->update();
 }
 
@@ -155,18 +159,9 @@ int main()
 
 	while (1)
 	{
-#ifdef __linux__			
-			usleep(0);
-#else
-			::Sleep(0);
-#endif
-		mainupdate();
-
-//			Animation::getInstance()->update();
+			mainupdate();
 //			double t = Timer::getInstance()->getCurrentTime();
 //			printf("Time %f : \n", t);
-	
-
 #ifdef TESTBUILD
 // 		if (getch() == ESC_ASCII_VALUE)
 // 		{
