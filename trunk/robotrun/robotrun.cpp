@@ -163,12 +163,8 @@ int main()
 		mainupdate();
 
 //			Animation::getInstance()->update();
-
-// 			clock_t t = Timer::getInstance()->getticktime();
-// 			printf("Time %d : \n", t);
-// 
-// 			float s = Timer::getInstance()->getsecond();
-// 			printf("Second %f : \n", s);
+//			double t = Timer::getInstance()->getCurrentTime();
+//			printf("Time %f : \n", t);
 	
 
 #ifdef TESTBUILD
