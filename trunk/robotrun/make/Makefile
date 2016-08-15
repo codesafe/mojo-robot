@@ -42,6 +42,7 @@ SOURCES = robotrun.cpp \
 			timer.cpp \
 			wheel.cpp \
 			xmlparser.cpp \
+			commander.cpp \
 
  # *** OTHER SOURCES GO HERE ***
 
