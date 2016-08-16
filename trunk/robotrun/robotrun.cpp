@@ -50,7 +50,7 @@ bool loadglobalinfo(XMLNode pnode)
 		MemDB::getInstance()->setValue(name, value);
 
 		std::string str = "name : " + std::string(name) + " value : " + value;
-		Logger::getInstance()->log("log %s\n", str.c_str());
+		Logger::getInstance()->log(LOG_INFO, "log %s\n", str.c_str());
 	}
 
 	return Device::getInstance()->init();
@@ -104,7 +104,7 @@ bool initapplication()
 	WSADATA wsaData;
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != NO_ERROR)
 	{
-		Logger::getInstance()->log("winsock init error!!\n");
+		Logger::getInstance()->log(LOG_ERR, "winsock init error!!\n");
 		return false;
 	}
 #endif

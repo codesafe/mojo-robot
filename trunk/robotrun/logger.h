@@ -14,7 +14,7 @@ public:
 		return instance;
 	};
 
-	void log(const char* format, ...);
+	void log(int logtype, const char* format, ...);
 
 private:
 	Logger();

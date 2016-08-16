@@ -25,7 +25,7 @@ bool	Part::init(XMLNode node)
 		type = PART_TYPE_WHEEL;
 	else
 	{
-		Logger::getInstance()->log("Unknown Part type %s\n", typestr);
+		Logger::getInstance()->log(LOG_WARN, "Unknown Part type %s\n", typestr);
 		return false;
 	}
 	name = node.getName();
@@ -111,7 +111,7 @@ void	PartController::init(XMLNode node)
 		}
 		else
 		{
-			Logger::getInstance()->log("Unknown Part type %s\n", typestr);
+			Logger::getInstance()->log(LOG_WARN, "Unknown Part type %s\n", typestr);
 		}
 		//Device::Sleep(100);
 	}
@@ -140,7 +140,7 @@ bool	PartController::addsendqueuecommand(uint8_t id, uint16_t command, uint16_t 
 	}
 	else
 	{
-		Logger::getInstance()->log("Not found parts : %d\n", id);
+		Logger::getInstance()->log(LOG_WARN, "Not found parts : %d\n", id);
 	}
 
 	return ret;
@@ -161,7 +161,7 @@ bool	PartController::sendcommand(int id, uint16_t command , uint16_t param)
 	}
 	else
 	{
-		Logger::getInstance()->log("Not found parts : %d\n", id);
+		Logger::getInstance()->log(LOG_WARN, "Not found parts : %d\n", id);
 	}
 	return ret;
 }
@@ -176,7 +176,7 @@ bool	PartController::recvcommand(int id, uint16_t command, uint16_t &param)
 	}
 	else
 	{
-		Logger::getInstance()->log("Not found parts : %d\n", id);
+		Logger::getInstance()->log(LOG_WARN, "Not found parts : %d\n", id);
 	}
 	return ret;
 }

@@ -26,8 +26,20 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-
 #define	TESTBUILD
+
+#define LOG_NONE		0
+#define LOG_INFO		1 << 2
+#define LOG_WARN		1 << 3
+#define LOG_ERR			1 << 4
+
+#ifdef TESTBUILD
+#define CONSOLE_LOG		LOG_ERR | LOG_WARN | LOG_INFO
+#define FILE_LOG		LOG_ERR | LOG_WARN | LOG_INFO
+#else
+#define CONSOLE_LOG		LOG_ERR | LOG_WARN
+#define FILE_LOG		LOG_NONE
+#endif
 
 
 #define ESC_ASCII_VALUE			0x1b

@@ -72,7 +72,7 @@ void	Joint::uninit()
 	{
 		ret = Device::getInstance()->send(id, TORQUEMODE, 1, DEVICE_DISABLE);
 		if( ret == false )
-			Logger::getInstance()->log("%d : torque set error!! \n", id);
+			Logger::getInstance()->log(LOG_ERR, "%d : torque set error!! \n", id);
 	}
 }
 
@@ -93,7 +93,7 @@ bool	Joint::reset()
 			ret = Device::getInstance()->send(id, TORQUEMODE, 1, DEVICE_ENABLE);
 			if( ret == false )
 			{
-				Logger::getInstance()->log("%d : torque set error!! \n", id);
+				Logger::getInstance()->log(LOG_ERR, "%d : torque set error!! \n", id);
 				return false;
 			}
 		}
@@ -103,27 +103,27 @@ bool	Joint::reset()
 	ret = Device::getInstance()->recv(id, CW_LIMIT_ANGLE, 2, param);
 	if( ret == false )
 	{
-		Logger::getInstance()->log("%d : cwlimit recv error!! \n", id);
+		Logger::getInstance()->log(LOG_ERR, "%d : cwlimit recv error!! \n", id);
 		return false;
 	}
 	if(DXL2DEGREE(param) != cwlimit)
 	{
-		Logger::getInstance()->log("%d : cwlimit is not match : cwlimit : %d, recv cwlimit : %d\n", id, cwlimit, DXL2DEGREE(param));
+		Logger::getInstance()->log(LOG_WARN, "%d : cwlimit is not match : cwlimit : %d, recv cwlimit : %d\n", id, cwlimit, DXL2DEGREE(param));
 
 		ret = Device::getInstance()->send(id, CW_LIMIT_ANGLE, 2, DEGREE2DXL(cwlimit));
 		if( ret == true )
 		{
-			Logger::getInstance()->log("%d : adjust cwlimit to %d \n", id, cwlimit);
+			Logger::getInstance()->log(LOG_INFO, "%d : adjust cwlimit to %d \n", id, cwlimit);
 		}
 		else if( ret == false )
 		{
-			Logger::getInstance()->log("%d : set cwlimit send error!! \n", id);
+			Logger::getInstance()->log(LOG_ERR, "%d : set cwlimit send error!! \n", id);
 			return false;
 		}
 	}
 	else
 	{
-		Logger::getInstance()->log("%d : cwlimit is good!\n", id);
+		Logger::getInstance()->log(LOG_INFO, "%d : cwlimit is good!\n", id);
 	}
 
 	// check and adjust ccwlimit
@@ -131,28 +131,28 @@ bool	Joint::reset()
 	ret = Device::getInstance()->recv(id, CCW_LIMIT_ANGLE, 2, param);
 	if( ret == false )
 	{
-		Logger::getInstance()->log("%d : ccwlimit recv error!! \n", id);
+		Logger::getInstance()->log(LOG_ERR, "%d : ccwlimit recv error!! \n", id);
 		return false;
 	}
 
 	if( DXL2DEGREE(param) != ccwlimit)
 	{
-		Logger::getInstance()->log("%d : ccwlimit is not match : ccwlimit : %d, recv ccwlimit : %d\n", id, ccwlimit, DXL2DEGREE(param));
+		Logger::getInstance()->log(LOG_WARN, "%d : ccwlimit is not match : ccwlimit : %d, recv ccwlimit : %d\n", id, ccwlimit, DXL2DEGREE(param));
 
 		ret = Device::getInstance()->send(id, CCW_LIMIT_ANGLE, 2, DEGREE2DXL(ccwlimit));
 		if( ret == true )
 		{
-			Logger::getInstance()->log("%d : adjust ccwlimit to %d \n", id, ccwlimit);
+			Logger::getInstance()->log(LOG_INFO, "%d : adjust ccwlimit to %d \n", id, ccwlimit);
 		}
 		else if( ret == false )
 		{
-			Logger::getInstance()->log("%d : set ccwlimit send error!! \n", id);
+			Logger::getInstance()->log(LOG_ERR, "%d : set ccwlimit send error!! \n", id);
 			return false;
 		}
 	}
 	else
 	{
-		Logger::getInstance()->log("%d : ccwlimit is good!\n", id);
+		Logger::getInstance()->log(LOG_INFO, "%d : ccwlimit is good!\n", id);
 	}
 
 	// Init PID param
@@ -161,7 +161,7 @@ bool	Joint::reset()
 	ret = Device::getInstance()->recv(id, P_PARAM, 1, param);
 	if (ret == false)
 	{
-		Logger::getInstance()->log("%d : p-param recv error!! \n", id);
+		Logger::getInstance()->log(LOG_ERR, "%d : p-param recv error!! \n", id);
 		return false;
 	}
 	if (p_param >= 0)
@@ -169,21 +169,21 @@ bool	Joint::reset()
 		// 설정값과 달라 셋!
 		if (param != p_param)
 		{
-			Logger::getInstance()->log("%d : p_param is not match : p_param : %d, recv p_param : %d\n", id, p_param, param);
+			Logger::getInstance()->log(LOG_WARN, "%d : p_param is not match : p_param : %d, recv p_param : %d\n", id, p_param, param);
 			ret = Device::getInstance()->send(id, P_PARAM, 1, (uint16_t)p_param);
 			if (ret == true)
 			{
-				Logger::getInstance()->log("%d : adjust p_param to %d \n", id, p_param);
+				Logger::getInstance()->log(LOG_INFO, "%d : adjust p_param to %d \n", id, p_param);
 			}
 			else if (ret == false)
 			{
-				Logger::getInstance()->log("%d : set p_param send error!! \n", id);
+				Logger::getInstance()->log(LOG_ERR, "%d : set p_param send error!! \n", id);
 				return false;
 			}
 		}
 		else
 		{
-			Logger::getInstance()->log("%d : PID(p) is good!\n", id);
+			Logger::getInstance()->log(LOG_INFO, "%d : PID(p) is good!\n", id);
 		}
 	}
 
@@ -192,7 +192,7 @@ bool	Joint::reset()
 	ret = Device::getInstance()->recv(id, I_PARAM, 1, param);
 	if (ret == false)
 	{
-		Logger::getInstance()->log("%d : i-param recv error!! \n", id);
+		Logger::getInstance()->log(LOG_ERR, "%d : i-param recv error!! \n", id);
 		return false;
 	}
 	if (i_param >= 0)
@@ -200,21 +200,21 @@ bool	Joint::reset()
 		// 설정값과 달라 셋!
 		if (param != i_param)
 		{
-			Logger::getInstance()->log("%d : i_param is not match : i_param : %d, recv i_param : %d\n", id, i_param, param);
+			Logger::getInstance()->log(LOG_WARN, "%d : i_param is not match : i_param : %d, recv i_param : %d\n", id, i_param, param);
 			ret = Device::getInstance()->send(id, I_PARAM, 1, (uint16_t)i_param);
 			if (ret == true)
 			{
-				Logger::getInstance()->log("%d : adjust i_param to %d \n", id, i_param);
+				Logger::getInstance()->log(LOG_INFO, "%d : adjust i_param to %d \n", id, i_param);
 			}
 			else if (ret == false)
 			{
-				Logger::getInstance()->log("%d : set i_param send error!! \n", id);
+				Logger::getInstance()->log(LOG_ERR, "%d : set i_param send error!! \n", id);
 				return false;
 			}
 		}
 		else
 		{
-			Logger::getInstance()->log("%d : PID(i) is good!\n", id);
+			Logger::getInstance()->log(LOG_INFO, "%d : PID(i) is good!\n", id);
 		}
 	}
 
@@ -223,7 +223,7 @@ bool	Joint::reset()
 	ret = Device::getInstance()->recv(id, D_PARAM, 1, param);
 	if (ret == false)
 	{
-		Logger::getInstance()->log("%d : d-param recv error!! \n", id);
+		Logger::getInstance()->log(LOG_ERR, "%d : d-param recv error!! \n", id);
 		return false;
 	}
 	if (d_param >= 0)
@@ -231,22 +231,22 @@ bool	Joint::reset()
 		// 설정값과 달라 셋!
 		if (param != d_param)
 		{
-			Logger::getInstance()->log("%d : p_param is not match : d_param : %d, recv d_param : %d\n", id, d_param, param);
+			Logger::getInstance()->log(LOG_WARN, "%d : p_param is not match : d_param : %d, recv d_param : %d\n", id, d_param, param);
 
 			ret = Device::getInstance()->send(id, D_PARAM, 1, (uint16_t)d_param);
 			if (ret == true)
 			{
-				Logger::getInstance()->log("%d : adjust d_param to %d \n", id, d_param);
+				Logger::getInstance()->log(LOG_INFO, "%d : adjust d_param to %d \n", id, d_param);
 			}
 			else if (ret == false)
 			{
-				Logger::getInstance()->log("%d : set d_param send error!! \n", id);
+				Logger::getInstance()->log(LOG_ERR, "%d : set d_param send error!! \n", id);
 				return false;
 			}
 		}
 		else
 		{
-			Logger::getInstance()->log("%d : PID(d) is good!\n", id);
+			Logger::getInstance()->log(LOG_INFO, "%d : PID(d) is good!\n", id);
 		}
 	}
 

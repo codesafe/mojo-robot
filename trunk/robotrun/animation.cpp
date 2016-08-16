@@ -193,8 +193,7 @@ bool	Motion::_play(int id, int angle, float speed)
 		ret = PartController::getInstance()->addsendqueuecommand(id, MOVE_SPEED, p);
 		ret = PartController::getInstance()->addsendqueuecommand(id, DEST_POSITION, DEGREE2DXL(angle));
 
-
-		Logger::getInstance()->log("change motion! \n");
+		Logger::getInstance()->log(LOG_INFO, "Change motion! \n");
 	}
 
 #else
@@ -310,7 +309,7 @@ void	Animation::play(std::string name)
 		}
 		else
 		{
-			Logger::getInstance()->log("Not found animation %s\n", name.c_str());
+			Logger::getInstance()->log(LOG_ERR, "Not found animation %s\n", name.c_str());
 		}
 	}
 }
