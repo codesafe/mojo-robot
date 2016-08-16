@@ -54,6 +54,9 @@
     <ClCompile Include="network.cpp">
       <Filter>code</Filter>
     </ClCompile>
+    <ClCompile Include="commander.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h">
@@ -96,6 +99,9 @@
       <Filter>h</Filter>
     </ClInclude>
     <ClInclude Include="e-ink.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="commander.h">
       <Filter>h</Filter>
     </ClInclude>
   </ItemGroup>

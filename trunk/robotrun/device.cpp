@@ -58,7 +58,11 @@ bool	Device::initdevice(std::string part)
 
 		int oldbaudrate = portHandler->getBaudRate();
 		// Set port baudrate
+#ifdef WIN32
 		int baudrate = MemDB::getInstance()->getIntValue("jointbaudrate");
+#else
+		int baudrate = MemDB::getInstance()->getIntValue("linuxjointbaudrate");
+#endif
 		if( oldbaudrate != baudrate )
 		{
 			if (portHandler->setBaudRate(baudrate))

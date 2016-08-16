@@ -9,6 +9,7 @@
 		<linuxdisplaydevicename>dev/ttyUSB0</linuxdisplaydevicename>
 
 		<jointbaudrate>57142</jointbaudrate>
+    <linuxjointbaudrate>57600</linuxjointbaudrate>
 		<displaybaudrate>115200</displaybaudrate>
     <serveraddress>127.0.0.1</serveraddress>
 	</global>
