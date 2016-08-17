@@ -112,7 +112,7 @@ bool	Motion::update()
 					{
 						needsend |= true;
 						it->second.pop_front();
-						printf("id %d : change motion time -> %f\n", it->first, updatetime);
+						Logger::getInstance()->log(LOG_INFO, "id %d : change motion time -> %f\n", it->first, updatetime);
 					}
 				}
 				else

@@ -1,14 +1,10 @@
-/*
-	Max Exporter 
-*/
-
-function exportData obj fixvalue neg tempcontroller = 
+function exportData filehandle obj fixvalue neg tempcontroller = 
 (
 	local prevtime = 0
     local count  = tempcontroller.keys.count
 	
 	if count > 1 then
-		format "<part deviceid=\"%\">\n" obj.name	
+		format "<part deviceid=\"%\">\n" obj.name to:filehandle
 	
      for i = 1 to count do (     
 		local t = tempcontroller.keys[i].time / 30
@@ -16,50 +12,78 @@ function exportData obj fixvalue neg tempcontroller =
 		r = radToDeg(r) * neg + fixvalue
 		 
 		 if t > 0 then (
-			format "\t<motion>\n"
-			format "\t\t<starttime>%</starttime>\n" prevtime
-			format "\t\t<endtime>%</endtime>\n" t
-			format "\t\t<angle>%</angle>\n" r
-			format "\t</motion>\n"
+			format "\t<motion>\n" to:filehandle
+			format "\t\t<starttime>%</starttime>\n" prevtime to:filehandle
+			format "\t\t<endtime>%</endtime>\n" t to:filehandle
+			format "\t\t<angle>%</angle>\n" r to:filehandle
+			format "\t</motion>\n" to:filehandle
 		 )
 		prevtime = t;		 
      )
 	
 	if count > 1 then	 
-		format "</part>\n"
+		format "</part>\n" to:filehandle
 )
 
-function RotationX obj fixvalue neg =
+function RotationX filehandle obj fixvalue neg =
 (
 	tempcontroller = obj.rotation.controller.X_rotation.controller.GetLimitedControl()
-	exportData obj fixvalue neg tempcontroller
+	exportData filehandle obj fixvalue neg tempcontroller
 )
 
-function RotationY obj fixvalue neg =
+function RotationY filehandle obj fixvalue neg =
 (
 	tempcontroller = obj.rotation.controller.Y_rotation.controller.GetLimitedControl()
-	exportData obj fixvalue neg tempcontroller
+	exportData filehandle obj fixvalue neg tempcontroller
 )
 
-function RotationZ obj fixvalue neg =
+function RotationZ filehandle obj fixvalue neg =
 (
 	tempcontroller = obj.rotation.controller.Z_rotation.controller.GetLimitedControl()
-	exportData obj fixvalue neg tempcontroller	
-)
-
-function Export =
-(
-	RotationY $41 180 1
-	RotationX $42 180 -1
-
-	RotationY $44 180 1
-	RotationX $43 180 1
-
-	RotationZ $51 180 1
-	RotationX $52 180 1
-	RotationY $53 180 1
-	RotationX $54 180 1
+	exportData filehandle obj fixvalue neg tempcontroller	
 )
 
 
-Export() 
+ rollout ExportAnimation "Export Animation" width:600 height:228
+ (
+	label lbl2 "Enter Animaion Name" pos:[10,30] width:500 height:20
+	editText aniname "" pos:[120,30] align:#center width:380  height:30
+	Button SetOutFile "Set output Filename" pos:[0,80] align:#center width:500 height:30
+	Button ExportAnim "Export Animation" pos:[0,120]  align:#center width:500 height:30
+
+--	editText edt2 "" pos:[15,35] width:536 height:41
+--	button btn7 "Button"  align:#center width:500
+--	button btn8 "Button"  align:#center width:500
+	 
+	 on setoutfile pressed do
+	 (
+		Global OutFile = getSaveFileName caption:"Choose the output filename" filename:"h:\\Databases\\"
+		SetOutFile.text = OutFile
+	 )
+	 
+ 
+	  on ExportAnim pressed do
+	 (
+		MyOutFile = OutFile
+		AnimFile = CreateFile MyOutFile
+		 
+		 	RotationY AnimFile $41 180 1
+			RotationX AnimFile $42 180 -1
+
+			RotationY AnimFile $44 180 1
+			RotationX AnimFile $43 180 1
+
+			RotationZ AnimFile $51 180 1
+			RotationX AnimFile $52 180 1
+			RotationY AnimFile $53 180 1
+			RotationX AnimFile $54 180 1
+		 
+		 -- format "%\n" MyObjects.count to:AnimFile
+		 
+		 
+		Close AnimFile
+	 )
+	 
+ )
+ 
+ CreateDialog ExportAnimation width:500

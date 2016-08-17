@@ -5,9 +5,13 @@
 #include "animation.h"
 #include "network.h"
 #include "commander.h"
+#include <curl.h>
 
 #ifdef _WIN32
 #include "pthread.h"
+
+#pragma comment(lib, "libcurl_imp.lib")
+
 #else
 
 #endif
@@ -145,6 +149,40 @@ void mainupdate()
 
 //////////////////////////////////////////////////////////////////////////
 
+#if 1
+
+size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) 
+{
+	size_t written = fwrite(ptr, size, nmemb, stream);
+	return written;
+}
+
+
+int main()
+{
+	CURL *curl;
+	FILE *fp;
+	CURLcode res;
+	char *url = "http://localhost:8000/aaa.txt";
+	char outfilename[FILENAME_MAX] = "d:\\bbb.txt";
+	curl = curl_easy_init();
+	if (curl) 
+	{
+		fp = fopen(outfilename,"wb");
+		curl_easy_setopt(curl, CURLOPT_URL, url);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+		res = curl_easy_perform(curl);
+		/* always cleanup */
+		curl_easy_cleanup(curl);
+		fclose(fp);
+	}
+
+	return 0;
+}
+
+#else
+
 int main()
 {
 //	initthread();
@@ -174,3 +212,5 @@ int main()
 
 	return 0;
 }
+
+#endif

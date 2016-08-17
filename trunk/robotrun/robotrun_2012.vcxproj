@@ -52,13 +52,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../sdk/include;../pthread</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sdk/include;../pthread;../curl/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4996;4273</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../sdk/lib;../pthread</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../sdk/lib;../pthread;../curl/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sdk_2012.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
