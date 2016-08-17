@@ -43,6 +43,9 @@
     <ClCompile Include="xmlparser.cpp">
       <Filter>code</Filter>
     </ClCompile>
+    <ClCompile Include="patch.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h">
@@ -90,12 +93,21 @@
     <ClInclude Include="xmlparser.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="patch.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="animation.xml">
       <Filter>asset</Filter>
     </Xml>
     <Xml Include="setup.xml">
+      <Filter>asset</Filter>
+    </Xml>
+    <Xml Include="test01.xml">
+      <Filter>asset</Filter>
+    </Xml>
+    <Xml Include="test02.xml">
       <Filter>asset</Filter>
     </Xml>
   </ItemGroup>

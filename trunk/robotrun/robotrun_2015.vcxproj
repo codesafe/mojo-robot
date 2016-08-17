@@ -161,6 +161,7 @@
     <ClCompile Include="memdb.cpp" />
     <ClCompile Include="network.cpp" />
     <ClCompile Include="part.cpp" />
+    <ClCompile Include="patch.cpp" />
     <ClCompile Include="robotrun.cpp" />
     <ClCompile Include="socket.cpp" />
     <ClCompile Include="timer.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="memdb.h" />
     <ClInclude Include="network.h" />
     <ClInclude Include="part.h" />
+    <ClInclude Include="patch.h" />
     <ClInclude Include="predef.h" />
     <ClInclude Include="socket.h" />
     <ClInclude Include="timer.h" />
@@ -189,6 +191,8 @@
     <Xml Include="setup.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="test01.xml" />
+    <Xml Include="test02.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="make\Makefile" />
