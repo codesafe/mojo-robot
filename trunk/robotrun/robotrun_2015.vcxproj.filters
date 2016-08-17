@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="commander.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="animation.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="device.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="display.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="joint.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="logger.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="memdb.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="network.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="part.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="robotrun.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="socket.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="timer.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="wheel.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="xmlparser.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="animation.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="device.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="commander.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="display.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="e-ink.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="joint.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="memdb.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="network.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="part.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="predef.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="socket.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="wheel.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="xmlparser.h">
+      <Filter>header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="animation.xml">
+      <Filter>asset</Filter>
+    </Xml>
+    <Xml Include="setup.xml">
+      <Filter>asset</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="asset">
+      <UniqueIdentifier>{dca07f75-ee22-4ada-9dbd-1e3d08004301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="makefile">
+      <UniqueIdentifier>{0c1764bd-2c9b-4441-8ae0-33cf87fc45e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header">
+      <UniqueIdentifier>{5677f54a-33ac-4d1c-8d9d-da29a1e3ed83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="code">
+      <UniqueIdentifier>{1fc343d8-1301-414d-9228-9aa839dee92c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="make\Makefile">
+      <Filter>makefile</Filter>
+    </None>
+  </ItemGroup>
+</Project>
