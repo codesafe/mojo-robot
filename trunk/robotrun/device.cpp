@@ -38,7 +38,7 @@ bool	Device::initdevice(std::string part)
 		Logger::getInstance()->log(LOG_INFO, "Try to getHandler %s\n", MemDB::getInstance()->getValue("jointdevicename").c_str());
 #else
 		portHandler = dynamixel::PortHandler::getPortHandler(MemDB::getInstance()->getValue("linuxjointdevicename").c_str());
-		Logger::getInstance()->log("Try to getHandler %s\n", MemDB::getInstance()->getValue("linuxjointdevicename").c_str());
+		Logger::getInstance()->log(LOG_INFO, "Try to getHandler %s\n", MemDB::getInstance()->getValue("linuxjointdevicename").c_str());
 #endif
 
 		packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
@@ -97,7 +97,7 @@ bool	Device::initdevice(std::string part)
 		assert(displayportHandler);
 #else
 		displayportHandler = dynamixel::PortHandler::getPortHandler(MemDB::getInstance()->getValue("linuxdisplaydevicename").c_str());
-		Logger::getInstance()->log("Try to getHandler %s\n", MemDB::getInstance()->getValue("linuxdisplaydevicename").c_str());
+		Logger::getInstance()->log(LOG_INFO, "Try to getHandler %s\n", MemDB::getInstance()->getValue("linuxdisplaydevicename").c_str());
 #endif
 		//Sleep(100);
 
