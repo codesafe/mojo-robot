@@ -200,6 +200,8 @@ int main()
 int main()
 {
 	onlinepatchrobotdata();
+
+#if 0
 //	initthread();
 	bool ret = loadsetup();
 	if (ret == false)
@@ -225,6 +227,8 @@ int main()
 #endif
 
 	}
+
+#endif
 
 	return 0;
 }
