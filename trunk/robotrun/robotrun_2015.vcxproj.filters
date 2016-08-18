@@ -135,5 +135,8 @@
     <None Include="make\Makefile">
       <Filter>makefile</Filter>
     </None>
+    <None Include="raspmake\Makefile">
+      <Filter>makefile</Filter>
+    </None>
   </ItemGroup>
 </Project>
