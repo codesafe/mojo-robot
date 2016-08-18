@@ -518,11 +518,3 @@ int		Device::sendcommand(uint8_t command, uint8_t *param, int length)
 	return recvcommand();
 }
 
-void	Device::Sleep(int t)
-{
-#ifdef __linux__			
-	usleep(t * 1000);
-#else
-	::Sleep(t);
-#endif
-}

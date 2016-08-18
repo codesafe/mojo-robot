@@ -91,13 +91,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_STRUCT_TIMESPEC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../sdk/include;../pthread;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../sdk/include;../pthread;../curl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4996;4273</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../sdk/lib;../pthread</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../sdk/lib;../pthread;../curl/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>dxl_x86_cpp.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -183,11 +183,13 @@
     <ClInclude Include="predef.h" />
     <ClInclude Include="socket.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="wheel.h" />
     <ClInclude Include="xmlparser.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="animation.xml" />
+    <Xml Include="patch.xml" />
     <Xml Include="setup.xml">
       <SubType>Designer</SubType>
     </Xml>

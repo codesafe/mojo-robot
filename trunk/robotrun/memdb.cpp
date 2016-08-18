@@ -11,6 +11,11 @@ MemDB::~MemDB()
 {
 }
 
+void	MemDB::reset()
+{
+	keyvalue.clear();
+}
+
 int		MemDB::getIntValue(std::string key, int d)
 {
 	std::string ret = getvalue(key);

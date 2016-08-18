@@ -5,17 +5,29 @@
 #include "animation.h"
 #include "network.h"
 #include "commander.h"
-#include <curl.h>
+#include "patch.h"
 
 #ifdef _WIN32
-#include "pthread.h"
 
-#pragma comment(lib, "libcurl_imp.lib")
+#include "pthread.h"
+//#include <curl.h>
 
 #else
-
+#include <curl/curl.h>
 #endif
 
+
+//////////////////////////////////////////////////////////////////////////
+
+// 온라인으로 패치
+bool onlinepatchrobotdata()
+{
+	Patch patch;
+	patch.dopatch();
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////
 
 int getch()
 {
@@ -44,11 +56,11 @@ void setupparts(XMLNode node)
 
 bool loadglobalinfo(XMLNode pnode)
 {
+	MemDB::getInstance()->reset();
+
 	for (int i = 0; i < pnode.nChildNode(); i++)
 	{
 		XMLNode node = pnode.getChildNode(i);
-
-
 		const char *name = node.getName();
 		const char *value = node.getText();
 		MemDB::getInstance()->setValue(name, value);
@@ -58,6 +70,12 @@ bool loadglobalinfo(XMLNode pnode)
 	}
 
 	return Device::getInstance()->init();
+}
+
+void loadanimation()
+{
+	Animation::getInstance()->load("animation.xml");
+	Logger::getInstance()->log(LOG_INFO, "Animation data loaded...\n");
 }
 
 // 설정 로딩
@@ -81,14 +99,10 @@ bool loadsetup()
 		}
 	}
 
+	loadanimation();
+
 	return true;
 }
-
-void loadanimation()
-{
-	Animation::getInstance()->load("animation.xml");
-}
-
 
 void releaseall()
 {
@@ -149,7 +163,7 @@ void mainupdate()
 
 //////////////////////////////////////////////////////////////////////////
 
-#if 1
+#if 0
 
 size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) 
 {
@@ -185,16 +199,18 @@ int main()
 
 int main()
 {
+	onlinepatchrobotdata();
 //	initthread();
 	bool ret = loadsetup();
+	if (ret == false)
+	{
+		Logger::getInstance()->log(LOG_ERR, "Fatal Error.. Load setup faild...\n");
+		return -1;
+	}
 
 	if (initapplication() == false)
 		return -1;
-
-	loadanimation();
 		
-//		Animation::getInstance()->play("test");
-
 	while (1)
 	{
 			mainupdate();

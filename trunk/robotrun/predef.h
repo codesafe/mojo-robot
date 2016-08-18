@@ -26,6 +26,10 @@
 
 //////////////////////////////////////////////////////////////////////////
 
+#define PI				3.141592
+#define USE_RAD
+#define RADTODEG(A)		(A * (180.0f / PI));
+
 #define	TESTBUILD
 
 #define LOG_NONE		0
@@ -96,11 +100,17 @@
 #define STATE_RUNNING		1		// 현재 에니메이션 중
 #define STATE_STOPPED		2		// 에니메이션 완료 후 정지
 
+//////////////////////////////////////////////////////////////////////////
+
+//#define	USE_NONEBLOCK
+#define PATCHSERVER_ADD		"http://127.0.0.1:8000/patch/patch.xml"
+#define PATCHFILENAME		"patch.xml"
 
 #define SERVER_ADD			"127.0.0.1"
 #define SERVER_PORT			8888
 #define SOCKET_BUFFER		4096
 
+//////////////////////////////////////////////////////////////////////////
 
 // network packet
 
@@ -126,6 +136,9 @@
 #define COMMAND_ANIMATION	0x20
 #define COMMAND_WHEEL		0x30
 #define COMMAND_DISPLAY		0x40
+
+// force online patch and reset system
+#define COMMAND_FORCEPATCH	0xF0
 
 
 #endif

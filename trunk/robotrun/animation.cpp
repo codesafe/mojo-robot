@@ -53,7 +53,12 @@ bool	Motion::init(XMLNode pnode)
 				}
 				else if(std::string("angle") == name)
 				{
+#ifdef USE_RAD
+					double rad = xmltof(value);
+					_motion.angle = (int)RADTODEG(rad);
+#else
 					_motion.angle = xmltoi(value);
+#endif
 				}
 			}
 

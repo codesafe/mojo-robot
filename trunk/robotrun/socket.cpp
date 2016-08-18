@@ -5,8 +5,6 @@
 #pragma comment(lib, "ws2_32.lib")
 #endif
 
-//#define	USE_NONEBLOCK
-
 Socket::Socket()
 {
 	sock = -1;
@@ -22,10 +20,13 @@ bool	Socket::init()
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == -1)
 	{
-		Logger::getInstance()->log(LOG_ERR, "Could not create socket");
+		Logger::getInstance()->log(LOG_ERR, "Could not create socket\n");
 		return false;
 	}
 	std::string serveradd = MemDB::getInstance()->getValue("serveraddress");
+	if (serveradd == "")
+		serveradd = SERVER_ADD;
+
 	Logger::getInstance()->log(LOG_INFO, "server address : %s\n", serveradd.c_str());
 
 	memset((void *)&server, 0x00, sizeof(server));
@@ -86,7 +87,7 @@ bool	Socket::update()
 	int sel;
 
 	waitd.tv_sec = 0;
-	waitd.tv_usec = 100;
+	waitd.tv_usec = 1000;		// micro second
 	FD_ZERO(&read_flags);
 	FD_ZERO(&write_flags);
 	FD_SET(sock, &read_flags);

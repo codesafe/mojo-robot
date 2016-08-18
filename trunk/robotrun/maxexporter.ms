@@ -9,7 +9,8 @@ function exportData filehandle obj fixvalue neg tempcontroller =
      for i = 1 to count do (     
 		local t = tempcontroller.keys[i].time / 30
 		local r = tempcontroller.keys[i].value   
-		r = radToDeg(r) * neg + fixvalue
+		-- r = radToDeg(r) * neg + fixvalue
+		r = (r * neg) + fixvalue
 		 
 		 if t > 0 then (
 			format "\t<motion>\n" to:filehandle
@@ -43,31 +44,29 @@ function RotationZ filehandle obj fixvalue neg =
 	exportData filehandle obj fixvalue neg tempcontroller	
 )
 
-
- rollout ExportAnimation "Export Animation" width:600 height:228
- (
-	label lbl2 "Enter Animaion Name" pos:[10,30] width:500 height:20
+rollout ExportAnimation "Export Animation" width:600 height:228
+(
+	label lbl2 "Enter Animation name" pos:[10,30] width:500 height:20
 	editText aniname "" pos:[120,30] align:#center width:380  height:30
 	Button SetOutFile "Set output Filename" pos:[0,80] align:#center width:500 height:30
 	Button ExportAnim "Export Animation" pos:[0,120]  align:#center width:500 height:30
 
---	editText edt2 "" pos:[15,35] width:536 height:41
---	button btn7 "Button"  align:#center width:500
---	button btn8 "Button"  align:#center width:500
-	 
-	 on setoutfile pressed do
-	 (
+	on setoutfile pressed do
+	(
 		Global OutFile = getSaveFileName caption:"Choose the output filename" filename:"h:\\Databases\\"
 		SetOutFile.text = OutFile
-	 )
+	)
 	 
- 
-	  on ExportAnim pressed do
-	 (
-		MyOutFile = OutFile
-		AnimFile = CreateFile MyOutFile
-		 
-		 	RotationY AnimFile $41 180 1
+	on ExportAnim pressed do
+	(
+		if aniname.text == "" then (
+			messageBox "Please enter Animation name!!"
+		)
+		else (
+			MyOutFile = OutFile
+			AnimFile = CreateFile MyOutFile
+
+			RotationY AnimFile $41 180 1
 			RotationX AnimFile $42 180 -1
 
 			RotationY AnimFile $44 180 1
@@ -77,13 +76,12 @@ function RotationZ filehandle obj fixvalue neg =
 			RotationX AnimFile $52 180 1
 			RotationY AnimFile $53 180 1
 			RotationX AnimFile $54 180 1
-		 
-		 -- format "%\n" MyObjects.count to:AnimFile
-		 
-		 
-		Close AnimFile
-	 )
-	 
- )
+
+			Close AnimFile		
+			
+			messageBox "Export Done !!"
+		)
+	)
+)
  
- CreateDialog ExportAnimation width:500
+CreateDialog ExportAnimation width:600

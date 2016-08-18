@@ -635,11 +635,13 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
         } else if (characterEncoding==char_encoding_ShiftJIS) encoding="SHIFT-JIS";
 
         if (!encoding) encoding="ISO-8859-1";
+/*
         if (fprintf(f,"<?xml version=\"1.0\" encoding=\"%s\"?>\n",encoding)<0) 
         {
         	fclose(f);
             return eXMLErrorCannotWriteFile;
         }
+*/
     } else
     {
         if (characterEncoding==char_encoding_UTF8)

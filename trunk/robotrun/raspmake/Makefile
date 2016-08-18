@@ -9,14 +9,13 @@ DIR_DXL    = ../..
 DIR_OBJS   = .objects
 
 # compiler options
-#CC          = gcc
-#CX          = g++
-CC		= arm-linux-gnueabihf-gcc
-CX          	= arm-linux-gnueabihf-g++
+CC			= arm-linux-gnueabihf-gcc
+CX          = arm-linux-gnueabihf-g++
 CCFLAGS     = -O2 -O3 -DLINUX -D_GNU_SOURCE -Wall $(INCLUDES) $(FORMAT) -g -std=gnu++11
 CXFLAGS     = -O2 -O3 -DLINUX -D_GNU_SOURCE -Wall $(INCLUDES) $(FORMAT) -g -std=gnu++11
 LNKCC       = $(CX)
 LNKFLAGS    = $(CXFLAGS) #-Wl,-rpath,$(DIR_THOR)/lib
+
 
 #---------------------------------------------------------------------
 # Core components (all of these are likely going to be needed)
@@ -24,6 +23,7 @@ LNKFLAGS    = $(CXFLAGS) #-Wl,-rpath,$(DIR_THOR)/lib
 INCLUDES   += -I$(DIR_DXL)/sdk/include
 LIBRARIES  += -ldxl_x86_cpp
 LIBRARIES  += -lrt
+#LIBRARIES  += -lsocket
 LIBRARIES  += -lpthread
 
 #---------------------------------------------------------------------
@@ -43,6 +43,7 @@ SOURCES = robotrun.cpp \
 			wheel.cpp \
 			xmlparser.cpp \
 			commander.cpp \
+			patch.cpp \
 
  # *** OTHER SOURCES GO HERE ***
 

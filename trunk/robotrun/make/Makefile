@@ -1,5 +1,5 @@
 #---------------------------------------------------------------------
-#	ROBOT for Raspberry PI
+#	ROBOT for Linux
 #---------------------------------------------------------------------
 
 TARGET      = robotrun
@@ -43,6 +43,7 @@ SOURCES = robotrun.cpp \
 			wheel.cpp \
 			xmlparser.cpp \
 			commander.cpp \
+			patch.cpp \
 
  # *** OTHER SOURCES GO HERE ***
 

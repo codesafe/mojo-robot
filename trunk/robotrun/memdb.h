@@ -17,6 +17,8 @@ public :
 		return instance;	
 	};
 
+	void			reset();
+
 	int				getIntValue(std::string key, int d = 0);
 	float			getFloatValue(std::string key, float d = 0.f);
 	std::string		getValue(std::string key);
