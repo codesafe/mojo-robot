@@ -15,7 +15,7 @@ CCFLAGS     = -O2 -O3 -DLINUX -D_GNU_SOURCE -Wall $(INCLUDES) $(FORMAT) -g -std=
 CXFLAGS     = -O2 -O3 -DLINUX -D_GNU_SOURCE -Wall $(INCLUDES) $(FORMAT) -g -std=gnu++11
 LNKCC       = $(CX)
 LNKFLAGS    = $(CXFLAGS) #-Wl,-rpath,$(DIR_THOR)/lib
-FORMAT      = -m32
+#FORMAT      = -m32
 
 #---------------------------------------------------------------------
 # Core components (all of these are likely going to be needed)
@@ -23,7 +23,7 @@ FORMAT      = -m32
 INCLUDES   += -I$(DIR_DXL)/sdk/include
 LIBRARIES  += -ldxl_x86_cpp
 LIBRARIES  += -lrt
-#LIBRARIES  += -lsocket
+LIBRARIES  += -lcurl
 LIBRARIES  += -lpthread
 
 #---------------------------------------------------------------------

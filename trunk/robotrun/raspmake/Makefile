@@ -23,7 +23,7 @@ LNKFLAGS    = $(CXFLAGS) #-Wl,-rpath,$(DIR_THOR)/lib
 INCLUDES   += -I$(DIR_DXL)/sdk/include
 LIBRARIES  += -ldxl_x86_cpp
 LIBRARIES  += -lrt
-#LIBRARIES  += -lsocket
+LIBRARIES  += -lcurl
 LIBRARIES  += -lpthread
 
 #---------------------------------------------------------------------
