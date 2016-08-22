@@ -92,6 +92,7 @@
     <ClCompile Include="memdb.cpp" />
     <ClCompile Include="network.cpp" />
     <ClCompile Include="part.cpp" />
+    <ClCompile Include="patch.cpp" />
     <ClCompile Include="robotrun.cpp" />
     <ClCompile Include="socket.cpp" />
     <ClCompile Include="timer.cpp" />

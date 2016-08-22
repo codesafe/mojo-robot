@@ -265,11 +265,11 @@ void	Animation::update()
 }
 
 // 에니메이션 로딩 / parse
-void	Animation::load(std::string filename)
+void	Animation::load(std::string _filename)
 {
 	uninit();
 
-	XMLNode root = XMLNode::openFileHelper(filename.c_str(), "");
+	XMLNode root = XMLNode::openFileHelper(_filename.c_str(), "");
 	for (int i = 0; i < root.nChildNode(); i++)
 	{
 		XMLNode aninode = root.getChildNode(i);
@@ -277,7 +277,10 @@ void	Animation::load(std::string filename)
 		const char *filename = aninode.getAttribute("filename");
 
 		ANIFILE anifile;
-		anifile.version = atoi(version);
+		if (version)
+			anifile.version = atoi(version);
+		else
+			anifile.version = 0;
 		anifile.filename = filename;
 		animationfilelist.push_back(anifile);
 	}

@@ -112,28 +112,19 @@ bool	Socket::update()
 		}
 		else
 		{
-			// 수신! (완료라 볼 수 없다!)
-			if (recvbuffer.totalsize > 0 && recvbuffer.totalsize > recvbuffer.currentsize)
+			if (recvbuffer.totalsize > 0)
 			{
-				// 이전에 받던것이 있다. 이어서 받는다
-				memcpy(recvbuffer.buffer + recvbuffer.currentsize, in, recvsize - sizeof(int));
-				recvbuffer.currentsize += recvsize;
-
-				// 수신 완료
-				if (recvbuffer.totalsize == recvbuffer.currentsize)
-					recvdone();
+				// 뒤에 이어 받아야함
+				memcpy(recvbuffer.buffer + recvbuffer.totalsize, in, recvsize);
+				recvbuffer.totalsize += recvsize;
+				recvdone();
 			}
 			else
 			{
 				// 처음 받음
-				int psize = (int&)*in;
-				recvbuffer.totalsize = psize;
-				recvbuffer.currentsize = recvsize - sizeof(int);
-				memcpy(recvbuffer.buffer, in + sizeof(int), recvsize - sizeof(int));
-
-				// 수신 완료
-				if (recvbuffer.totalsize == recvbuffer.currentsize)
-					recvdone();
+				recvbuffer.totalsize = recvsize;
+				memcpy(recvbuffer.buffer, in, recvsize);
+				recvdone();
 			}
 		}
 	}
@@ -163,11 +154,34 @@ bool	Socket::update()
 
 void	Socket::recvdone()
 {
-	recvbufferlist.push_back(recvbuffer);
+	while (1)
+	{
+		if (recvbuffer.totalsize >= sizeof(int) + sizeof(char))	// data size + packet
+		{
+			int datasize = (int&)*recvbuffer.buffer;
+			if (recvbuffer.totalsize >= sizeof(int) + sizeof(char) + datasize)
+			{
+				SocketBuffer buffer;
+				buffer.totalsize = sizeof(int) + sizeof(char) + datasize;
+				memcpy(buffer.buffer, recvbuffer.buffer, buffer.totalsize);
+				recvbufferlist.push_back(buffer);
 
-	recvbuffer.totalsize = -1;
-	recvbuffer.currentsize = 0;
-	memset(recvbuffer.buffer, 0, SOCKET_BUFFER);
+				recvbuffer.totalsize -= buffer.totalsize;
+
+				// 남아있는게 있는가?
+				if (recvbuffer.totalsize > 0)
+				{
+					char tempbuffer[SOCKET_BUFFER] = { 0, };
+					memcpy(tempbuffer, recvbuffer.buffer + buffer.totalsize, recvbuffer.totalsize);
+					memcpy(recvbuffer.buffer, tempbuffer, SOCKET_BUFFER);
+				}
+			}
+			else
+				break;
+		}
+		else
+			break;
+	}
 }
 
 void	Socket::senddone()

@@ -32,6 +32,7 @@ void	Patch::dopatch()
 	bool ret = Utils::checkfileexist(PATCHFILENAME);
 	if (ret)
 	{
+		Logger::getInstance()->log(LOG_INFO, "Open patch file : %s\n", PATCHFILENAME);
 		XMLNode root = XMLNode::openFileHelper(PATCHFILENAME, "");
 		for (int i = 0; i < root.nChildNode(); i++)
 		{
@@ -50,6 +51,8 @@ void	Patch::dopatch()
 			currentfileinfo.push_back(item);
 		}
 	}
+	else
+		Logger::getInstance()->log(LOG_INFO, "Not found patch file : %s\n", PATCHFILENAME);
 
 	downloadpatchinfo();
 	// 실제 패치 진행

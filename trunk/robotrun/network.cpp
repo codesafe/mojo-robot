@@ -75,10 +75,12 @@ bool	Network::write(char packet, char *data, int datasize)
 {
 	if(enable)
 	{
-		char buff[SOCKET_BUFFER];
-		buff[0] = packet;
-		memcpy(buff, data, datasize);
-		return socket->sendpacket(buff, datasize+sizeof(char));
+		char buff[SOCKET_BUFFER] = { 0, };
+		memcpy(buff, &datasize, sizeof(int));	// size header는 패킷 데이터 크기
+
+		buff[4] = packet;
+		memcpy(buff+sizeof(int)+sizeof(char), data, datasize);
+		return socket->sendpacket(buff, datasize + sizeof(int) + sizeof(char));
 	}
 
 	return false;
@@ -86,11 +88,10 @@ bool	Network::write(char packet, char *data, int datasize)
 
 void	Network::parsepacket(SocketBuffer *buffer)
 {
-	char packet = (char&)*(buffer->buffer);
+	int datasize = (int&)*(buffer->buffer);
+	char packet = (char&)*(buffer->buffer+sizeof(int));
 	int type = getpackettype(packet);
-
-	int buffersize = buffer->totalsize - sizeof(char);
-	Commander::getinstance()->addcommand( type, packet, buffer->buffer + sizeof(char), buffersize );
+	Commander::getinstance()->addcommand( type, packet, buffer->buffer + sizeof(int) + sizeof(char), datasize);
 }
 
 int	Network::getpackettype(char packet)

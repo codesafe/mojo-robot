@@ -1,7 +1,7 @@
 <patch>
-	<file version="1" name="setup.xml" path="127.0.0.1:8000/patch/1/setup.xml" crc="F729B161"/>
-	<file version="1" name="animation.xml" path="127.0.0.1:8000/patch/1/animation.xml" crc="FAEC3942"/>
-	<file version="1" name="test01.xml" path="127.0.0.1:8000/patch/1/test01.xml" crc="CC5C579B"/>
-	<file version="1" name="test02.xml" path="127.0.0.1:8000/patch/1/test02.xml" crc="CC5C579B"/>	
-	<file version="1" name="test03.xml" path="127.0.0.1:8000/patch/1/test03.xml" crc="CC5C579B"/>
+	<file version="1" name="setup.xml" path="192.168.1.112:8000/patch/1/setup.xml" crc="F729B161"/>
+	<file version="1" name="animation.xml" path="192.168.1.112:8000/patch/1/animation.xml" crc="FAEC3942"/>
+	<file version="1" name="test01.xml" path="192.168.1.112:8000/patch/1/test01.xml" crc="CC5C579B"/>
+	<file version="1" name="test02.xml" path="192.168.1.112:8000/patch/1/test02.xml" crc="CC5C579B"/>	
+	<file version="1" name="test03.xml" path="192.168.1.112:8000/patch/1/test03.xml" crc="CC5C579B"/>
 </patch>

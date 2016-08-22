@@ -118,6 +118,11 @@
 #define RESPONSE_OK		0x05
 #define RESPONSE_FAIL	0x06
 
+// Log packet
+#define CLIENT_LOG_INFO		0x0a
+#define CLIENT_LOG_WARN		0x0b
+#define CLIENT_LOG_ERR		0x0c
+
 // command packet
 #define DEVICERESET		0x10
 #define	PLAYMOTION		0x20

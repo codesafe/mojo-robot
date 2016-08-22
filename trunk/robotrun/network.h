@@ -20,6 +20,7 @@ public :
 	void	update();
 	bool	read();
 	bool	write(char packet, char *data, int datasize);
+	bool	getenable() { return enable;  }
 
 private :
 	void	parsepacket(SocketBuffer *buffer);

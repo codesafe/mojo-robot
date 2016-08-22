@@ -43,6 +43,9 @@
     <ClCompile Include="commander.cpp">
       <Filter>code</Filter>
     </ClCompile>
+    <ClCompile Include="patch.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="device.h">

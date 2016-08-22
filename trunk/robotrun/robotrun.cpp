@@ -6,6 +6,7 @@
 #include "network.h"
 #include "commander.h"
 #include "patch.h"
+#include "utils.h"
 
 #ifdef _WIN32
 
@@ -108,15 +109,10 @@ void releaseall()
 {
 	PartController::getInstance()->uninit();
 	Device::getInstance()->uninit();			// close all device and ports
-	Network::getinstance()->uninit();
-
-#ifdef WIN32
-	WSACleanup();
-#endif
 }
 
 
-bool initapplication()
+bool opennetwork()
 {
 #ifdef WIN32
 	WSADATA wsaData;
@@ -130,6 +126,14 @@ bool initapplication()
 	Network::getinstance()->connect();
 
 	return true;
+}
+
+void closenetwork()
+{
+	Network::getinstance()->uninit();
+#ifdef WIN32
+	WSACleanup();
+#endif
 }
 
 
@@ -163,45 +167,20 @@ void mainupdate()
 
 //////////////////////////////////////////////////////////////////////////
 
-#if 0
-
-size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) 
-{
-	size_t written = fwrite(ptr, size, nmemb, stream);
-	return written;
-}
-
 
 int main()
 {
-	CURL *curl;
-	FILE *fp;
-	CURLcode res;
-	char *url = "http://localhost:8000/aaa.txt";
-	char outfilename[FILENAME_MAX] = "d:\\bbb.txt";
-	curl = curl_easy_init();
-	if (curl) 
-	{
-		fp = fopen(outfilename,"wb");
-		curl_easy_setopt(curl, CURLOPT_URL, url);
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
-		curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
-		res = curl_easy_perform(curl);
-		/* always cleanup */
-		curl_easy_cleanup(curl);
-		fclose(fp);
-	}
-
-	return 0;
-}
-
-#else
-
-int main()
-{
+	opennetwork();
 	onlinepatchrobotdata();
 
 #if 0
+	while (1)
+	{
+		Network::getinstance()->update();
+		Utils::Sleep(10);
+	}
+
+#else
 //	initthread();
 	bool ret = loadsetup();
 	if (ret == false)
@@ -209,15 +188,11 @@ int main()
 		Logger::getInstance()->log(LOG_ERR, "Fatal Error.. Load setup faild...\n");
 		return -1;
 	}
-
-	if (initapplication() == false)
-		return -1;
 		
 	while (1)
 	{
-			mainupdate();
-//			double t = Timer::getInstance()->getCurrentTime();
-//			printf("Time %f : \n", t);
+		mainupdate();
+
 #ifdef TESTBUILD
 // 		if (getch() == ESC_ASCII_VALUE)
 // 		{
@@ -230,7 +205,7 @@ int main()
 
 #endif
 
+	closenetwork();
 	return 0;
 }
 
-#endif
