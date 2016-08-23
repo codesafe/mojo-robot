@@ -78,6 +78,8 @@ function RotationZ filehandle obj fixvalue neg =
 
 rollout ExportAnimation "Export Animation" width:500 height:228
 (
+	Global saveFilename = ""
+
 	label lbl2 "Enter Animation name" pos:[10,30] width:500 height:20
 	editText aniname "" pos:[120,30] align:#center width:380  height:30
 	Button SetOutFile "Set output Filename" pos:[0,80] align:#center width:500 height:30
@@ -87,8 +89,11 @@ rollout ExportAnimation "Export Animation" width:500 height:228
 	(
 		Global OutFile = getSaveFileName caption:"Choose the output filename"
 		
-		if OutFile != undefined then
+		if OutFile != undefined then (
 			SetOutFile.text = OutFile
+			saveFilename = OutFile
+		)
+			
 	)
 	 
 	on ExportAnim pressed do
@@ -97,7 +102,7 @@ rollout ExportAnimation "Export Animation" width:500 height:228
 			messageBox "Please enter Animation name!!"
 		)
 		else (
-			if SetOutFile.text == "" or SetOutFile.text == undefined  then (
+			if saveFilename == "" then (
 				messageBox "Please choose output path!!"
 			)
 			else (
