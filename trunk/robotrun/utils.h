@@ -3,6 +3,12 @@
 
 #include "predef.h"
 
+#ifdef WIN32
+
+#else
+	#include <time.h>
+#endif
+
 
 namespace Utils
 {
@@ -92,10 +98,10 @@ namespace Utils
 
 	static void	Sleep(int t)
 	{
-#ifdef __linux__			
-		usleep(t * 1000);
-#else
+#ifdef WIN32		
 		::Sleep(t);
+#else
+		usleep(t * 1000);
 #endif
 	}
 
@@ -107,6 +113,20 @@ namespace Utils
 		fclose(fp);
 		return true;
 
+	}
+
+	static std::string getCurrentDateTime()
+	{
+#if WIN32
+		return "";
+#else
+		time_t     now = time(0);
+		struct tm  tstruct;
+		char buf[80] = { 0, };
+		tstruct = *localtime(&now);
+		strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+		return buf;
+#endif
 	}
 };
 
