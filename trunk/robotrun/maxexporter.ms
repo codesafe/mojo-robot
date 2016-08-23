@@ -97,7 +97,7 @@ rollout ExportAnimation "Export Animation" width:500 height:228
 			messageBox "Please enter Animation name!!"
 		)
 		else (
-			if OutFile.text == "" or OutFile.text == undefined  then (
+			if SetOutFile.text == "" or SetOutFile.text == undefined  then (
 				messageBox "Please choose output path!!"
 			)
 			else (
@@ -119,7 +119,7 @@ rollout ExportAnimation "Export Animation" width:500 height:228
 				RotationX AnimFile $54 180 1
 
 				-- Note Tracks for Display
-				exportNote $body				
+				--exportNote $body				
 				
 				endXML AnimFile
 
