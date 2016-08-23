@@ -3,6 +3,7 @@
 #include "predef.h"
 #include "logger.h"
 #include "network.h"
+#include "utils.h"
 
 Logger * Logger::instance = NULL;
 
@@ -26,16 +27,19 @@ void Logger::log(int logtype, const char* format, ...)
 	vsprintf(buf, format, ap);
 	va_end(ap);
 
+	std::string ds = Utils::getCurrentDateTime();
+	ds = ds + buf;
+
 	if (filelog_enable)
 	{
 		FILE * fp = fopen("log.txt", "at");
 		if (fp == NULL) return;
-		fputs(buf, fp);
+		fputs(ds.c_str(), fp);
 		fclose(fp);
 	}
 
 	if(consolelog_enable)
-		printf(buf);
+		printf(ds.c_str());
 
 #ifdef TESTBUILD
 	if (Network::getinstance()->getenable())
@@ -52,7 +56,7 @@ void Logger::log(int logtype, const char* format, ...)
 		else if (logtype == LOG_ERR)
 			packet = CLIENT_LOG_ERR;
 
-		Network::getinstance()->write(packet, buf, strlen(buf));
+		Network::getinstance()->write(packet, (char*)ds.c_str(), ds.size());
 	}
 #endif
 }

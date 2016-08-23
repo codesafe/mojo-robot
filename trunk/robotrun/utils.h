@@ -118,13 +118,20 @@ namespace Utils
 	static std::string getCurrentDateTime()
 	{
 #if WIN32
-		return "";
+		time_t     now = time(0);
+		struct tm  tstruct;
+		char buf[80] = { 0, };
+		tstruct = *localtime(&now);
+		//strftime(buf, sizeof(buf), "%d.%X", &tstruct);
+		sprintf(buf, "%d:%d:%d ",tstruct.tm_hour, tstruct.tm_min, tstruct.tm_sec);		
+		return buf;
 #else
 		time_t     now = time(0);
 		struct tm  tstruct;
 		char buf[80] = { 0, };
 		tstruct = *localtime(&now);
-		strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+		//strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+		sprintf(buf, "%d:%d:%d ",tstruct.tm_hour, tstruct.tm_min, tstruct.tm_sec);
 		return buf;
 #endif
 	}

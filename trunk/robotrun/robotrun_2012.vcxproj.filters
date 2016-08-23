@@ -87,6 +87,9 @@
     <ClInclude Include="commander.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="code">

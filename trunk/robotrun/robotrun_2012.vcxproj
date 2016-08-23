@@ -111,6 +111,7 @@
     <ClInclude Include="part.h" />
     <ClInclude Include="predef.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="wheel.h" />
     <ClInclude Include="xmlparser.h" />
   </ItemGroup>
