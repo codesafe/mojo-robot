@@ -171,6 +171,8 @@ void	Patch::patchprocess()
 			{
 				std::string dest = std::string("./") + willpatchlist[i].name;
 				ret = Utils::copyFile(path, dest);
+				if(ret)
+					Utils::removefile(path);
 			}
 		}
 		willpatchlist[i].result = ret;

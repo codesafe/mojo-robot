@@ -235,6 +235,12 @@ namespace Utils
 		return true;
 	}
 
+	static bool removefile(const std::string& path)
+	{
+		int ret = remove(path.c_str());
+		return ret == 0 ? true : false;
+	}
+
 };
 
 
