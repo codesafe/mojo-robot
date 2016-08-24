@@ -198,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="make\Makefile" />
+    <None Include="maxexporter.ms" />
     <None Include="raspmake\Makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

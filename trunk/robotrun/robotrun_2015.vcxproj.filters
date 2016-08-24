@@ -138,5 +138,8 @@
     <None Include="raspmake\Makefile">
       <Filter>makefile</Filter>
     </None>
+    <None Include="maxexporter.ms">
+      <Filter>asset</Filter>
+    </None>
   </ItemGroup>
 </Project>
