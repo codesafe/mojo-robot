@@ -1,10 +1,4 @@
-<!--
-  patch info
-
--->
-
 <data>
-  <version>1</version>
 	<animation filename="test01.xml"/>
 	<animation filename="test02.xml"/>
 </data>

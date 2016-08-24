@@ -132,6 +132,19 @@ void Patch::collectnewpatch()
 // 패치 진행
 void	Patch::patchprocess()
 {
+	bool direxist = Utils::isDirExist(PATCHDOWNLOADDIR);
+	if (direxist == false)
+	{
+		Logger::getInstance()->log(LOG_WARN, "Patch download folder is not exist\n");
+		bool ret = Utils::makePath(PATCHDOWNLOADDIR);
+		if (ret == false)
+		{
+			Logger::getInstance()->log(LOG_ERR, "Create patch download folder failed !!\n");
+			Logger::getInstance()->log(LOG_ERR, "Patch progress aborted !!\n");
+			return;
+		}
+	}
+
 	// 없는 파일이거나 버전이 낮으면 패치 할것!
 	for (size_t i = 0; i < newpatchfileinfo.size(); i++)
 	{
@@ -150,12 +163,16 @@ void	Patch::patchprocess()
 		// CRC32 검사
 		if (ret == true)
 		{
-			unsigned long crc = Utils::calcCRC32(willpatchlist[i].name);
+			std::string path = PATCHDOWNLOADDIR + std::string("/") + willpatchlist[i].name;
+			unsigned long crc = Utils::calcCRC32(path);
 			if (crc != willpatchlist[i].crc)
 				ret = false;
+			else
+			{
+				std::string dest = std::string("./") + willpatchlist[i].name;
+				ret = Utils::copyFile(path, dest);
+			}
 		}
-
-
 		willpatchlist[i].result = ret;
 
 		if (ret == true)
@@ -205,13 +222,15 @@ int		Patch::getoldfileversion(std::string newfile)
 // 실제 다운로드
 bool	Patch::downloadtofile(std::string url, std::string outfilename)
 {
+	std::string path = PATCHDOWNLOADDIR + std::string("/") + outfilename;
+
 	CURL *curl;
 	CURLcode res;
 	curl = curl_easy_init();
 	if (curl)
 	{
-		Logger::getInstance()->log(LOG_INFO, "Patch : Download progress.\n%s --> %s\n", url.c_str(), outfilename.c_str());
-		FILE *fp = fopen(outfilename.c_str(), "wb");
+		Logger::getInstance()->log(LOG_INFO, "Patch : Download progress.\n%s --> %s\n", url.c_str(), path.c_str());
+		FILE *fp = fopen(path.c_str(), "wb");
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, Patch::writetofile);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);

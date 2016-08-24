@@ -103,6 +103,8 @@
 //////////////////////////////////////////////////////////////////////////
 
 //#define	USE_NONEBLOCK
+
+#define PATCHDOWNLOADDIR	"./tempdownload"
 #define PATCHSERVER_ADD		"http://127.0.0.1:8000/patch/patch.xml"
 #define PATCHFILENAME		"patch.xml"
 

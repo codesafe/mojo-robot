@@ -1,92 +1,91 @@
 <setup>
   <version>1</version>
-	<global>
-		<protocol>1.0</protocol>
-		<!-- for windows -->
-		<jointdevicename>//./COM3</jointdevicename>
-		<displaydevicename>//./COM15</displaydevicename>
-		<!-- for linux or raps -->
-		<linuxjointdevicename>/dev/ttyUSB0</linuxjointdevicename>
-		<linuxdisplaydevicename>/dev/ttyUSB0</linuxdisplaydevicename>
-
-		<jointbaudrate>57142</jointbaudrate>
+  <global>
+    <protocol>1.0</protocol>
+    <!-- for windows -->
+    <jointdevicename>//./COM3</jointdevicename>
+    <displaydevicename>//./COM15</displaydevicename>
+    <!-- for linux or raps -->
+    <linuxjointdevicename>/dev/ttyUSB0</linuxjointdevicename>
+    <linuxdisplaydevicename>/dev/ttyUSB0</linuxdisplaydevicename>
+    <jointbaudrate>57142</jointbaudrate>
     <linuxjointbaudrate>57600</linuxjointbaudrate>
-		<displaybaudrate>115200</displaybaudrate>
+    <displaybaudrate>115200</displaybaudrate>
     <serveraddress>127.0.0.1</serveraddress>
-	</global>
+  </global>
 
-	<parts>
-		<!-- Joint -->
-		<larm0 type="joint">
-			<id>41</id>
-			<torque>1</torque>
-			<cwlimit>90</cwlimit>
-			<ccwlimit>270</ccwlimit>
-			<initpos>180</initpos>
+  <parts>
+    <!-- Joint -->
+    <larm0 type="joint">
+      <id>41</id>
+      <torque>1</torque>
+      <cwlimit>90</cwlimit>
+      <ccwlimit>270</ccwlimit>
+      <initpos>180</initpos>
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-		</larm0>	
-		<larm1 type="joint">
-			<id>42</id>
-			<torque>1</torque>
+    </larm0>
+    <larm1 type="joint">
+      <id>42</id>
+      <torque>1</torque>
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
-			<initpos>180</initpos>
+      <initpos>180</initpos>
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
     </larm1>
-		<rarm0 type="joint">
-			<id>43</id>
-			<torque>1</torque>
+    <rarm0 type="joint">
+      <id>43</id>
+      <torque>1</torque>
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
-			<initpos>180</initpos>
+      <initpos>180</initpos>
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
     </rarm0>
-		<rarm1 type="joint">
-			<id>44</id>
-			<torque>1</torque>
+    <rarm1 type="joint">
+      <id>44</id>
+      <torque>1</torque>
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
-			<initpos>180</initpos>
+      <initpos>180</initpos>
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
     </rarm1>
-		<head0 type="joint">
-			<id>53</id>
-			<torque>1</torque>
+    <head0 type="joint">
+      <id>53</id>
+      <torque>1</torque>
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
-			<initpos>180</initpos>
+      <initpos>180</initpos>
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-		</head0>		
-		<head1 type="joint">
-			<id>52</id>
-			<torque>1</torque>
+    </head0>
+    <head1 type="joint">
+      <id>52</id>
+      <torque>1</torque>
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
-			<initpos>180</initpos>
+      <initpos>180</initpos>
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-		</head1>		
-		<head2 type="joint">
-			<id>51</id>
-			<torque>1</torque>
+    </head1>
+    <head2 type="joint">
+      <id>51</id>
+      <torque>1</torque>
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
-			<initpos>180</initpos>
+      <initpos>180</initpos>
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-		</head2>
+    </head2>
     <mouth type="joint">
       <id>54</id>
       <torque>1</torque>
@@ -99,26 +98,26 @@
     </mouth>
     <!-- wheel -->
 
-		<leftwheel type="wheel">
-		  <id>32</id>
-		  <torque>1</torque>
+    <leftwheel type="wheel">
+      <id>32</id>
+      <torque>1</torque>
       <torquelimit>512</torquelimit>
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
     </leftwheel>
 
-		<rightwheel type="wheel">
-		  <id>31</id>
-		  <torque>1</torque>
+    <rightwheel type="wheel">
+      <id>31</id>
+      <torque>1</torque>
       <torquelimit>512</torquelimit>
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
     </rightwheel>
 
-		<!-- Display -->
-<!--    
+    <!-- Display -->
+    <!--    
 		<lefteye type="display">
 			<id>100</id>
 			<storage>flash</storage>
@@ -127,7 +126,7 @@
 			<id>110</id>
 			<storage>sdcard</storage>
 		</righteye>		
--->    
-	</parts>
+-->
+  </parts>
 
 </setup>
