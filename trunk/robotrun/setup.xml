@@ -3,13 +3,13 @@
   <global>
     <protocol>1.0</protocol>
     <!-- for windows -->
-    <jointdevicename>//./COM3</jointdevicename>
+    <jointdevicename>//./COM4</jointdevicename>
     <displaydevicename>//./COM15</displaydevicename>
     <!-- for linux or raps -->
     <linuxjointdevicename>/dev/ttyUSB0</linuxjointdevicename>
     <linuxdisplaydevicename>/dev/ttyUSB0</linuxdisplaydevicename>
-    <jointbaudrate>57142</jointbaudrate>
-    <linuxjointbaudrate>57600</linuxjointbaudrate>
+    <jointbaudrate>1000000</jointbaudrate>
+    <linuxjointbaudrate>1000000</linuxjointbaudrate>
     <displaybaudrate>115200</displaybaudrate>
     <serveraddress>127.0.0.1</serveraddress>
   </global>
@@ -22,9 +22,11 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
+      <!--      
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
+      -->
     </larm0>
     <larm1 type="joint">
       <id>42</id>
@@ -32,9 +34,11 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
+<!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
+-->      
     </larm1>
     <rarm0 type="joint">
       <id>43</id>
@@ -42,9 +46,11 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
+      <!--      
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
+      -->
     </rarm0>
     <rarm1 type="joint">
       <id>44</id>
@@ -52,9 +58,11 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
+      <!--      
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
+      -->
     </rarm1>
     <head0 type="joint">
       <id>53</id>
@@ -62,9 +70,11 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
+      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
+      -->
     </head0>
     <head1 type="joint">
       <id>52</id>
@@ -72,9 +82,11 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
+      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
+      -->
     </head1>
     <head2 type="joint">
       <id>51</id>
@@ -82,19 +94,23 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
+      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
+      -->
     </head2>
     <mouth type="joint">
       <id>54</id>
       <torque>1</torque>
       <cwlimit>200</cwlimit>
-      <ccwlimit>260</ccwlimit>
-      <initpos>230</initpos>
+      <ccwlimit>230</ccwlimit>
+      <initpos>210</initpos>
+      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
+      -->
     </mouth>
     <!-- wheel -->
 
@@ -102,18 +118,22 @@
       <id>32</id>
       <torque>1</torque>
       <torquelimit>512</torquelimit>
+      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
+      -->
     </leftwheel>
 
     <rightwheel type="wheel">
       <id>31</id>
       <torque>1</torque>
       <torquelimit>512</torquelimit>
+      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
+      -->
     </rightwheel>
 
     <!-- Display -->

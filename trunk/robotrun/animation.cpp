@@ -54,10 +54,12 @@ bool	Motion::init(XMLNode pnode)
 				else if(std::string("angle") == name)
 				{
 #ifdef USE_RAD
-					double rad = xmltof(value);
-					_motion.angle = (int)RADTODEG(rad);
+					float rad = (float)xmltof(value);
+					_motion.angle = (int)RADTODEG(rad) - FIX_ANGLE;
+
+					Logger::getInstance()->log(LOG_INFO, "angle : %d\n", _motion.angle);
 #else
-					_motion.angle = xmltoi(value);
+					_motion.angle = xmltoi(value) - FIX_ANGLE;
 #endif
 				}
 			}
@@ -292,12 +294,22 @@ void	Animation::load(std::string _filename)
 		XMLNode root = XMLNode::openFileHelper(animationfilelist[i].filename.c_str(), "");
 		for (int i = 0; i < root.nChildNode(); i++)
 		{
+
 			XMLNode aninode = root.getChildNode(i);
 			const char *name = aninode.getAttribute("name");
 
-			Motion *motion = new Motion();
-			motion->init(aninode);
-			animationlist.insert(std::make_pair(name, motion));
+			std::map<std::string, Motion*>::iterator it = animationlist.find(name);
+			if ( it == animationlist.end())
+			{
+				Motion *motion = new Motion();
+				motion->init(aninode);
+				animationlist.insert(std::make_pair(name, motion));
+				Logger::getInstance()->log(LOG_INFO, "Motion %s loaded..\n", name);
+			}
+			else
+			{
+				Logger::getInstance()->log(LOG_ERR, "Same motion exist : %s\n", name);
+			}
 		}
 	}
 

@@ -34,15 +34,15 @@ bool	Joint::init(XMLNode node)
 		}
 		else if(strcmp(name, "cwlimit") == 0)
 		{
-			cwlimit = (uint16_t)xmltoi(value);
+			cwlimit = (uint16_t)xmltoi(value) - FIX_ANGLE;
 		}
 		else if(strcmp(name, "ccwlimit") == 0)
 		{
-			ccwlimit = (uint16_t)xmltoi(value);
+			ccwlimit = (uint16_t)xmltoi(value) - FIX_ANGLE;
 		}
 		else if(strcmp(name, "initpos") == 0)
 		{
-			initpos = (uint16_t)xmltoi(value);
+			initpos = (uint16_t)xmltoi(value) - FIX_ANGLE;
 		}
 		else if(strcmp(name, "torque") == 0)
 		{
@@ -50,15 +50,21 @@ bool	Joint::init(XMLNode node)
 		}
 		else if (strcmp(name, "p-param") == 0)
 		{
+#ifdef MX_28
 			p_param = (uint16_t)xmltoi(value);
+#endif
 		}
 		else if (strcmp(name, "i-param") == 0)
 		{
+#ifdef MX_28
 			i_param = (uint16_t)xmltoi(value);
+#endif
 		}
 		else if (strcmp(name, "d-param") == 0)
 		{
+#ifdef MX_28
 			d_param = (uint16_t)xmltoi(value);
+#endif
 		}
 	}
 

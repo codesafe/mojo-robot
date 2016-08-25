@@ -10,8 +10,8 @@ function exportData filehandle obj fixvalue neg tempcontroller =
      for i = 1 to count do (     
 		local t = tempcontroller.keys[i].time / 30
 		local r = tempcontroller.keys[i].value   
-		-- r = radToDeg(r) * neg + fixvalue
-		r = (r * neg) + fixvalue
+		r = radToDeg(r) * neg + fixvalue
+		-- r = r * neg + degToRad(fixvalue)
 		 
 		 if t > 0 then (
 			format "\t\t\t<motion>\n" to:filehandle
