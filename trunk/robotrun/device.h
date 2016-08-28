@@ -43,8 +43,8 @@ public :
 
 	//////////////////////////////////////////////////////////////////////////	For e-ink display
 
-	int		recvcommand();
-	int		sendcommand(uint8_t command, uint8_t *param = NULL, int length = 0);
+	int		recvcommand(int eyes);
+	int		sendcommand(int eyes, uint8_t command, uint8_t *param = NULL, int length = 0);
 
 private :
 	Device();
@@ -71,7 +71,7 @@ private :
 	//////////////////////////////////////////////////////////////////////////	For e-ink display
 
 	bool	enabledisplayport;
-	dynamixel::PortHandler *displayportHandler;
+	dynamixel::PortHandler *displayportHandler[EYE_MAX];
 
 	static Device *	instance;
 };

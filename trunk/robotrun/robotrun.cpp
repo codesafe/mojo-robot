@@ -9,10 +9,7 @@
 #include "utils.h"
 
 #ifdef _WIN32
-
 #include "pthread.h"
-//#include <curl.h>
-
 #else
 #include <curl/curl.h>
 #endif
@@ -51,7 +48,7 @@ int getch()
 void setupparts(XMLNode node)
 {
 	PartController::getInstance()->init(node);
-	Device::getInstance()->sendqueue();
+	//Device::getInstance()->sendqueue();
 }
 
 

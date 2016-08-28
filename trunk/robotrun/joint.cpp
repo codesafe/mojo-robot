@@ -82,6 +82,8 @@ void	Joint::uninit()
 	}
 }
 
+#define TOLERANCE	3
+
 bool	Joint::reset()
 {
 	// 초기화 에러 유무 검사
@@ -105,6 +107,8 @@ bool	Joint::reset()
 		}
 	}
 
+	//--------------------------------------------------------------------------------------------------
+
 	// check and adjust cwlimit
 	ret = Device::getInstance()->recv(id, CW_LIMIT_ANGLE, 2, param);
 	if( ret == false )
@@ -112,7 +116,7 @@ bool	Joint::reset()
 		Logger::getInstance()->log(LOG_ERR, "%d : cwlimit recv error!! \n", id);
 		return false;
 	}
-	if(DXL2DEGREE(param) != cwlimit)
+	if(DXL2DEGREE(param) >= cwlimit+TOLERANCE || DXL2DEGREE(param) <= cwlimit-TOLERANCE)
 	{
 		Logger::getInstance()->log(LOG_WARN, "%d : cwlimit is not match : cwlimit : %d, recv cwlimit : %d\n", id, cwlimit, DXL2DEGREE(param));
 
@@ -132,6 +136,8 @@ bool	Joint::reset()
 		Logger::getInstance()->log(LOG_INFO, "%d : cwlimit is good!\n", id);
 	}
 
+	//--------------------------------------------------------------------------------------------------
+
 	// check and adjust ccwlimit
 	param = 0;
 	ret = Device::getInstance()->recv(id, CCW_LIMIT_ANGLE, 2, param);
@@ -141,7 +147,7 @@ bool	Joint::reset()
 		return false;
 	}
 
-	if( DXL2DEGREE(param) != ccwlimit)
+	if (DXL2DEGREE(param) >= ccwlimit + TOLERANCE || DXL2DEGREE(param) <= ccwlimit - TOLERANCE)
 	{
 		Logger::getInstance()->log(LOG_WARN, "%d : ccwlimit is not match : ccwlimit : %d, recv ccwlimit : %d\n", id, ccwlimit, DXL2DEGREE(param));
 
@@ -161,6 +167,7 @@ bool	Joint::reset()
 		Logger::getInstance()->log(LOG_INFO, "%d : ccwlimit is good!\n", id);
 	}
 
+#if 0
 	// Init PID param
 	// P
 	param = 0;
@@ -255,6 +262,7 @@ bool	Joint::reset()
 			Logger::getInstance()->log(LOG_INFO, "%d : PID(d) is good!\n", id);
 		}
 	}
+#endif
 
 /*
 	// set to init position

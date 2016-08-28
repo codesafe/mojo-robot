@@ -97,6 +97,7 @@ Pin define
 static const unsigned char _cmd_handshake[8] = { 0xA5, 0x00, 0x09, CMD_HANDSHAKE, FRAME_E0, FRAME_E1, FRAME_E2, FRAME_E3 };             //CMD_HANDSHAKE
 static const unsigned char _cmd_update[8] = { 0xA5, 0x00, 0x09, CMD_UPDATE, FRAME_E0, FRAME_E1, FRAME_E2, FRAME_E3 };                   //CMD_UPDATE
 static const unsigned char _cmd_set_storage[9] = { 0xA5, 0x00, 0x0A, CMD_MEMORYMODE, 0x00, FRAME_E0, FRAME_E1, FRAME_E2, FRAME_E3 };
+static const unsigned char _cmd_set_rotation[9] = { 0xA5, 0x00, 0x0A, CMD_SCREEN_ROTATION, 0x00, FRAME_E0, FRAME_E1, FRAME_E2, FRAME_E3 };
 static const unsigned char _cmd_draw_bmp_head[8] = { 0xA5, 0x00, 0x00, CMD_DRAW_BITMAP, 0x00, 0x00, 0x00, 0x00 };
 static const unsigned char _cmd_draw_bmp_end[4] = { FRAME_E0, FRAME_E1, FRAME_E2, FRAME_E3 };
 

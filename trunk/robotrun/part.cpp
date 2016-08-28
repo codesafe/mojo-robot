@@ -113,7 +113,6 @@ void	PartController::init(XMLNode node)
 		{
 			Logger::getInstance()->log(LOG_WARN, "Unknown Part type %s\n", typestr);
 		}
-		//Device::Sleep(100);
 	}
 }
 

@@ -23,6 +23,11 @@
 //using namespace std;
 //using namespace dynamixel;
 
+#ifdef WIN32
+#  define thread_local __declspec(thread) 
+#else
+#  define thread_local __thread
+#endif
 
 //#define MX_28
 #ifndef MX_28
@@ -121,6 +126,14 @@
 #define STATE_IDLE			0		// 최초 정지상태
 #define STATE_RUNNING		1		// 현재 에니메이션 중
 #define STATE_STOPPED		2		// 에니메이션 완료 후 정지
+
+//////////////////////////////////////////////////////////////////////////
+
+// e-ink display
+
+#define	LEFT_EYE		0
+#define	RIGHT_EYE		1
+#define	EYE_MAX			2
 
 //////////////////////////////////////////////////////////////////////////
 

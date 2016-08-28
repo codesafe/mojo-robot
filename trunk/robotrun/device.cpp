@@ -12,6 +12,11 @@ const int order[ORDERNUM] = { MOVE_SPEED, DEST_POSITION };
 
 Device::Device()
 {
+	portHandler = NULL;
+	packetHandler = NULL;
+	groupRead = NULL;
+	displayportHandler[LEFT_EYE] = NULL;
+	displayportHandler[RIGHT_EYE] = NULL;
 }
 
 Device::~Device()
@@ -21,7 +26,7 @@ Device::~Device()
 bool	Device::init()
 {
 	enablejointport = initdevice("joint");
-	//enabledisplayport = initdevice("display");
+	enabledisplayport = initdevice("display");
 
 	return true;
 }
@@ -53,8 +58,6 @@ bool	Device::initdevice(std::string part)
 			return false;
 		}
 
-		//Sleep(100);
-
 		int oldbaudrate = portHandler->getBaudRate();
 		// Set port baudrate
 #ifdef WIN32
@@ -75,8 +78,6 @@ bool	Device::initdevice(std::string part)
 			}
 		}
 
-		//Sleep(300);
-
 		groupRead = new dynamixel::GroupBulkRead(portHandler, packetHandler);
 #ifndef NEWGROUPWRITE
 		// group write init
@@ -91,43 +92,53 @@ bool	Device::initdevice(std::string part)
 	{
 		//////////////////////////////////////////////////////////////////	for e-ink display
 
+		for (int i = 0; i < EYE_MAX; i++)
+		{
 #ifdef WIN32
-		displayportHandler = dynamixel::PortHandler::getPortHandler(MemDB::getInstance()->getValue("displaydevicename").c_str());
-		Logger::getInstance()->log(LOG_INFO, "Try to getHandler display %s\n", MemDB::getInstance()->getValue("displaydevicename").c_str());
-		assert(displayportHandler);
+			std::string devicename = (i == LEFT_EYE) ?
+				MemDB::getInstance()->getValue("left_displaydevicename").c_str() :
+				MemDB::getInstance()->getValue("right_displaydevicename").c_str();
+
+			displayportHandler[i] = dynamixel::PortHandler::getPortHandler(devicename.c_str());
+			Logger::getInstance()->log(LOG_INFO, "Try to getHandler display %s\n", devicename.c_str());
+			assert(displayportHandler[i]);
+
 #else
-		displayportHandler = dynamixel::PortHandler::getPortHandler(MemDB::getInstance()->getValue("linuxdisplaydevicename").c_str());
-		Logger::getInstance()->log(LOG_INFO, "Try to getHandler %s\n", MemDB::getInstance()->getValue("linuxdisplaydevicename").c_str());
+			std::string devicename = (i == LEFT_EYE) ?
+				MemDB::getInstance()->getValue("left_linuxdisplaydevicename").c_str() :
+				MemDB::getInstance()->getValue("right_linuxdisplaydevicename").c_str();
+
+			displayportHandler[i] = dynamixel::PortHandler::getPortHandler(devicename.c_str());
+			Logger::getInstance()->log(LOG_INFO, "Try to getHandler %s\n", devicename.c_str());
 #endif
-		//Sleep(100);
 
-		if (displayportHandler->openPort())
-		{
-			Logger::getInstance()->log(LOG_INFO, "Succeeded to open the port!\n");
-		}
-		else
-		{
-			Logger::getInstance()->log(LOG_ERR, "Failed to open the port!\n");
-			return false;
-		}
-
-		//Sleep(300);
-
-		// Set port baudrate
-		int dispbaudrate = MemDB::getInstance()->getIntValue("displaybaudrate");
-		int oldbaudrate = displayportHandler->getBaudRate();
-		if( oldbaudrate != dispbaudrate )
-		{
-			if (displayportHandler->setBaudRate(dispbaudrate))
+			if (displayportHandler[i]->openPort())
 			{
-				Logger::getInstance()->log(LOG_INFO, "Succeeded to change the dispbaudrate : %d !\n", dispbaudrate);
+				Logger::getInstance()->log(LOG_INFO, "Succeeded to open the port!\n");
 			}
 			else
 			{
-				Logger::getInstance()->log(LOG_ERR, "Failed to change the dispbaudrate!\n");
+				Logger::getInstance()->log(LOG_ERR, "Failed to open the port!\n");
 				return false;
 			}
+
+			// Set port baudrate
+			int dispbaudrate = MemDB::getInstance()->getIntValue("displaybaudrate");
+			int oldbaudrate = displayportHandler[i]->getBaudRate();
+			if (oldbaudrate != dispbaudrate)
+			{
+				if (displayportHandler[i]->setBaudRate(dispbaudrate))
+				{
+					Logger::getInstance()->log(LOG_INFO, "Succeeded to change the dispbaudrate : %d !\n", dispbaudrate);
+				}
+				else
+				{
+					Logger::getInstance()->log(LOG_ERR, "Failed to change the dispbaudrate!\n");
+					return false;
+				}
+			}
 		}
+
 	}
 
 	return true;
@@ -371,7 +382,7 @@ void	Device::clearrecvqueue()
 
 #include "e-ink.h"
 
-int		Device::recvcommand()
+int		Device::recvcommand(int eyes)
 {
 	if( enabledisplayport == false ) return 0;
 
@@ -380,11 +391,11 @@ int		Device::recvcommand()
 	uint8_t rx_length = 0;		// 총 수신 량
 	uint8_t rxpacket[RXPACKET_MAX_LEN] = { 0, };
 
-	displayportHandler->setPacketTimeout(5000.0);
+	displayportHandler[eyes]->setPacketTimeout(5000.0);
 
 	while (true)
 	{
-		rx_length += displayportHandler->readPort(&rxpacket[rx_length], RXPACKET_MAX_LEN - rx_length);
+		rx_length += displayportHandler[eyes]->readPort(&rxpacket[rx_length], RXPACKET_MAX_LEN - rx_length);
 		if (rx_length > 0)
 		{
 			if( rx_length == 2 )
@@ -405,7 +416,7 @@ int		Device::recvcommand()
 		else
 		{
 			// check timeout
-			if (displayportHandler->isPacketTimeout() == true)
+			if (displayportHandler[eyes]->isPacketTimeout() == true)
 			{
 				if (rx_length == 0)
 				{
@@ -420,7 +431,7 @@ int		Device::recvcommand()
 			}
 		}
 	}
-	displayportHandler->is_using_ = false;
+	displayportHandler[eyes]->is_using_ = false;
 
 	return result;
 }
@@ -440,7 +451,7 @@ unsigned char Device::verify(const void * ptr, int n)
 	return result;
 }
 
-int		Device::sendcommand(uint8_t command, uint8_t *param, int length)
+int		Device::sendcommand(int eyes, uint8_t command, uint8_t *param, int length)
 {
 	if( enabledisplayport == false ) return 0;
 
@@ -449,10 +460,10 @@ int		Device::sendcommand(uint8_t command, uint8_t *param, int length)
 	uint8_t total_packet_length = 0;
 	uint8_t written_packet_length = 0;
 
-	if (displayportHandler->is_using_)
+	if (displayportHandler[eyes]->is_using_)
 		return COMM_PORT_BUSY;
 
-	displayportHandler->is_using_ = true;
+	displayportHandler[eyes]->is_using_ = true;
 
 	// 명령어에 따라 버퍼 설정
 	switch (command)
@@ -494,6 +505,12 @@ int		Device::sendcommand(uint8_t command, uint8_t *param, int length)
 			txpacket[2] = (uint8_t)total_packet_length+1;
 			break;
 
+		case CMD_SCREEN_ROTATION :
+			memcpy(txpacket, _cmd_set_rotation, 9);
+			total_packet_length = 9;
+			txpacket[4] = param[0];
+			break;
+
 		default:
 			return COMM_TX_FAIL;
 	}
@@ -504,17 +521,17 @@ int		Device::sendcommand(uint8_t command, uint8_t *param, int length)
 	total_packet_length++;
 
 	// tx packet
-	displayportHandler->clearPort();
+	displayportHandler[eyes]->clearPort();
 
 	// 패킷 발사
-	written_packet_length = displayportHandler->writePort(txpacket, total_packet_length);
+	written_packet_length = displayportHandler[eyes]->writePort(txpacket, total_packet_length);
 	if (total_packet_length != written_packet_length)
 	{
-		displayportHandler->is_using_ = false;
+		displayportHandler[eyes]->is_using_ = false;
 		return COMM_TX_FAIL;
 	}
 
 	// 결과를 받아야 하나?? --> ok 메시지?
-	return recvcommand();
+	return recvcommand(eyes);
 }
 

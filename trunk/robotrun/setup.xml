@@ -4,10 +4,12 @@
     <protocol>1.0</protocol>
     <!-- for windows -->
     <jointdevicename>//./COM4</jointdevicename>
-    <displaydevicename>//./COM15</displaydevicename>
+    <left_displaydevicename>//./COM5</left_displaydevicename>
+    <right_displaydevicename>//./COM6</right_displaydevicename>
     <!-- for linux or raps -->
     <linuxjointdevicename>/dev/ttyUSB0</linuxjointdevicename>
-    <linuxdisplaydevicename>/dev/ttyUSB0</linuxdisplaydevicename>
+    <left_linuxdisplaydevicename>/dev/ttyUSB0</left_linuxdisplaydevicename>
+    <right_linuxdisplaydevicename>/dev/ttyUSB0</right_linuxdisplaydevicename>
     <jointbaudrate>1000000</jointbaudrate>
     <linuxjointbaudrate>1000000</linuxjointbaudrate>
     <displaybaudrate>115200</displaybaudrate>
@@ -137,16 +139,22 @@
     </rightwheel>
 
     <!-- Display -->
-    <!--    
+
 		<lefteye type="display">
 			<id>100</id>
 			<storage>flash</storage>
+      <side>left</side>
+      <rotation>true</rotation>
 		</lefteye>
-		<righteye type="display_">
+		<righteye type="display">
+      <storage>flash</storage>
 			<id>110</id>
+      <!--
 			<storage>sdcard</storage>
+      -->
+      <side>right</side>
 		</righteye>		
--->
+
   </parts>
 
 </setup>
