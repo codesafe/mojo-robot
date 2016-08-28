@@ -3,6 +3,7 @@
 #include "wheel.h"
 #include "display.h"
 #include "device.h"
+#include "e-ink.h"
 
 Part::Part()
 {
@@ -203,4 +204,18 @@ int		PartController::getid(std::string name)
 	}
 
 	return -1;
+}
+
+void	PartController::displaypic(std::string pic)
+{
+	Display* p1 = (Display*)getpart(PART_TYPE_DISPLAY, 100);
+	Display* p2 = (Display*)getpart(PART_TYPE_DISPLAY, 110);
+
+	p1->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)pic.c_str(), pic.size());
+	p1->addcommandlist(CMD_UPDATE);
+	p1->flushcommandlist();
+
+	p2->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)pic.c_str(), pic.size());
+	p2->addcommandlist(CMD_UPDATE);
+	p2->flushcommandlist();
 }

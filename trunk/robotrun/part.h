@@ -56,6 +56,8 @@ public :
 	bool	sendcommand(int id, uint16_t command, uint16_t param);
 	bool	recvcommand(int id, uint16_t command, uint16_t &param);
 
+	void	displaypic(std::string pic);
+
 	Part*	getpart(int type, int id);
 	int		getid(std::string name);
 

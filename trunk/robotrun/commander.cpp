@@ -119,12 +119,16 @@ void	Commander::update()
 		it++;
 	}
 
-	for(size_t i=0; i<commandlist.size(); i++)
+	for (it = commandlist.begin(); it != commandlist.end();)
 	{
-		if( commandlist[i].type == COMMAND_DISPLAY )
+		if(it->type == COMMAND_DISPLAY )
 		{
-			// TODO. 바로 처리
+			// 그림 표시
+			PartController::getInstance()->displaypic(it->data);
+			it = commandlist.erase(it);
+			continue;
 		}
+		it++;
 	}
 	
 	// 에니메이션 처리
@@ -152,5 +156,6 @@ void	Commander::update()
 			break;
 		}
 	}
-	
+
+	commandlist.clear();
 }

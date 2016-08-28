@@ -152,9 +152,9 @@ void initthread()
 void mainupdate()
 {
 #if WIN32
-	::Sleep(0);
+	::Sleep(10);
 #else
-	::sleep(0);
+	::sleep(10);
 #endif
 
 	Network::getinstance()->update();

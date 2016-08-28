@@ -34,6 +34,10 @@
 #define AX_12
 #endif
 
+
+#define MOTION_JOINT		1
+#define MOTION_DISPLAY		2
+
 //////////////////////////////////////////////////////////////////////////
 
 #define PI				3.141592f

@@ -7,9 +7,11 @@
 // speed는 endtime - starttime
 struct _MOTION
 {
+	int			type;
 	float		starttime;
 	float		endtime;
 	uint16_t	angle;
+	std::string	note;		// for display
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -34,7 +36,7 @@ public :
 	int		getstate() { return state; }
 
 private:
-	bool	_play(int id, int angle, float speed);
+	bool	_play(int id, _MOTION &motion);
 
 	int				state;
 

@@ -154,7 +154,7 @@ void	Display::addcommandlist(uint8_t command, uint8_t *param, int length)
 	pthread_mutex_unlock(&mutex_lock[side]);
 }
 
-// 실제 전송
+// 전송
 int		Display::flushcommandlist()
 {
 /*
@@ -168,7 +168,7 @@ int		Display::flushcommandlist()
 
 	displayinfolist.clear();
 	return ret;
-	*/
+*/
 
 	pthread_mutex_lock(&mutex_lock[side]);
 	actionTrigger[side] = true;

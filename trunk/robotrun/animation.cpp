@@ -4,6 +4,8 @@
 #include "device.h"
 #include "part.h"
 #include "joint.h"
+#include "display.h"
+#include "e-ink.h"
 
 Motion::Motion()
 {
@@ -61,6 +63,12 @@ bool	Motion::init(XMLNode pnode)
 #else
 					_motion.angle = xmltoi(value) - FIX_ANGLE;
 #endif
+					_motion.type = MOTION_JOINT;
+				}
+				else if (std::string("note") == name)
+				{
+					_motion.note = value;
+					_motion.type = MOTION_DISPLAY;
 				}
 			}
 
@@ -112,9 +120,7 @@ bool	Motion::update()
 				{
 					// 해당 에니메이션 시작
 					int id = it->first;
-					int angle = it->second[0].angle;
-					float speed = it->second[0].endtime - it->second[0].starttime;
-					bool ret = _play(id, angle, speed);
+					bool ret = _play(id, it->second[0]);
 					if(ret)
 					{
 						needsend |= true;
@@ -160,18 +166,7 @@ bool	Motion::play()
 	for ( ; it != currentmotion.end(); it++)
 	{
 		int id = it->first;
-		int angle = it->second[0].angle;
-		float speed = it->second[0].endtime - it->second[0].starttime;
-
-		// ccw / cw 제한각 안쪽으로 trim
-		Part *part = PartController::getInstance()->getpart(PART_TYPE_JOINT, id);
-		if( part != NULL )
-		{
-			Joint *joint = (Joint*)part;
-			angle = joint->trimangle(angle);
-		}
-
-		ret = _play(id, angle, speed);
+		ret = _play(id, it->second[0]);
 		if( ret )
 			it->second.pop_front();
 	}
@@ -185,36 +180,68 @@ bool	Motion::play()
 }
 
 
-bool	Motion::_play(int id, int angle, float speed)
+bool	Motion::_play(int id, _MOTION &motion)
 {
 	bool ret = false;
-	uint16_t currentangle = 0;
-#if 1
-
-	if (PartController::getInstance()->recvcommand(id, CURRENT_POSITION, currentangle) == true)
+	if (motion.type == MOTION_JOINT)
 	{
-		currentangle = DXL2DEGREE(currentangle);
-		int destangle = abs(currentangle - angle);
+		int angle = motion.angle;
+		float speed = motion.endtime - motion.starttime;
+		uint16_t currentangle = 0;
 
-		uint16_t p = SPEEDVALUE(speed, destangle);
-		ret = PartController::getInstance()->addsendqueuecommand(id, MOVE_SPEED, p);
-		ret = PartController::getInstance()->addsendqueuecommand(id, DEST_POSITION, DEGREE2DXL(angle));
+		// ccw / cw 제한각 안쪽으로 trim
+		Part *part = PartController::getInstance()->getpart(PART_TYPE_JOINT, id);
+		if (part != NULL)
+		{
+			Joint *joint = (Joint*)part;
+			angle = joint->trimangle(angle);
+		}
+#if 1
+		if (PartController::getInstance()->recvcommand(id, CURRENT_POSITION, currentangle) == true)
+		{
+			currentangle = DXL2DEGREE(currentangle);
+			int destangle = abs(currentangle - angle);
 
-		Logger::getInstance()->log(LOG_INFO, "Change motion! \n");
-	}
+			uint16_t p = SPEEDVALUE(speed, destangle);
+			ret = PartController::getInstance()->addsendqueuecommand(id, MOVE_SPEED, p);
+			ret = PartController::getInstance()->addsendqueuecommand(id, DEST_POSITION, DEGREE2DXL(angle));
+
+			Logger::getInstance()->log(LOG_INFO, "Change motion! \n");
+		}
 
 #else
 
-	if( Device::getInstance()->recv(id, CURRENT_POSITION, currentangle) == true )
-	{
-		currentangle = DXL2DEGREE(currentangle);
-		int destangle = abs(currentangle - angle);
+		if (Device::getInstance()->recv(id, CURRENT_POSITION, currentangle) == true)
+		{
+			currentangle = DXL2DEGREE(currentangle);
+			int destangle = abs(currentangle - angle);
 
-		uint16_t p = SPEEDVALUE(speed, destangle);
-		ret = Device::getInstance()->addsendqueue(id, MOVE_SPEED, p);
-		ret = Device::getInstance()->addsendqueue(id, DEST_POSITION, DEGREE2DXL(angle));
-	}
+			uint16_t p = SPEEDVALUE(speed, destangle);
+			ret = Device::getInstance()->addsendqueue(id, MOVE_SPEED, p);
+			ret = Device::getInstance()->addsendqueue(id, DEST_POSITION, DEGREE2DXL(angle));
+		}
 #endif
+
+	}
+	else if (motion.type == MOTION_DISPLAY)
+	{
+		std::string picname = motion.note;
+
+		Display* p1 = (Display*)PartController::getInstance()->getpart(PART_TYPE_DISPLAY, 100);
+		Display* p2 = (Display*)PartController::getInstance()->getpart(PART_TYPE_DISPLAY, 110);
+
+		p1->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)picname.c_str(), picname.size());
+		p1->addcommandlist(CMD_UPDATE);
+		p1->flushcommandlist();
+
+		p2->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)picname.c_str(), picname.size());
+		p2->addcommandlist(CMD_UPDATE);
+		p2->flushcommandlist();
+
+		ret = true;
+
+	}
+
 	return ret;
 }
 

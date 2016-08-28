@@ -1,10 +1,10 @@
 <data>
-	<animation version="1" name="test02">
+	<animation name="test02">
 		<part deviceid="41">
 		  <motion>
-			<starttime>0f</starttime>
-			<endtime>1f</endtime>
-			<angle>135.0</angle>
+			  <starttime>0f</starttime>
+			  <endtime>1f</endtime>
+			  <angle>135.0</angle>
 		  </motion>
 		  <motion>
 			<starttime>1f</starttime>

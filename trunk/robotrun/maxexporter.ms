@@ -28,22 +28,36 @@ function exportData filehandle obj fixvalue neg tempcontroller =
 	)	 
 )
 
--- note keys는 body에 넣어야 한다.
+-- note keys is must be in body
+
 function exportNote filehandle obj =
 (
+	local prevtime = 0
 	nt = getNoteTrack obj 1
-	keycount = nt.keys.count
-	-- format "%\n" nt.keys.count
+	local count = nt.keys.count
 	
-	for i = 1 to keycount do (     
+	if count > 1 then (
+		format "\t\t<part deviceid=\"%\">\n" "display" to:filehandle	
+	)
+	
+	for i = 1 to count do (     
 		keys = nt.keys[i]
-		--format "--> %\n" keys
 		local t = keys.time / 30
-		format "t --> %\n" t
 		local v = keys.value
-		format "v --> %\n" v
+
+		if t > 0 then (
+			format "\t\t\t<motion>\n" to:filehandle
+			format "\t\t\t\t<starttime>%</starttime>\n" prevtime to:filehandle
+			format "\t\t\t\t<endtime>%</endtime>\n" t to:filehandle
+			format "\t\t\t\t<note>%</note>\n" v to:filehandle
+			format "\t\t\t</motion>\n" to:filehandle
+		 )
+		 prevtime = t;
 	)
 
+	if count > 1 then (
+		format "\t\t</part>\n" to:filehandle	
+	)	 	
 )
 
 function startXML filehandle aniname =
@@ -124,7 +138,7 @@ rollout ExportAnimation "Export Animation" width:500 height:228
 				RotationX AnimFile $54 180 1
 
 				-- Note Tracks for Display
-				--exportNote $body				
+				exportNote AnimFile $body 
 				
 				endXML AnimFile
 
