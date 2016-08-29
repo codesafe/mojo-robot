@@ -87,6 +87,10 @@ bool	Display::init(XMLNode node)
 		{
 			rotation = strcmp(value, "true") == 0 ? 1 : 0;
 		}
+		else if (strcmp(name, "initpic") == 0)
+		{
+			initpic = value;
+		}
 	}
 
 	actionTrigger[side] = false;
@@ -107,35 +111,33 @@ void	Display::uninit()
 bool	Display::reset()
 {
 	// 초기화 에러 유무 검사
-	// 1. handshake 해본다
+	// handshake 해본다
 	int ret = Device::getInstance()->sendcommand(side, CMD_HANDSHAKE);
 	if (ret == COMM_SUCCESS)
 	{
 		ret = Device::getInstance()->sendcommand(side, CMD_MEMORYMODE, &storage, 1);
-		ret = Device::getInstance()->sendcommand(side, CMD_SCREEN_ROTATION, &rotation, 1);
-
 		if (ret == COMM_SUCCESS)
 		{
-			uint8_t _name[] = { "PIC4.BMP" };
-			addcommandlist(CMD_DRAW_BITMAP, _name, strlen((const char*)_name));
-			addcommandlist(CMD_UPDATE);
-			ret = flushcommandlist();
+			ret = Device::getInstance()->sendcommand(side, CMD_SCREEN_ROTATION, &rotation, 1);
+			if (ret == COMM_SUCCESS)
+			{
+				addcommandlist(CMD_DRAW_BITMAP, (uint8_t*)initpic.c_str(), strlen((const char*)initpic.c_str()));
+				addcommandlist(CMD_UPDATE);
+				ret = flushcommandlist();
+			}
 		}
 	}
-
 	return ret == COMM_SUCCESS ? true : false;
 }
 
 bool	Display::sendcommand(uint16_t command, uint16_t param)
 {
-
 	return true;
 }
 
 
 bool	Display::recvcommand(uint16_t command, uint16_t &param)
 {
-
 	return true;
 }
 
@@ -157,19 +159,6 @@ void	Display::addcommandlist(uint8_t command, uint8_t *param, int length)
 // 전송
 int		Display::flushcommandlist()
 {
-/*
-	int ret = COMM_NOT_AVAILABLE;
-	for (size_t i = 0; i < displayinfolist.size(); i++)
-	{
-		ret = Device::getInstance()->sendcommand(side, displayinfolist[i].command, displayinfolist[i].param, displayinfolist[i].length);
-		if( ret != COMM_SUCCESS)
-			break;
-	}
-
-	displayinfolist.clear();
-	return ret;
-*/
-
 	pthread_mutex_lock(&mutex_lock[side]);
 	actionTrigger[side] = true;
 	pthread_mutex_unlock(&mutex_lock[side]);

@@ -50,11 +50,12 @@ public :
 
 private:
 
-	int			side;		// 어느쪽 눈?
-	uint8_t		storage;
-	uint8_t		rotation;
+	int				side;		// 어느쪽 눈?
+	uint8_t			storage;
+	uint8_t			rotation;
+	std::string		initpic;
 
-	pthread_t				threadid;
+	pthread_t		threadid;
 
 	static bool exitthread[EYE_MAX];
 	static bool actionTrigger[EYE_MAX];
