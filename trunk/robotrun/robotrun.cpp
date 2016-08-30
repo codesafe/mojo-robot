@@ -133,20 +133,6 @@ void closenetwork()
 #endif
 }
 
-
-void * thr_fn(void *arg)
-{
-	printf("create new thread\n");
-	return((void *)0);
-}
-
-void initthread()
-{
-	pthread_t tid;
-	int err;
-	err = pthread_create(&tid, NULL, thr_fn, NULL);
-}
-
 //////////////////////////////////////////////////////////////////////////
 
 void mainupdate()
@@ -178,7 +164,6 @@ int main()
 	}
 
 #else
-//	initthread();
 	bool ret = loadsetup();
 	if (ret == false)
 	{

@@ -279,7 +279,7 @@ bool	Joint::reset()
 */
 	ret = Device::getInstance()->addsendqueue(id, DEST_POSITION, DEGREE2DXL(initpos));
 	ret = Device::getInstance()->addsendqueue(id, MOVE_SPEED, 0);
-	ret = Device::getInstance()->sendqueue();
+	//ret = Device::getInstance()->sendqueue();
 	enable = true;
 
 	return true;
