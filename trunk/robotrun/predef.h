@@ -165,8 +165,9 @@
 #define CLIENT_LOG_ERR		0x0c
 
 // command packet
-#define DEVICERESET		0x10
-#define	PLAYMOTION		0x20
+#define FORCEPATCH			0x0A
+#define DEVICERESET			0x10
+#define	PLAYMOTION			0x20
 
 #define WHEEL_FORWARD		0x30
 #define WHEEL_BACKWARD		0x31
@@ -174,17 +175,18 @@
 #define WHEEL_TURNLEFT		0x33
 #define WHEEL_TURNRIGHT		0x34
 
-#define DISPLAY_PIC		0x40
+#define DISPLAY_PIC			0x40
 
 
 // Command type
+#define COMMAND_FORCEPATCH	0x0A	// force online patch and reset system
 #define COMMAND_DEVICE		0x10
 #define COMMAND_ANIMATION	0x20
 #define COMMAND_WHEEL		0x30
 #define COMMAND_DISPLAY		0x40
 
-// force online patch and reset system
-#define COMMAND_FORCEPATCH	0xF0
+
+
 
 
 #endif

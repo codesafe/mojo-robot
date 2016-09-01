@@ -99,6 +99,10 @@ int	Network::getpackettype(char packet)
 	int type = COMMAND_ANIMATION;
 	switch(packet)
 	{
+		case FORCEPATCH :
+			type = COMMAND_FORCEPATCH;
+			break;
+
 		case DEVICERESET :
 			type = COMMAND_DEVICE;
 			break;

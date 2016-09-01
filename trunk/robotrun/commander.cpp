@@ -32,6 +32,18 @@ void	Commander::update()
 		if( commandlist[i].type == COMMAND_DEVICE )
 		{
 			// TODO. 바로 처리
+			commandlist.erase(it);
+		}
+	}
+
+	// Force online patch and reset system
+	for (size_t i = 0; i < commandlist.size(); i++)
+	{
+		if (commandlist[i].type == COMMAND_FORCEPATCH)
+		{
+			// TODO. 바로 처리
+			commandlist.erase(it);
+			break;
 		}
 	}
 
@@ -146,16 +158,6 @@ void	Commander::update()
 		}
 	}
 	
-	// Force online patch and reset system
-	for (size_t i = 0; i < commandlist.size(); i++)
-	{
-		if (commandlist[i].type == COMMAND_FORCEPATCH)
-		{
-			// TODO. 바로 처리
-			commandlist.erase(it);
-			break;
-		}
-	}
 
 	commandlist.clear();
 }
