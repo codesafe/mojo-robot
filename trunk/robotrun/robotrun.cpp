@@ -72,7 +72,7 @@ bool loadglobalinfo(XMLNode pnode)
 
 void loadanimation()
 {
-	Animation::getInstance()->load("animation.xml");
+	Animation::getInstance()->load("animation.xml", "display.xml");
 	Logger::getInstance()->log(LOG_INFO, "Animation data loaded...\n");
 }
 

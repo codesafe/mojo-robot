@@ -116,6 +116,9 @@
     <Xml Include="patch.xml">
       <Filter>asset</Filter>
     </Xml>
+    <Xml Include="display.xml">
+      <Filter>asset</Filter>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="asset">

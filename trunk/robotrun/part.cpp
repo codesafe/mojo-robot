@@ -4,6 +4,7 @@
 #include "display.h"
 #include "device.h"
 #include "e-ink.h"
+#include "animation.h"
 
 Part::Part()
 {
@@ -210,14 +211,22 @@ int		PartController::getid(std::string name)
 
 void	PartController::displaypic(std::string pic)
 {
-	Display* p1 = (Display*)getpart(PART_TYPE_DISPLAY, 100);
-	Display* p2 = (Display*)getpart(PART_TYPE_DISPLAY, 110);
 
-	p1->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)pic.c_str(), pic.size());
-	p1->addcommandlist(CMD_UPDATE);
-	p1->flushcommandlist();
+	DISPLAYFILE *dinfo = Animation::getInstance()->getdisplayinfo(pic);
+	if (dinfo != NULL)
+	{
+		Display* p1 = (Display*)getpart(PART_TYPE_DISPLAY, 100);
+		Display* p2 = (Display*)getpart(PART_TYPE_DISPLAY, 110);
 
-	p2->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)pic.c_str(), pic.size());
-	p2->addcommandlist(CMD_UPDATE);
-	p2->flushcommandlist();
+		p1->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)dinfo->left.c_str(), dinfo->left.size());
+		p1->addcommandlist(CMD_UPDATE);
+		p1->flushcommandlist();
+
+		p2->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)dinfo->right.c_str(), dinfo->right.size());
+		p2->addcommandlist(CMD_UPDATE);
+		p2->flushcommandlist();
+	}
+	else
+		Logger::getInstance()->log(LOG_WARN, "Not found displayname : %s\n", pic.c_str());
+
 }

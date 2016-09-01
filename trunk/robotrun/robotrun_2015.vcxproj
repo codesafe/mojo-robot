@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="animation.xml" />
+    <Xml Include="display.xml" />
     <Xml Include="patch.xml" />
     <Xml Include="setup.xml">
       <SubType>Designer</SubType>

@@ -227,19 +227,24 @@ bool	Motion::_play(int id, _MOTION &motion)
 	{
 		std::string picname = motion.note;
 
-		Display* p1 = (Display*)PartController::getInstance()->getpart(PART_TYPE_DISPLAY, 100);
-		Display* p2 = (Display*)PartController::getInstance()->getpart(PART_TYPE_DISPLAY, 110);
+		DISPLAYFILE *dinfo = Animation::getInstance()->getdisplayinfo(picname);
+		if (dinfo != NULL)
+		{
+			Display* dleft = (Display*)PartController::getInstance()->getpart(PART_TYPE_DISPLAY, 100);
+			Display* dright = (Display*)PartController::getInstance()->getpart(PART_TYPE_DISPLAY, 110);
 
-		p1->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)picname.c_str(), picname.size());
-		p1->addcommandlist(CMD_UPDATE);
-		p1->flushcommandlist();
+			dleft->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)dinfo->left.c_str(), dinfo->left.size());
+			dleft->addcommandlist(CMD_UPDATE);
+			dleft->flushcommandlist();
 
-		p2->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)picname.c_str(), picname.size());
-		p2->addcommandlist(CMD_UPDATE);
-		p2->flushcommandlist();
+			dright->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)dinfo->right.c_str(), dinfo->right.size());
+			dright->addcommandlist(CMD_UPDATE);
+			dright->flushcommandlist();
 
-		ret = true;
-
+			ret = true;
+		}
+		else
+			ret = false;
 	}
 
 	return ret;
@@ -280,6 +285,12 @@ void	Animation::uninit()
 	animationlist.clear();
 	animationfilelist.clear();
 	currentmotion = NULL;
+
+	std::map<std::string, DISPLAYFILE*>::iterator itd = displaynamedic.begin();
+	for (; itd != displaynamedic.end(); it++)
+		delete itd->second;
+
+	displaynamedic.clear();
 }
 
 // 에니메이션 완료 추적 / 다음 part연결
@@ -294,7 +305,7 @@ void	Animation::update()
 }
 
 // 에니메이션 로딩 / parse
-void	Animation::load(std::string _filename)
+void	Animation::load(std::string _filename, std::string displayinfo)
 {
 	uninit();
 
@@ -341,6 +352,22 @@ void	Animation::load(std::string _filename)
 	}
 
 
+	//////////////////////////////////////////////////////////////////////////	display name
+
+	XMLNode droot = XMLNode::openFileHelper(displayinfo.c_str(), "");
+	for (int i = 0; i < droot.nChildNode(); i++)
+	{
+		XMLNode aninode = droot.getChildNode(i);
+		const char *name = aninode.getAttribute("name");
+		const char *left = aninode.getAttribute("left");
+		const char *right = aninode.getAttribute("right");
+
+		DISPLAYFILE *disp = new DISPLAYFILE();
+		disp->left = left;
+		disp->right = right;
+		displaynamedic.insert(std::make_pair(name, disp));
+	}
+
 }
 
 // 에니메이션 시작 (joint + display)
@@ -379,3 +406,17 @@ bool	Animation::isplaying()
 
 	return false;
 }
+
+DISPLAYFILE *	Animation::getdisplayinfo(std::string name)
+{
+	std::map<std::string, DISPLAYFILE*>::iterator it = displaynamedic.find(name);
+
+	if (it != displaynamedic.end())
+	{
+		return it->second;
+	}
+
+	return NULL;
+}
+
+

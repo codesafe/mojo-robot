@@ -58,6 +58,11 @@ struct ANIFILE
 	std::string		filename;
 };
 
+struct DISPLAYFILE
+{
+	std::string		left;
+	std::string		right;
+};
 
 class Animation
 {
@@ -73,11 +78,12 @@ public:
 	void	uninit();
 	void	update();
 
-	void	load(std::string filename);
+	void	load(std::string filename, std::string displayinfo);
 	void	play(std::string name);
 	void	stop();
 	bool	isplaying();
 
+	DISPLAYFILE *	getdisplayinfo(std::string name);
 
 private:
 
@@ -87,6 +93,7 @@ private:
 	Motion	*	currentmotion;
 	std::map<std::string, Motion*>		animationlist;		// key : motion name , value :   motion
 	std::vector<ANIFILE>				animationfilelist;
+	std::map<std::string, DISPLAYFILE*>	displaynamedic;
 
 	static Animation *	instance;
 };
