@@ -20,30 +20,19 @@
 class Timer
 {
 public:
-	static Timer *getInstance()
-	{
-		if (instance == NULL)
-			instance = new Timer();
-		return instance;
-	};
 
-	bool	init();
-	void	uninit();
+	static long	getticktime();
+	static float	getsecond();
+	static double	getCurrentTime();
 
-	long	getticktime();
-	float	getsecond();
-	double	getCurrentTime();
+#ifdef WIN32
+	static LARGE_INTEGER freq_, counter_;
+#endif
 
 private:
 
-	Timer();
-	~Timer();
-
-	static Timer *	instance;
-
-#ifdef WIN32
-	LARGE_INTEGER freq_, counter_;
-#endif
+	Timer() {};
+	~Timer() {};
 };
 
 

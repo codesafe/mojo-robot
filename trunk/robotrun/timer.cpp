@@ -1,28 +1,9 @@
 ﻿#include "timer.h"
 
-Timer *	Timer::instance = NULL;
+//Timer *	Timer::instance = NULL;
 
-Timer::Timer()
-{
-
-}
-
-Timer::~Timer()
-{
-
-}
-
-
-bool	Timer::init()
-{
-
-	return true;
-}
-
-
-void	Timer::uninit()
-{
-}
+LARGE_INTEGER Timer::freq_;
+LARGE_INTEGER Timer::counter_;
 
 long	Timer::getticktime()
 {
