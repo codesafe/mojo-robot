@@ -1,7 +1,9 @@
 ﻿#include "timer.h"
 
+#ifdef WIN32
 LARGE_INTEGER Timer::freq_;
 LARGE_INTEGER Timer::counter_;
+#endif
 
 long	Timer::getticktime()
 {
