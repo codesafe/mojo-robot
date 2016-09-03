@@ -178,10 +178,10 @@ void mainupdate()
 
 int main(int argc, char **argv)
 {
-	if( argc > 0 ) 
+	if( argc > 1 ) 
 	{
-		printf("Server IP is %s\n", argv[0]);
-		MemDB::getInstance()->setValue("serveraddress", argv[0]);
+		printf("Server IP is %s\n", argv[1]);
+		MemDB::getInstance()->setValue("serveraddress", argv[1]);
 	}
 
 	opennetwork();
