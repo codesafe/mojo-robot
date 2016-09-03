@@ -32,7 +32,7 @@ void	Patch::dopatch()
 	bool ret = Utils::checkfileexist(PATCHFILENAME);
 	if (ret)
 	{
-		Logger::getInstance()->log(LOG_INFO, "Open patch file : %s\n", PATCHFILENAME);
+		Logger::log(LOG_INFO, "Open patch file : %s\n", PATCHFILENAME);
 		XMLNode root = XMLNode::openFileHelper(PATCHFILENAME, "");
 		for (int i = 0; i < root.nChildNode(); i++)
 		{
@@ -52,7 +52,7 @@ void	Patch::dopatch()
 		}
 	}
 	else
-		Logger::getInstance()->log(LOG_INFO, "Not found patch file : %s\n", PATCHFILENAME);
+		Logger::log(LOG_INFO, "Not found patch file : %s\n", PATCHFILENAME);
 
 	downloadpatchinfo();
 	// 실제 패치 진행
@@ -97,7 +97,7 @@ bool	Patch::downloadpatchinfo()
 
 		if (res != CURLE_OK)
 		{
-			Logger::getInstance()->log(LOG_ERR, "Patch download faild.. %d\n", res);
+			Logger::log(LOG_ERR, "Patch download faild.. %d\n", res);
 			return false;
 		}
 
@@ -135,12 +135,12 @@ void	Patch::patchprocess()
 	bool direxist = Utils::isDirExist(PATCHDOWNLOADDIR);
 	if (direxist == false)
 	{
-		Logger::getInstance()->log(LOG_WARN, "Patch download folder is not exist\n");
+		Logger::log(LOG_WARN, "Patch download folder is not exist\n");
 		bool ret = Utils::makePath(PATCHDOWNLOADDIR);
 		if (ret == false)
 		{
-			Logger::getInstance()->log(LOG_ERR, "Create patch download folder failed !!\n");
-			Logger::getInstance()->log(LOG_ERR, "Patch progress aborted !!\n");
+			Logger::log(LOG_ERR, "Create patch download folder failed !!\n");
+			Logger::log(LOG_ERR, "Patch progress aborted !!\n");
 			return;
 		}
 	}
@@ -231,7 +231,7 @@ bool	Patch::downloadtofile(std::string url, std::string outfilename)
 	curl = curl_easy_init();
 	if (curl)
 	{
-		Logger::getInstance()->log(LOG_INFO, "Patch : Download progress.\n%s --> %s\n", url.c_str(), path.c_str());
+		Logger::log(LOG_INFO, "Patch : Download progress.\n%s --> %s\n", url.c_str(), path.c_str());
 		FILE *fp = fopen(path.c_str(), "wb");
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, Patch::writetofile);
@@ -242,7 +242,7 @@ bool	Patch::downloadtofile(std::string url, std::string outfilename)
 		fclose(fp);
 		if (res != CURLE_OK)
 		{
-			Logger::getInstance()->log(LOG_ERR, "Patch download faild.. %d\n", res);
+			Logger::log(LOG_ERR, "Patch download faild.. %d\n", res);
 			return false;
 		}
 	}

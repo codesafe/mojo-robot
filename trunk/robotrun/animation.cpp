@@ -59,7 +59,7 @@ bool	Motion::init(XMLNode pnode)
 					float rad = (float)xmltof(value);
 					_motion.angle = (int)RADTODEG(rad) - FIX_ANGLE;
 
-					Logger::getInstance()->log(LOG_INFO, "angle : %d\n", _motion.angle);
+					Logger::log(LOG_INFO, "angle : %d\n", _motion.angle);
 #else
 					_motion.angle = xmltoi(value) - FIX_ANGLE;
 #endif
@@ -125,7 +125,7 @@ bool	Motion::update()
 					{
 						needsend |= true;
 						it->second.pop_front();
-						Logger::getInstance()->log(LOG_INFO, "id %d : change motion time -> %f\n", it->first, updatetime);
+						Logger::log(LOG_INFO, "id %d : change motion time -> %f\n", it->first, updatetime);
 					}
 				}
 				else
@@ -206,7 +206,7 @@ bool	Motion::_play(int id, _MOTION &motion)
 			ret = PartController::getInstance()->addsendqueuecommand(id, MOVE_SPEED, p);
 			ret = PartController::getInstance()->addsendqueuecommand(id, DEST_POSITION, DEGREE2DXL(angle));
 
-			Logger::getInstance()->log(LOG_INFO, "Change motion! \n");
+			Logger::log(LOG_INFO, "Change motion! \n");
 		}
 
 #else
@@ -278,19 +278,21 @@ bool	Animation::init()
 
 void	Animation::uninit()
 {
+	currentmotion = NULL;
+
 	std::map<std::string, Motion*>::iterator it = animationlist.begin();
 	for (; it != animationlist.end(); it++)
 		delete it->second;
-
 	animationlist.clear();
+
 	animationfilelist.clear();
-	currentmotion = NULL;
 
 	std::map<std::string, DISPLAYFILE*>::iterator itd = displaynamedic.begin();
 	for (; itd != displaynamedic.end(); it++)
 		delete itd->second;
-
 	displaynamedic.clear();
+
+	reservedmotion.clear();
 }
 
 // 에니메이션 완료 추적 / 다음 part연결
@@ -299,8 +301,15 @@ void	Animation::update()
 	if( currentmotion != NULL )
 	{
 		bool ret = currentmotion->update();
-		if(ret == false)
+		if (ret == false)
+		{
 			currentmotion = NULL;
+			if (!reservedmotion.empty())
+			{
+				play(reservedmotion[0]);
+				reservedmotion.pop_front();
+			}
+		}
 	}
 }
 
@@ -342,11 +351,11 @@ void	Animation::load(std::string _filename, std::string displayinfo)
 				Motion *motion = new Motion();
 				motion->init(aninode);
 				animationlist.insert(std::make_pair(name, motion));
-				Logger::getInstance()->log(LOG_INFO, "Motion %s loaded..\n", name);
+				Logger::log(LOG_INFO, "Motion %s loaded..\n", name);
 			}
 			else
 			{
-				Logger::getInstance()->log(LOG_ERR, "Same motion exist : %s\n", name);
+				Logger::log(LOG_ERR, "Same motion exist : %s\n", name);
 			}
 		}
 	}
@@ -383,8 +392,13 @@ void	Animation::play(std::string name)
 		}
 		else
 		{
-			Logger::getInstance()->log(LOG_ERR, "Not found animation %s\n", name.c_str());
+			Logger::log(LOG_ERR, "Not found animation %s\n", name.c_str());
 		}
+	}
+	else
+	{
+		// 플레이 중이라 예약
+		reservedmotion.push_back(name);
 	}
 }
 

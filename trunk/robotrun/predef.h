@@ -166,7 +166,8 @@
 
 // command packet
 #define FORCEPATCH			0x0A
-#define DEVICERESET			0x10
+#define DEVICERESET			0x10		// 재시작
+
 #define	PLAYMOTION			0x20
 
 #define WHEEL_FORWARD		0x30

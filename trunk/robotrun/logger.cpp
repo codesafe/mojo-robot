@@ -5,17 +5,6 @@
 #include "network.h"
 #include "utils.h"
 
-Logger * Logger::instance = NULL;
-
-Logger::Logger()
-{
-}
-
-Logger::~Logger()
-{
-
-}
-
 void Logger::log(int logtype, const char* format, ...)
 {
 	bool consolelog_enable = (CONSOLE_LOG & logtype) == 1 ? false : true;

@@ -22,8 +22,9 @@ Display::~Display()
 
 void * Display::thread_fn(void *arg)
 {
-	printf("create new thread : %d \n", (int)arg);
 	int _side = (int)arg;
+	Logger::log(LOG_INFO, "Created Thread : %d\n", _side);
+
 
 	while (true)
 	{
@@ -53,6 +54,8 @@ void * Display::thread_fn(void *arg)
 
 		pthread_mutex_unlock(&mutex_lock[_side]);
 	}
+
+	Logger::log(LOG_INFO, "Exit thread : %d\n", _side);
 
 	pthread_exit((void *)0);
 	return((void *)0);
@@ -104,7 +107,10 @@ bool	Display::init(XMLNode node)
 void	Display::uninit()
 {
 	pthread_mutex_lock(&mutex_lock[side]);
+
 	exitthread[side] = true;
+	displayinfolist[side].clear();
+
 	pthread_mutex_unlock(&mutex_lock[side]);
 }
 

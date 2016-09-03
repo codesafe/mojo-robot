@@ -24,27 +24,35 @@ void	Commander::addcommand(int type, char packet, char *data, int datalen)
 	commandlist.push_back(com);
 }
 
-void	Commander::update()
+int		Commander::update()
 {
+	int ret = 0;
 	std::deque<Command>::iterator it;
-	for(size_t i=0; i<commandlist.size(); i++)
+	for (it = commandlist.begin(); it != commandlist.end();)
 	{
-		if( commandlist[i].type == COMMAND_DEVICE )
+		if( it->type == COMMAND_DEVICE )
 		{
-			// TODO. 바로 처리
+			if (it->packet == DEVICERESET)
+			{
+				ret = DEVICERESET;
+			}
+
 			commandlist.erase(it);
+			return ret;
 		}
+		it++;
 	}
 
 	// Force online patch and reset system
-	for (size_t i = 0; i < commandlist.size(); i++)
+	for (it = commandlist.begin(); it != commandlist.end();)
 	{
-		if (commandlist[i].type == COMMAND_FORCEPATCH)
+		if (it->type == COMMAND_FORCEPATCH)
 		{
-			// TODO. 바로 처리
+			// 패치!
 			commandlist.erase(it);
-			break;
+			return FORCEPATCH;
 		}
+		it++;
 	}
 
 	for(it = commandlist.begin(); it != commandlist.end();)
@@ -144,20 +152,18 @@ void	Commander::update()
 	}
 	
 	// 에니메이션 처리
-	for(it = commandlist.begin(); it != commandlist.end(); it++)
+	for(it = commandlist.begin(); it != commandlist.end();)
 	{
 		if( it->type == COMMAND_ANIMATION )
 		{
 			// 현재 플레이 중인 에니메이션이 없는 경우에만 대기중인 명령 실행
-			if(Animation::getInstance()->isplaying() == false)
-			{
-				Animation::getInstance()->play(it->data);
-				commandlist.erase(it);
-				break;
-			}
+			Animation::getInstance()->play(it->data);
+			it = commandlist.erase(it);
+			continue;
 		}
+		it++;
 	}
 	
-
 	commandlist.clear();
+	return ret;
 }

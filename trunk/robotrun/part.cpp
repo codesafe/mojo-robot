@@ -27,7 +27,7 @@ bool	Part::init(XMLNode node)
 		type = PART_TYPE_WHEEL;
 	else
 	{
-		Logger::getInstance()->log(LOG_WARN, "Unknown Part type %s\n", typestr);
+		Logger::log(LOG_WARN, "Unknown Part type %s\n", typestr);
 		return false;
 	}
 	name = node.getName();
@@ -37,7 +37,7 @@ bool	Part::init(XMLNode node)
 
 void	Part::uninit()
 {
-
+	enable = false;
 }
 
 bool Part::reset()
@@ -113,7 +113,7 @@ void	PartController::init(XMLNode node)
 		}
 		else
 		{
-			Logger::getInstance()->log(LOG_WARN, "Unknown Part type %s\n", typestr);
+			Logger::log(LOG_WARN, "Unknown Part type %s\n", typestr);
 		}
 	}
 
@@ -143,7 +143,7 @@ bool	PartController::addsendqueuecommand(uint8_t id, uint16_t command, uint16_t 
 	}
 	else
 	{
-		Logger::getInstance()->log(LOG_WARN, "Not found parts : %d\n", id);
+		Logger::log(LOG_WARN, "Not found parts : %d\n", id);
 	}
 
 	return ret;
@@ -164,7 +164,7 @@ bool	PartController::sendcommand(int id, uint16_t command , uint16_t param)
 	}
 	else
 	{
-		Logger::getInstance()->log(LOG_WARN, "Not found parts : %d\n", id);
+		Logger::log(LOG_WARN, "Not found parts : %d\n", id);
 	}
 	return ret;
 }
@@ -179,7 +179,7 @@ bool	PartController::recvcommand(int id, uint16_t command, uint16_t &param)
 	}
 	else
 	{
-		Logger::getInstance()->log(LOG_WARN, "Not found parts : %d\n", id);
+		Logger::log(LOG_WARN, "Not found parts : %d\n", id);
 	}
 	return ret;
 }
@@ -227,6 +227,6 @@ void	PartController::displaypic(std::string pic)
 		p2->flushcommandlist();
 	}
 	else
-		Logger::getInstance()->log(LOG_WARN, "Not found displayname : %s\n", pic.c_str());
+		Logger::log(LOG_WARN, "Not found displayname : %s\n", pic.c_str());
 
 }

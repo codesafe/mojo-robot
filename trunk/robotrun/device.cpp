@@ -40,21 +40,21 @@ bool	Device::initdevice(std::string part)
 
 #ifdef WIN32
 		portHandler = dynamixel::PortHandler::getPortHandler(MemDB::getInstance()->getValue("jointdevicename").c_str());
-		Logger::getInstance()->log(LOG_INFO, "Try to getHandler %s\n", MemDB::getInstance()->getValue("jointdevicename").c_str());
+		Logger::log(LOG_INFO, "Try to getHandler %s\n", MemDB::getInstance()->getValue("jointdevicename").c_str());
 #else
 		portHandler = dynamixel::PortHandler::getPortHandler(MemDB::getInstance()->getValue("linuxjointdevicename").c_str());
-		Logger::getInstance()->log(LOG_INFO, "Try to getHandler %s\n", MemDB::getInstance()->getValue("linuxjointdevicename").c_str());
+		Logger::log(LOG_INFO, "Try to getHandler %s\n", MemDB::getInstance()->getValue("linuxjointdevicename").c_str());
 #endif
 
 		packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
 
 		if (portHandler->openPort())
 		{
-			Logger::getInstance()->log(LOG_INFO, "Succeeded to open the port!\n");
+			Logger::log(LOG_INFO, "Succeeded to open the port!\n");
 		}
 		else
 		{
-			Logger::getInstance()->log(LOG_ERR, "Failed to open the port!\n");
+			Logger::log(LOG_ERR, "Failed to open the port!\n");
 			return false;
 		}
 
@@ -69,11 +69,11 @@ bool	Device::initdevice(std::string part)
 		{
 			if (portHandler->setBaudRate(baudrate))
 			{
-				Logger::getInstance()->log(LOG_INFO, "Succeeded to change the baudrate : %d !\n", baudrate);
+				Logger::log(LOG_INFO, "Succeeded to change the baudrate : %d !\n", baudrate);
 			}
 			else
 			{
-				Logger::getInstance()->log(LOG_ERR, "Failed to change the baudrate!\n");
+				Logger::log(LOG_ERR, "Failed to change the baudrate!\n");
 				return false;
 			}
 		}
@@ -100,7 +100,7 @@ bool	Device::initdevice(std::string part)
 				MemDB::getInstance()->getValue("right_displaydevicename").c_str();
 
 			displayportHandler[i] = dynamixel::PortHandler::getPortHandler(devicename.c_str());
-			Logger::getInstance()->log(LOG_INFO, "Try to getHandler display %s\n", devicename.c_str());
+			Logger::log(LOG_INFO, "Try to getHandler display %s\n", devicename.c_str());
 			assert(displayportHandler[i]);
 
 #else
@@ -109,16 +109,16 @@ bool	Device::initdevice(std::string part)
 				MemDB::getInstance()->getValue("right_linuxdisplaydevicename").c_str();
 
 			displayportHandler[i] = dynamixel::PortHandler::getPortHandler(devicename.c_str());
-			Logger::getInstance()->log(LOG_INFO, "Try to getHandler %s\n", devicename.c_str());
+			Logger::log(LOG_INFO, "Try to getHandler %s\n", devicename.c_str());
 #endif
 
 			if (displayportHandler[i]->openPort())
 			{
-				Logger::getInstance()->log(LOG_INFO, "Succeeded to open the port!\n");
+				Logger::log(LOG_INFO, "Succeeded to open the port!\n");
 			}
 			else
 			{
-				Logger::getInstance()->log(LOG_ERR, "Failed to open the port!\n");
+				Logger::log(LOG_ERR, "Failed to open the port!\n");
 				return false;
 			}
 
@@ -129,11 +129,11 @@ bool	Device::initdevice(std::string part)
 			{
 				if (displayportHandler[i]->setBaudRate(dispbaudrate))
 				{
-					Logger::getInstance()->log(LOG_INFO, "Succeeded to change the dispbaudrate : %d !\n", dispbaudrate);
+					Logger::log(LOG_INFO, "Succeeded to change the dispbaudrate : %d !\n", dispbaudrate);
 				}
 				else
 				{
-					Logger::getInstance()->log(LOG_ERR, "Failed to change the dispbaudrate!\n");
+					Logger::log(LOG_ERR, "Failed to change the dispbaudrate!\n");
 					return false;
 				}
 			}
@@ -175,13 +175,13 @@ bool	Device::send(uint8_t id, uint16_t command, uint16_t commandsize, uint16_t p
 
 	if (dxl_comm_result != COMM_SUCCESS)
 	{
-		Logger::getInstance()->log(LOG_ERR, "send to device is not success id : %d , %d\n", id, dxl_comm_result);
+		Logger::log(LOG_ERR, "send to device is not success id : %d , %d\n", id, dxl_comm_result);
 		packetHandler->printTxRxResult(dxl_comm_result);
 		return false;
 	}
 	else if (dxl_error != 0)
 	{
-		Logger::getInstance()->log(LOG_ERR, "send error id : %d , %d\n", id, dxl_error);
+		Logger::log(LOG_ERR, "send error id : %d , %d\n", id, dxl_error);
 		packetHandler->printRxPacketError(dxl_error);
 		return false;
 	}
@@ -209,13 +209,13 @@ bool	Device::recv(uint8_t id, uint16_t command, uint16_t commandsize, uint16_t &
 
 	if (dxl_comm_result != COMM_SUCCESS)
 	{
-		Logger::getInstance()->log(LOG_ERR, "recv from device not success id : %d, %d \n", id, dxl_comm_result);
+		Logger::log(LOG_ERR, "recv from device not success id : %d, %d \n", id, dxl_comm_result);
 		packetHandler->printTxRxResult(dxl_comm_result);
 		return false;
 	}
 	else if( dxl_error != 0 )
 	{
-		Logger::getInstance()->log(LOG_ERR, "recv from device error id : %d, %d \n", id, dxl_error);
+		Logger::log(LOG_ERR, "recv from device error id : %d, %d \n", id, dxl_error);
 		packetHandler->printRxPacketError(dxl_error);
 		return false;
 	}
@@ -277,7 +277,7 @@ bool	Device::sendqueue()
 
 		if( dxl_addparam_result == false )
 		{
-			Logger::getInstance()->log(LOG_ERR, "Group write add param error. %d , %d\n", groupwriteinfolist[i].id, groupwriteinfolist[i].command);
+			Logger::log(LOG_ERR, "Group write add param error. %d , %d\n", groupwriteinfolist[i].id, groupwriteinfolist[i].command);
 			delete gw;
 			return false;
 		}
@@ -294,7 +294,7 @@ bool	Device::sendqueue()
 		dxl_comm_result = grouplist[i]->txPacket();
 		if (dxl_comm_result != COMM_SUCCESS)
 		{
-			Logger::getInstance()->log(LOG_ERR, "sendqueue not success %d \n", dxl_comm_result);
+			Logger::log(LOG_ERR, "sendqueue not success %d \n", dxl_comm_result);
 			packetHandler->printTxRxResult(dxl_comm_result);
 			ret = false;
 		}
@@ -313,7 +313,7 @@ bool	Device::sendqueue()
 		dxl_comm_result = groupwritelist[order[i]]->txPacket();
 		if (dxl_comm_result != COMM_SUCCESS)
 		{
-			Logger::getInstance()->log("sendqueue not success %d \n", dxl_comm_result);
+			Logger::log("sendqueue not success %d \n", dxl_comm_result);
 			packetHandler->printTxRxResult(dxl_comm_result);
 			return false;
 		}
@@ -335,7 +335,7 @@ bool	Device::addrecvqueue(uint8_t id, uint16_t command, uint16_t commandlen)
 	bool result = groupRead->addParam(id, command, commandlen);
 	if (result != true)
 	{
-		Logger::getInstance()->log(LOG_ERR, "%d : grouBulkRead addparam failed\n", id);
+		Logger::log(LOG_ERR, "%d : grouBulkRead addparam failed\n", id);
 		return false;
 	}
 
@@ -408,7 +408,7 @@ int		Device::recvcommand(int eyes)
 			}
 			else if( rx_length > 2 )
 			{
-				Logger::getInstance()->log(LOG_ERR, "Display Error ---> %s\n",(const char *)rxpacket);
+				Logger::log(LOG_ERR, "Display Error ---> %s\n",(const char *)rxpacket);
 				result = COMM_RX_CORRUPT;
 				break;
 			}
@@ -421,7 +421,7 @@ int		Device::recvcommand(int eyes)
 				if (rx_length == 0)
 				{
 					result = COMM_RX_TIMEOUT;
-					Logger::getInstance()->log(LOG_ERR, "Display Error ---> Time Out!!\n");
+					Logger::log(LOG_ERR, "Display Error ---> Time Out!!\n");
 				}
 				else
 				{

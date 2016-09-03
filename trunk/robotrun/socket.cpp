@@ -20,14 +20,14 @@ bool	Socket::init()
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == -1)
 	{
-		Logger::getInstance()->log(LOG_ERR, "Could not create socket\n");
+		Logger::log(LOG_ERR, "Could not create socket\n");
 		return false;
 	}
 	std::string serveradd = MemDB::getInstance()->getValue("serveraddress");
 	if (serveradd == "")
 		serveradd = SERVER_ADD;
 
-	Logger::getInstance()->log(LOG_INFO, "server address : %s\n", serveradd.c_str());
+	Logger::log(LOG_INFO, "server address : %s\n", serveradd.c_str());
 
 	memset((void *)&server, 0x00, sizeof(server));
 	server.sin_addr.s_addr = inet_addr(serveradd.c_str());
@@ -39,6 +39,8 @@ bool	Socket::init()
 void	Socket::uninit()
 {
 	closesocket();
+	recvbufferlist.clear();
+	sendbufferlist.clear();
 }
 
 bool	Socket::connect()
@@ -47,7 +49,7 @@ bool	Socket::connect()
 	int err = ::connect(sock, (struct sockaddr *)&server, sizeof(server));
 	if ( err < 0)
 	{
-		Logger::getInstance()->log(LOG_ERR, "connect failed. Error!\n");
+		Logger::log(LOG_ERR, "connect failed. Error!\n");
 		return false;
 	}
 
@@ -106,7 +108,7 @@ bool	Socket::update()
 		int recvsize = ::recv(sock, in, sizeof(in), 0);
 		if (recvsize <= 0)
 		{
-			Logger::getInstance()->log(LOG_ERR, "Socket recv. Error!\n");
+			Logger::log(LOG_ERR, "Socket recv. Error!\n");
 			closesocket();
 			return false;
 		}

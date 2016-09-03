@@ -64,7 +64,7 @@ bool loadglobalinfo(XMLNode pnode)
 		MemDB::getInstance()->setValue(name, value);
 
 		std::string str = "name : " + std::string(name) + " value : " + value;
-		Logger::getInstance()->log(LOG_INFO, "log %s\n", str.c_str());
+		Logger::log(LOG_INFO, "log %s\n", str.c_str());
 	}
 
 	return Device::getInstance()->init();
@@ -73,7 +73,7 @@ bool loadglobalinfo(XMLNode pnode)
 void loadanimation()
 {
 	Animation::getInstance()->load("animation.xml", "display.xml");
-	Logger::getInstance()->log(LOG_INFO, "Animation data loaded...\n");
+	Logger::log(LOG_INFO, "Animation data loaded...\n");
 }
 
 // 설정 로딩
@@ -115,7 +115,7 @@ bool opennetwork()
 	WSADATA wsaData;
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != NO_ERROR)
 	{
-		Logger::getInstance()->log(LOG_ERR, "winsock init error!!\n");
+		Logger::log(LOG_ERR, "winsock init error!!\n");
 		return false;
 	}
 #endif
@@ -135,17 +135,42 @@ void closenetwork()
 
 //////////////////////////////////////////////////////////////////////////
 
+void restartapp()
+{
+#ifdef WIN32
+	//WinExec("./restart.bat", SW_SHOW);
+	ShellExecute(NULL, "open", ".\\restart.bat", NULL, NULL, SW_SHOW);
+#else
+	system("./restart.sh");
+#endif
+}
+
+
 void mainupdate()
 {
+	while (true)
+	{
 #if WIN32
-	::Sleep(10);
+		::Sleep(10);
 #else
-	::sleep(10);
+		::sleep(10);
 #endif
+		Network::getinstance()->update();
+		Animation::getInstance()->update();
+		int ret = Commander::getinstance()->update();
+		if (ret != 0)
+		{
+			if (ret == DEVICERESET)
+			{
+				restartapp();
+				break;		
+			}
+			else if (ret == FORCEPATCH)
+			{
 
-	Network::getinstance()->update();
-	Animation::getInstance()->update();
-	Commander::getinstance()->update();
+			}
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -156,36 +181,13 @@ int main()
 	opennetwork();
 	onlinepatchrobotdata();
 
-#if 0
-	while (1)
+	if (loadsetup() == false)
 	{
-		Network::getinstance()->update();
-		Utils::Sleep(10);
-	}
-
-#else
-	bool ret = loadsetup();
-	if (ret == false)
-	{
-		Logger::getInstance()->log(LOG_ERR, "Fatal Error.. Load setup faild...\n");
+		Logger::log(LOG_ERR, "Fatal Error.. Load setup faild...\n");
 		return -1;
 	}
 		
-	while (1)
-	{
-		mainupdate();
-
-#ifdef TESTBUILD
-// 		if (getch() == ESC_ASCII_VALUE)
-// 		{
-// 			releaseall();
-// 			break;
-// 		}
-#endif
-
-	}
-
-#endif
+	mainupdate();
 
 	closenetwork();
 	return 0;

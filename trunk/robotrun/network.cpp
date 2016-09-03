@@ -25,12 +25,13 @@ void	Network::uninit()
 	socket->uninit();
 	delete socket;
 	socket = NULL;
+	enable = false;
 }
 
 bool	Network::connect()
 {
 	enable = socket->connect();
-	Logger::getInstance()->log(LOG_INFO, "socket connect : %s\n", enable ? "success" : "fail");
+	Logger::log(LOG_INFO, "socket connect : %s\n", enable ? "success" : "fail");
 
 	return enable;
 }
@@ -42,7 +43,7 @@ void	Network::update()
 		bool ret = socket->update();
 		if( ret == false)
 		{
-			Logger::getInstance()->log(LOG_ERR, "socket disconnected\n");
+			Logger::log(LOG_ERR, "socket disconnected\n");
 			enable = false;
 		}
 

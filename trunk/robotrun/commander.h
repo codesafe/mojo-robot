@@ -29,7 +29,7 @@ public :
 	}
 
 	void	addcommand(int type, char packet, char *data, int datalen);
-	void	update();
+	int		update();
 
 private :	
 	Commander();

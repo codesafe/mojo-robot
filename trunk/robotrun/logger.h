@@ -6,19 +6,11 @@
 class Logger
 {
 public:
-	static Logger *	instance;
-	static Logger *getInstance()
-	{
-		if (instance == NULL)
-			instance = new Logger();
-		return instance;
-	};
-
-	void log(int logtype, const char* format, ...);
+	static void log(int logtype, const char* format, ...);
 
 private:
-	Logger();
-	~Logger();
+	Logger() {};
+	~Logger() {};
 
 };
 

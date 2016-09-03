@@ -1,7 +1,5 @@
 ﻿#include "timer.h"
 
-//Timer *	Timer::instance = NULL;
-
 LARGE_INTEGER Timer::freq_;
 LARGE_INTEGER Timer::counter_;
 
