@@ -201,6 +201,8 @@
     <None Include="make\Makefile" />
     <None Include="maxexporter.ms" />
     <None Include="raspmake\Makefile" />
+    <None Include="restart.bat" />
+    <None Include="restart.sh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

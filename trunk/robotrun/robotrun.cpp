@@ -176,8 +176,14 @@ void mainupdate()
 //////////////////////////////////////////////////////////////////////////
 
 
-int main()
+int main(int argc, char **argv)
 {
+	if( argc > 0 ) 
+	{
+		printf("Server IP is %s\n", argv[0]);
+		MemDB::getInstance()->setValue("serveraddress", argv[0]);
+	}
+
 	opennetwork();
 	onlinepatchrobotdata();
 

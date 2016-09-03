@@ -144,5 +144,11 @@
     <None Include="maxexporter.ms">
       <Filter>asset</Filter>
     </None>
+    <None Include="restart.bat">
+      <Filter>asset</Filter>
+    </None>
+    <None Include="restart.sh">
+      <Filter>asset</Filter>
+    </None>
   </ItemGroup>
 </Project>
