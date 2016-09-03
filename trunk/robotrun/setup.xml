@@ -8,8 +8,8 @@
     <right_displaydevicename>//./COM6</right_displaydevicename>
     <!-- for linux or raps -->
     <linuxjointdevicename>/dev/ttyUSB0</linuxjointdevicename>
-    <left_linuxdisplaydevicename>/dev/ttyUSB0</left_linuxdisplaydevicename>
-    <right_linuxdisplaydevicename>/dev/ttyUSB0</right_linuxdisplaydevicename>
+    <left_linuxdisplaydevicename>/dev/ttyUSB1</left_linuxdisplaydevicename>
+    <right_linuxdisplaydevicename>/dev/ttyUSB2</right_linuxdisplaydevicename>
     <jointbaudrate>1000000</jointbaudrate>
     <linuxjointbaudrate>1000000</linuxjointbaudrate>
     <displaybaudrate>115200</displaybaudrate>
