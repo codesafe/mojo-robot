@@ -6,8 +6,8 @@ do
 	CNT=$(ps -ef|grep robotrun|grep -v grep|wc -l)
 	if [ $CNT -le 0 ]
 	then
-		CMD='./robotrun 192.168.1.112 &'
-		break
+		./robotrun 192.168.1.112 &
+		exit
 	fi
 	sleep 1
 done

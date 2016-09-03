@@ -142,6 +142,7 @@ void restartapp()
 	ShellExecute(NULL, "open", ".\\restart.bat", NULL, NULL, SW_SHOW);
 #else
 	system("./restart.sh");
+	exit(0);
 #endif
 }
 
