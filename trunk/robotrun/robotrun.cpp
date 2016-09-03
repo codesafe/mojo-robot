@@ -150,11 +150,8 @@ void mainupdate()
 {
 	while (true)
 	{
-#if WIN32
-		::Sleep(10);
-#else
-		::sleep(10);
-#endif
+		Utils::Sleep(10);
+
 		Network::getinstance()->update();
 		Animation::getInstance()->update();
 		int ret = Commander::getinstance()->update();
