@@ -5,19 +5,22 @@
 
 
 bool Display::exitthread[EYE_MAX];
-bool Display::actionTrigger[EYE_MAX];
+//bool Display::actionTrigger[EYE_MAX];
 pthread_mutex_t Display::mutex_lock[EYE_MAX];
+pthread_mutex_t Display::exitmutex_lock[EYE_MAX];
 std::vector<DisplayInfo>	Display::displayinfolist[EYE_MAX];
 
 Display::Display()
 {
 	rotation = 0;
 	storage = MEM_NAND;
+	state = STATE_IDLE;
 }
 
 Display::~Display()
 {
 	pthread_mutex_destroy(&mutex_lock[side]);
+	pthread_mutex_destroy(&exitmutex_lock[side]);
 }
 
 void * Display::thread_fn(void *arg)
@@ -25,34 +28,41 @@ void * Display::thread_fn(void *arg)
 	int _side = (int)arg;
 	Logger::log(LOG_INFO, "Created Thread : %d\n", _side);
 
+	std::vector<DisplayInfo> _displayinfolist;
 
 	while (true)
 	{
-		Utils::Sleep(10);
-
-		pthread_mutex_lock(&mutex_lock[_side]);
+		// check EXIT
+		pthread_mutex_lock(&exitmutex_lock[_side]);
 		if(exitthread[_side])
 		{
-			pthread_mutex_unlock(&mutex_lock[_side]);
+			pthread_mutex_unlock(&exitmutex_lock[_side]);
 			break;
 		}
+		pthread_mutex_unlock(&exitmutex_lock[_side]);
 
-		if (actionTrigger[_side])
+		// Copy display command
+		pthread_mutex_lock(&mutex_lock[_side]);
+		for (size_t i = 0; i < displayinfolist[_side].size(); i++)
+			_displayinfolist.push_back(displayinfolist[_side][i]);
+		displayinfolist[_side].clear();
+		pthread_mutex_unlock(&mutex_lock[_side]);
+
+		if (!_displayinfolist.empty())
 		{
 			int ret = COMM_NOT_AVAILABLE;
-			for (size_t i = 0; i < displayinfolist[_side].size(); i++)
+			for (size_t i = 0; i < _displayinfolist.size(); i++)
 			{
-				ret = Device::getInstance()->sendcommand(displayinfolist[_side][i].side, displayinfolist[_side][i].command, 
-					displayinfolist[_side][i].param, displayinfolist[_side][i].length);
-				if (ret != COMM_SUCCESS)
-					break;
+				ret = Device::getInstance()->sendcommand(_displayinfolist[i].side, _displayinfolist[i].command,
+					_displayinfolist[i].param, _displayinfolist[i].length);
+// 				if (ret != COMM_SUCCESS)
+// 					break;
 			}
-
-			displayinfolist[_side].clear();
-			actionTrigger[_side] = false;
+			_displayinfolist.clear();
+			//actionTrigger[_side] = false;
 		}
 
-		pthread_mutex_unlock(&mutex_lock[_side]);
+		Utils::Sleep(100);	// 0.1 sec
 	}
 
 	Logger::log(LOG_INFO, "Exit thread : %d\n", _side);
@@ -96,10 +106,12 @@ bool	Display::init(XMLNode node)
 		}
 	}
 
-	actionTrigger[side] = false;
+	//actionTrigger[side] = false;
 	exitthread[side] = false;
 
 	pthread_mutex_init(&mutex_lock[side], NULL);
+	pthread_mutex_init(&exitmutex_lock[side], NULL);
+
 	int err = pthread_create(&threadid, NULL, thread_fn, (void *)side);
 	return true;
 }
@@ -107,10 +119,11 @@ bool	Display::init(XMLNode node)
 void	Display::uninit()
 {
 	pthread_mutex_lock(&mutex_lock[side]);
-
-	exitthread[side] = true;
 	displayinfolist[side].clear();
+	pthread_mutex_unlock(&mutex_lock[side]);
 
+	pthread_mutex_lock(&exitmutex_lock[side]);
+	exitthread[side] = true;
 	pthread_mutex_unlock(&mutex_lock[side]);
 }
 
@@ -118,6 +131,8 @@ bool	Display::reset()
 {
 	// 초기화 에러 유무 검사
 	// handshake 해본다
+	//Device::getInstance()->settimeout(side, 15000.0);
+
 	int ret = Device::getInstance()->sendcommand(side, CMD_HANDSHAKE);
 	if (ret == COMM_SUCCESS)
 	{
@@ -133,6 +148,7 @@ bool	Display::reset()
 			}
 		}
 	}
+
 	return ret == COMM_SUCCESS ? true : false;
 }
 
@@ -165,9 +181,9 @@ void	Display::addcommandlist(uint8_t command, uint8_t *param, int length)
 // 전송
 int		Display::flushcommandlist()
 {
-	pthread_mutex_lock(&mutex_lock[side]);
-	actionTrigger[side] = true;
-	pthread_mutex_unlock(&mutex_lock[side]);
+// 	pthread_mutex_lock(&mutex_lock[side]);
+// 	actionTrigger[side] = true;
+// 	pthread_mutex_unlock(&mutex_lock[side]);
 	return 0;
 }
 

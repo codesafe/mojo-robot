@@ -43,6 +43,7 @@ public :
 
 	//////////////////////////////////////////////////////////////////////////	For e-ink display
 
+	void	settimeout(int eyes, double time);
 	int		recvcommand(int eyes);
 	int		sendcommand(int eyes, uint8_t command, uint8_t *param = NULL, int length = 0);
 

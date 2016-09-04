@@ -2,6 +2,7 @@
 #include <assert.h>
 #endif
 #include "device.h"
+#include "utils.h"
 
 Device *	Device::instance = NULL;
 
@@ -382,6 +383,11 @@ void	Device::clearrecvqueue()
 
 #include "e-ink.h"
 
+void	Device::settimeout(int eyes, double time)
+{
+	displayportHandler[eyes]->setPacketTimeout(time);
+}
+
 int		Device::recvcommand(int eyes)
 {
 	if( enabledisplayport == false ) return 0;
@@ -430,6 +436,8 @@ int		Device::recvcommand(int eyes)
 				break;
 			}
 		}
+
+		Utils::Sleep(10);
 	}
 	displayportHandler[eyes]->is_using_ = false;
 
@@ -461,7 +469,10 @@ int		Device::sendcommand(int eyes, uint8_t command, uint8_t *param, int length)
 	uint8_t written_packet_length = 0;
 
 	if (displayportHandler[eyes]->is_using_)
+	{
+		Logger::log(LOG_WARN, "Port Busy!!\n");
 		return COMM_PORT_BUSY;
+	}
 
 	displayportHandler[eyes]->is_using_ = true;
 
@@ -522,6 +533,7 @@ int		Device::sendcommand(int eyes, uint8_t command, uint8_t *param, int length)
 
 	// tx packet
 	displayportHandler[eyes]->clearPort();
+	displayportHandler[eyes]->setPacketTimeout(5000.0);
 
 	// 패킷 발사
 	written_packet_length = displayportHandler[eyes]->writePort(txpacket, total_packet_length);

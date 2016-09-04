@@ -58,10 +58,13 @@ private:
 	pthread_t		threadid;
 
 	static bool exitthread[EYE_MAX];
-	static bool actionTrigger[EYE_MAX];
+	//static bool actionTrigger[EYE_MAX];
 	static pthread_mutex_t mutex_lock[EYE_MAX];
+	static pthread_mutex_t exitmutex_lock[EYE_MAX];
+
 	static std::vector<DisplayInfo>	displayinfolist[EYE_MAX];
 
+	int				state;
 };
 
 

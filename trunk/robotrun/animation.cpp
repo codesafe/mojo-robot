@@ -125,7 +125,7 @@ bool	Motion::update()
 					{
 						needsend |= true;
 						it->second.pop_front();
-						Logger::log(LOG_INFO, "id %d : change motion time -> %f\n", it->first, updatetime);
+						//Logger::log(LOG_INFO, "id %d : change motion time -> %f\n", it->first, updatetime);
 					}
 				}
 				else
