@@ -289,7 +289,7 @@ bool	Joint::reset()
 	//ret = Device::getInstance()->sendqueue();
 	enable = true;
 
-	return true;
+	return ret;
 }
 
 /*

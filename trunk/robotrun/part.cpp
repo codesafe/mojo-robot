@@ -88,6 +88,11 @@ bool	PartController::init(XMLNode node)
 			{
 				if( disp->reset() )
 					partlist.insert(std::make_pair(disp->getid(), disp));
+				else
+				{
+					Logger::log(LOG_ERR, "Display reset Fail...\n");
+					return false;
+				}
 			}
 			else
 			{
@@ -104,6 +109,11 @@ bool	PartController::init(XMLNode node)
 			{
 				if( joint->reset() )
 					partlist.insert(std::make_pair(joint->getid(), joint));
+				else
+				{
+					Logger::log(LOG_ERR, "Joint reset Fail...\n");
+					return false;
+				}
 			}
 			else
 			{
@@ -119,6 +129,11 @@ bool	PartController::init(XMLNode node)
 			{
 				if( wheel->reset() )
 					partlist.insert(std::make_pair(wheel->getid(), wheel));
+				else
+				{
+					Logger::log(LOG_ERR, "Wheel reset Fail...\n");
+					return false;
+				}
 			}
 			else
 			{
