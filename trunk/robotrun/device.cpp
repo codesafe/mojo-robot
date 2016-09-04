@@ -49,6 +49,22 @@ bool	Device::initdevice(std::string part)
 
 		packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
 
+		// Set port baudrate
+#ifdef WIN32
+		int baudrate = MemDB::getInstance()->getIntValue("jointbaudrate");
+#else
+		int baudrate = MemDB::getInstance()->getIntValue("linuxjointbaudrate");
+#endif
+		if (portHandler->setBaudRate(baudrate))
+		{
+			Logger::log(LOG_INFO, "Succeeded to change the baudrate : %d !\n", baudrate);
+		}
+		else
+		{
+			Logger::log(LOG_ERR, "Failed to change the baudrate!\n");
+			return false;
+		}
+
 		if (portHandler->openPort())
 		{
 			Logger::log(LOG_INFO, "Succeeded to open the port!\n");
@@ -59,6 +75,7 @@ bool	Device::initdevice(std::string part)
 			return false;
 		}
 
+/*
 		int oldbaudrate = portHandler->getBaudRate();
 		// Set port baudrate
 #ifdef WIN32
@@ -78,6 +95,7 @@ bool	Device::initdevice(std::string part)
 				return false;
 			}
 		}
+*/
 
 		groupRead = new dynamixel::GroupBulkRead(portHandler, packetHandler);
 #ifndef NEWGROUPWRITE
@@ -113,6 +131,18 @@ bool	Device::initdevice(std::string part)
 			Logger::log(LOG_INFO, "Try to getHandler %s\n", devicename.c_str());
 #endif
 
+			// Set port baudrate
+			int dispbaudrate = MemDB::getInstance()->getIntValue("displaybaudrate");
+			if (displayportHandler[i]->setBaudRate(dispbaudrate))
+			{
+				Logger::log(LOG_INFO, "Succeeded to change the dispbaudrate : %d !\n", dispbaudrate);
+			}
+			else
+			{
+				Logger::log(LOG_ERR, "Failed to change the dispbaudrate!\n");
+				return false;
+			}
+
 			if (displayportHandler[i]->openPort())
 			{
 				Logger::log(LOG_INFO, "Succeeded to open the port!\n");
@@ -123,6 +153,7 @@ bool	Device::initdevice(std::string part)
 				return false;
 			}
 
+/*
 			// Set port baudrate
 			int dispbaudrate = MemDB::getInstance()->getIntValue("displaybaudrate");
 			int oldbaudrate = displayportHandler[i]->getBaudRate();
@@ -138,6 +169,7 @@ bool	Device::initdevice(std::string part)
 					return false;
 				}
 			}
+*/
 		}
 
 	}
@@ -156,6 +188,8 @@ void	Device::uninit()
 
 	delete groupRead;
 	portHandler->closePort();
+	displayportHandler[LEFT_EYE]->closePort();
+	displayportHandler[RIGHT_EYE]->closePort();
 }
 
 // single command
