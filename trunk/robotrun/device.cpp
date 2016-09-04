@@ -546,9 +546,9 @@ int		Device::sendcommand(int eyes, uint8_t command, uint8_t *param, int length)
 	}
 
 	// 결과를 받아야 하나?? --> ok 메시지?
-	return recvcommand(eyes);
+	//return recvcommand(eyes);
 
-// 	displayportHandler[eyes]->is_using_ = false;
-// 	return COMM_SUCCESS;
+ 	displayportHandler[eyes]->is_using_ = false;
+ 	return COMM_SUCCESS;
 }
 
