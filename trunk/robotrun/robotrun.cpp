@@ -45,9 +45,9 @@ int getch()
 }
 
 // 파트 초기화
-void setupparts(XMLNode node)
+bool setupparts(XMLNode node)
 {
-	PartController::getInstance()->init(node);
+	return PartController::getInstance()->init(node);
 	//Device::getInstance()->sendqueue();
 }
 
@@ -93,7 +93,8 @@ bool loadsetup()
 		}
 		else if (std::string(name) == "parts")
 		{
-			setupparts(node);
+			if (setupparts(node) == false)
+				return false;
 		}
 	}
 

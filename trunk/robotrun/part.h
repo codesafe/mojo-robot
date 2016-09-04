@@ -48,7 +48,7 @@ public :
 		return instance;
 	};
 
-	void	init(XMLNode node);
+	bool	init(XMLNode node);
 	void	uninit();
 
 	bool	addsendqueuecommand(uint8_t id, uint16_t command, uint16_t param);

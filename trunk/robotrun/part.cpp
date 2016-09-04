@@ -74,7 +74,7 @@ PartController::~PartController()
 {
 }
 
-void	PartController::init(XMLNode node)
+bool	PartController::init(XMLNode node)
 {
 	for (int i = 0; i < node.nChildNode(); i++)
 	{
@@ -89,6 +89,11 @@ void	PartController::init(XMLNode node)
 				if( disp->reset() )
 					partlist.insert(std::make_pair(disp->getid(), disp));
 			}
+			else
+			{
+				Logger::log(LOG_ERR, "Display Init Fail...\n");
+				return false;
+			}
 
 		}
 		else if( strcmp(typestr, "joint") == 0 )
@@ -100,6 +105,11 @@ void	PartController::init(XMLNode node)
 				if( joint->reset() )
 					partlist.insert(std::make_pair(joint->getid(), joint));
 			}
+			else
+			{
+				Logger::log(LOG_ERR, "Joint Init Fail...\n");
+				return false;
+			}
 		}
 		else if( strcmp(typestr, "wheel") == 0 )
 		{
@@ -110,14 +120,20 @@ void	PartController::init(XMLNode node)
 				if( wheel->reset() )
 					partlist.insert(std::make_pair(wheel->getid(), wheel));
 			}
+			else
+			{
+				Logger::log(LOG_ERR, "Wheel Init Fail...\n");
+				return false;
+			}
 		}
 		else
 		{
 			Logger::log(LOG_WARN, "Unknown Part type %s\n", typestr);
+			return false;
 		}
 	}
 
-	Device::getInstance()->sendqueue();
+	return Device::getInstance()->sendqueue();
 }
 
 void	PartController::uninit()
