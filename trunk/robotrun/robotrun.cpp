@@ -189,11 +189,13 @@ int main(int argc, char **argv)
 	if (loadsetup() == false)
 	{
 		Logger::log(LOG_ERR, "Fatal Error.. Load setup faild...\n");
-		return -1;
 	}
-		
-	mainupdate();
-	
+	else
+	{
+		mainupdate();
+	}
+
+	releaseall();
 	closenetwork();
 	Logger::log(LOG_ERR, "Exit...\n");
 	return 0;
