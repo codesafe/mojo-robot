@@ -43,9 +43,12 @@ void * Display::thread_fn(void *arg)
 
 		// Copy display command
 		pthread_mutex_lock(&mutex_lock[_side]);
-		for (size_t i = 0; i < displayinfolist[_side].size(); i++)
-			_displayinfolist.push_back(displayinfolist[_side][i]);
-		displayinfolist[_side].clear();
+		if (!displayinfolist[_side].empty())
+		{
+			for (size_t i = 0; i < displayinfolist[_side].size(); i++)
+				_displayinfolist.push_back(displayinfolist[_side][i]);
+			displayinfolist[_side].clear();
+		}
 		pthread_mutex_unlock(&mutex_lock[_side]);
 
 		if (!_displayinfolist.empty())
@@ -53,6 +56,7 @@ void * Display::thread_fn(void *arg)
 			int ret = COMM_NOT_AVAILABLE;
 			for (size_t i = 0; i < _displayinfolist.size(); i++)
 			{
+				Logger::log(LOG_INFO, "Display (%d) %s\n", _displayinfolist[i].command, _displayinfolist[i].param);
 				ret = Device::getInstance()->sendcommand(_displayinfolist[i].side, _displayinfolist[i].command,
 					_displayinfolist[i].param, _displayinfolist[i].length);
 // 				if (ret != COMM_SUCCESS)
@@ -62,7 +66,7 @@ void * Display::thread_fn(void *arg)
 			//actionTrigger[_side] = false;
 		}
 
-		Utils::Sleep(100);	// 0.1 sec
+		Utils::Sleep(10);	// 0.1 sec
 	}
 
 	Logger::log(LOG_INFO, "Exit thread : %d\n", _side);
