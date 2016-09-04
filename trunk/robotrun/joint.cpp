@@ -96,15 +96,22 @@ bool	Joint::reset()
 	if( torque )
 	{
 		ret = Device::getInstance()->recv(id, TORQUEMODE, 1, param);
-		if( param != 1)
+		if (ret == false)
+		{
+			Logger::log(LOG_ERR, "%d : torque Read error!! \n", id);
+			return false;
+		}
+
+		if (param != 1)
 		{
 			ret = Device::getInstance()->send(id, TORQUEMODE, 1, DEVICE_ENABLE);
-			if( ret == false )
+			if (ret == false)
 			{
 				Logger::log(LOG_ERR, "%d : torque set error!! \n", id);
 				return false;
 			}
 		}
+		
 	}
 
 	//--------------------------------------------------------------------------------------------------
