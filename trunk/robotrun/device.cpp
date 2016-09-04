@@ -397,6 +397,8 @@ int		Device::recvcommand(int eyes)
 	uint8_t rx_length = 0;		// 총 수신 량
 	uint8_t rxpacket[RXPACKET_MAX_LEN] = { 0, };
 
+	uint8_t wait_length = 2;    // minimum length
+
 	displayportHandler[eyes]->setPacketTimeout(5000.0);
 
 	while (true)
@@ -412,7 +414,7 @@ int		Device::recvcommand(int eyes)
 					break;
 				}
 			}
-			else if( rx_length > 2 )
+			else if( rx_length >= 9 )
 			{
 				Logger::log(LOG_ERR, "Display Error ---> %s\n",(const char *)rxpacket);
 				result = COMM_RX_CORRUPT;
