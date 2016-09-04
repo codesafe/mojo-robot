@@ -145,7 +145,7 @@
 			<storage>flash</storage>
       <side>left</side>
       <rotation>true</rotation>
-      <initpic>PIC4.BMP</initpic>
+      <initpic>EYE1.BMP</initpic>
 		</lefteye>
 		<righteye type="display">
       <storage>flash</storage>
@@ -155,7 +155,7 @@
       -->
       <side>right</side>
       <rotation>false</rotation>
-      <initpic>PIC4.BMP</initpic>
+      <initpic>EYE1.BMP</initpic>
 		</righteye>		
 
   </parts>

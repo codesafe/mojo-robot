@@ -397,8 +397,6 @@ int		Device::recvcommand(int eyes)
 	uint8_t rx_length = 0;		// 총 수신 량
 	uint8_t rxpacket[RXPACKET_MAX_LEN] = { 0, };
 
-	uint8_t wait_length = 2;    // minimum length
-
 	displayportHandler[eyes]->setPacketTimeout(5000.0);
 
 	while (true)
@@ -546,9 +544,11 @@ int		Device::sendcommand(int eyes, uint8_t command, uint8_t *param, int length)
 	}
 
 	// 결과를 받아야 하나?? --> ok 메시지?
-	//return recvcommand(eyes);
-
+#ifdef WIN32
+	return recvcommand(eyes);
+#else
  	displayportHandler[eyes]->is_using_ = false;
  	return COMM_SUCCESS;
+#endif
 }
 

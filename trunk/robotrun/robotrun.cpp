@@ -139,10 +139,10 @@ void restartapp()
 {
 #ifdef WIN32
 	//WinExec("./restart.bat", SW_SHOW);
-	ShellExecute(NULL, "open", ".\\restart.bat", NULL, NULL, SW_SHOW);
+	//ShellExecute(NULL, "open", ".\\restart.bat", NULL, NULL, SW_SHOW);
 #else
-	system("./restart.sh");
-	exit(0);
+	//system("./restart.sh");
+	//exit(0);
 #endif
 }
 
@@ -192,8 +192,9 @@ int main(int argc, char **argv)
 	}
 		
 	mainupdate();
-
+	
 	closenetwork();
+	Logger::log(LOG_ERR, "Exit...\n");
 	return 0;
 }
 
