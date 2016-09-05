@@ -1,9 +1,13 @@
 ﻿#ifndef _PREDEF_
+#define _PREDEF_
 
 #ifdef __linux__
 #include <unistd.h>
 #include <fcntl.h>
 #include <termios.h>
+#include <errno.h>
+#include <sys/ioctl.h>
+#include <linux/usbdevice_fs.h>
 #elif defined(_WIN32) || defined(_WIN64)
 #include <conio.h>
 #endif

@@ -14,7 +14,6 @@
 #include <curl/curl.h>
 #endif
 
-
 //////////////////////////////////////////////////////////////////////////
 
 // 온라인으로 패치
@@ -26,6 +25,56 @@ bool onlinepatchrobotdata()
 }
 
 //////////////////////////////////////////////////////////////////////////
+
+
+#ifdef __linux__
+bool resetserialport(const char *filename)
+{
+	int fd;
+	int rc;
+	fd = open(filename, O_WRONLY);
+	if (fd < 0) {
+		perror("Error opening output file");
+		return false;
+	}
+
+	printf("Resetting USB device %s\n", filename);
+	rc = ioctl(fd, USBDEVFS_RESET, 0);
+	if (rc < 0) {
+		perror("Error in ioctl");
+		return false;
+	}
+	printf("Reset successful\n");
+	close(fd);
+
+	return true;
+}
+#endif
+
+bool initserialport(XMLNode pnode)
+{
+	bool ret = true;
+	for (int i = 0; i < pnode.nChildNode(); i++)
+	{
+		XMLNode node = pnode.getChildNode(i);
+		const char *name = node.getName();
+		const char *value = node.getText();
+		if (strcmp(name, "port") == 0)
+		{
+#ifdef __linux__
+			if (resetserialport(value) == false)
+			{
+				ret = false;
+				break;
+			}
+#endif
+		}
+	}
+
+	return ret;
+}
+
+
 
 int getch()
 {
@@ -94,6 +143,11 @@ bool loadsetup()
 		else if (std::string(name) == "parts")
 		{
 			if (setupparts(node) == false)
+				return false;
+		}
+		else if (std::string(name) == "linuxserial")
+		{
+			if (initserialport(node) == false)
 				return false;
 		}
 	}
@@ -172,8 +226,8 @@ void mainupdate()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char **argv)
 {
@@ -182,6 +236,10 @@ int main(int argc, char **argv)
 		printf("Server IP is %s\n", argv[1]);
 		MemDB::getInstance()->setValue("serveraddress", argv[1]);
 	}
+
+#ifdef __linux__
+	initserialport();
+#endif
 
 	opennetwork();
 	onlinepatchrobotdata();

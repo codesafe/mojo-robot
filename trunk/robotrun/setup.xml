@@ -16,6 +16,12 @@
     <serveraddress>127.0.0.1</serveraddress>
   </global>
 
+  <linuxserial>
+    <port>/dev/bus/usb/001/004</port>
+    <port>/dev/bus/usb/001/005</port>
+    <port>/dev/bus/usb/001/006</port>
+  </linuxserial>
+  
   <parts>
     <!-- Joint -->
     <larm0 type="joint">
