@@ -199,6 +199,8 @@ bool	Device::recv(uint8_t id, uint16_t command, uint16_t commandsize, uint16_t &
 	uint8_t dxl_error = 0;
 	int dxl_comm_result = COMM_TX_FAIL;
 
+	portHandler->setPacketTimeout(2000.0);
+
 	if(commandsize == 1)
 	{
 		uint8_t p = (uint8_t)param;
