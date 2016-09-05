@@ -71,6 +71,8 @@ bool initserialport(XMLNode pnode)
 		}
 	}
 
+	Utils::Sleep(2000);
+
 	return ret;
 }
 
