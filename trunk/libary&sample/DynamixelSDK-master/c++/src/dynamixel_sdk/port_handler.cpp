@@ -28,13 +28,8 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *******************************************************************************/
 
-/* Author: zerom, Leon Ryu Woon Jung */
+/* Author: zerom, Ryu Woon Jung (Leon) */
 
-/*
- * port_handler.cpp
- *
- *  Created on: 2016. 2. 5.
- */
 #if defined(_WIN32) || defined(_WIN64)
 #define WINDLLEXPORT
 #endif

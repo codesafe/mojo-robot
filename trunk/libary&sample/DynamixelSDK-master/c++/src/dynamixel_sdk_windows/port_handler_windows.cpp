@@ -28,13 +28,8 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *******************************************************************************/
 
-/* Author: Leon Ryu Woon Jung */
+/* Author: Ryu Woon Jung (Leon) */
 
-/*
-* PortHandlerWindows.cpp
-*
-*  Created on: 2016. 4. 06.
-*/
 #if defined(_WIN32) || defined(_WIN64)
 #define WINDLLEXPORT
 #endif

@@ -28,13 +28,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *******************************************************************************/
 
-/* Author: zerom, Leon Ryu Woon Jung */
-
-/*
- * port_handler_linux.cpp
- *
- *  Created on: 2016. 1. 26.
- */
+/* Author: zerom, Ryu Woon Jung (Leon) */
 
 #include <stdio.h>
 #include <fcntl.h>
