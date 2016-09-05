@@ -1,0 +1,18 @@
+1.
+cc usbreset.c -o usbreset
+
+2.
+chmod +x usbreset
+
+»ç¿ë¹ý
+
+lsusb
+Bus 001 Device 006: ID 0403:6001 Future Technology Devices International, Ltd FT232 USB-Serial (UART) IC
+Bus 001 Device 005: ID 0403:6001 Future Technology Devices International, Ltd FT232 USB-Serial (UART) IC
+Bus 001 Device 004: ID 0403:6001 Future Technology Devices International, Ltd FT232 USB-Serial (UART) IC
+
+3.
+sudo ./usbreset /dev/bus/usb/001/006  
+sudo ./usbreset /dev/bus/usb/001/005  
+sudo ./usbreset /dev/bus/usb/001/004
+  

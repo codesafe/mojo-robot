@@ -147,11 +147,13 @@ bool loadsetup()
 			if (setupparts(node) == false)
 				return false;
 		}
+/*
 		else if (std::string(name) == "linuxserial")
 		{
 			if (initserialport(node) == false)
 				return false;
 		}
+*/
 	}
 
 	loadanimation();
