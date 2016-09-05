@@ -237,10 +237,6 @@ int main(int argc, char **argv)
 		MemDB::getInstance()->setValue("serveraddress", argv[1]);
 	}
 
-#ifdef __linux__
-	initserialport();
-#endif
-
 	opennetwork();
 	onlinepatchrobotdata();
 
