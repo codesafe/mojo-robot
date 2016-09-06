@@ -113,31 +113,36 @@ bool	Device::initdevice(std::string part)
 			Logger::log(LOG_INFO, "Try to getHandler %s\n", devicename.c_str());
 #endif
 
-			if (displayportHandler[i]->openPort())
+			if (displayportHandler[i])
 			{
-				Logger::log(LOG_INFO, "Succeeded to open the port!\n");
-			}
-			else
-			{
-				Logger::log(LOG_ERR, "Failed to open the port!\n");
-				return false;
-			}
-
-			// Set port baudrate
-			int dispbaudrate = MemDB::getInstance()->getIntValue("displaybaudrate");
-			int oldbaudrate = displayportHandler[i]->getBaudRate();
-			if (oldbaudrate != dispbaudrate)
-			{
-				if (displayportHandler[i]->setBaudRate(dispbaudrate))
+				if (displayportHandler[i]->openPort())
 				{
-					Logger::log(LOG_INFO, "Succeeded to change the dispbaudrate : %d !\n", dispbaudrate);
+					Logger::log(LOG_INFO, "Succeeded to open the port!\n");
 				}
 				else
 				{
-					Logger::log(LOG_ERR, "Failed to change the dispbaudrate!\n");
+					Logger::log(LOG_ERR, "Failed to open the port!\n");
 					return false;
 				}
+
+				// Set port baudrate
+				int dispbaudrate = MemDB::getInstance()->getIntValue("displaybaudrate");
+				int oldbaudrate = displayportHandler[i]->getBaudRate();
+				if (oldbaudrate != dispbaudrate)
+				{
+					if (displayportHandler[i]->setBaudRate(dispbaudrate))
+					{
+						Logger::log(LOG_INFO, "Succeeded to change the dispbaudrate : %d !\n", dispbaudrate);
+					}
+					else
+					{
+						Logger::log(LOG_ERR, "Failed to change the dispbaudrate!\n");
+						return false;
+					}
+				}
 			}
+			else
+				return false;
 		}
 
 	}
@@ -156,8 +161,17 @@ void	Device::uninit()
 
 	delete groupRead;
 	portHandler->closePort();
-	displayportHandler[LEFT_EYE]->closePort();
-	displayportHandler[RIGHT_EYE]->closePort();
+
+	if (displayportHandler[LEFT_EYE])
+	{
+		displayportHandler[LEFT_EYE]->closePort();
+		displayportHandler[LEFT_EYE] = NULL;
+	}
+	if (displayportHandler[RIGHT_EYE])
+	{
+		displayportHandler[RIGHT_EYE]->closePort();
+		displayportHandler[RIGHT_EYE] = NULL;
+	}
 }
 
 // single command
@@ -389,7 +403,8 @@ void	Device::clearrecvqueue()
 
 void	Device::settimeout(int eyes, double time)
 {
-	displayportHandler[eyes]->setPacketTimeout(time);
+	if(displayportHandler[eyes])
+		displayportHandler[eyes]->setPacketTimeout(time);
 }
 
 int		Device::recvcommand(int eyes)
@@ -398,6 +413,8 @@ int		Device::recvcommand(int eyes)
 	uint8_t checksum = 0;
 	uint8_t rx_length = 0;		// 총 수신 량
 	uint8_t rxpacket[RXPACKET_MAX_LEN] = { 0, };
+
+	if (displayportHandler[eyes] == NULL) return COMM_SUCCESS;
 
 	displayportHandler[eyes]->setPacketTimeout(5000.0);
 
@@ -467,6 +484,7 @@ int		Device::sendcommand(int eyes, uint8_t command, uint8_t *param, int length)
 	uint8_t checksum = 0;
 	uint8_t total_packet_length = 0;
 	uint8_t written_packet_length = 0;
+	if (displayportHandler[eyes] == NULL) return COMM_SUCCESS;
 
 	if (displayportHandler[eyes]->is_using_)
 	{
