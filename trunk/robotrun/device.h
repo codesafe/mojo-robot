@@ -71,7 +71,6 @@ private :
 
 	//////////////////////////////////////////////////////////////////////////	For e-ink display
 
-	bool	enabledisplayport;
 	dynamixel::PortHandler *displayportHandler[EYE_MAX];
 
 	static Device *	instance;

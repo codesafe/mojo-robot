@@ -91,7 +91,7 @@ bool	PartController::init(XMLNode node)
 				else
 				{
 					Logger::log(LOG_ERR, "Display reset Fail...\n");
-					return false;
+					//return false;
 				}
 			}
 			else
@@ -248,14 +248,19 @@ void	PartController::displaypic(std::string pic)
 	{
 		Display* p1 = (Display*)getpart(PART_TYPE_DISPLAY, 100);
 		Display* p2 = (Display*)getpart(PART_TYPE_DISPLAY, 110);
+		if (p1)
+		{
+			p1->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)dinfo->left.c_str(), dinfo->left.size());
+			p1->addcommandlist(CMD_UPDATE);
+			p1->flushcommandlist();
+		}
 
-		p1->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)dinfo->left.c_str(), dinfo->left.size());
-		p1->addcommandlist(CMD_UPDATE);
-		p1->flushcommandlist();
-
-		p2->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)dinfo->right.c_str(), dinfo->right.size());
-		p2->addcommandlist(CMD_UPDATE);
-		p2->flushcommandlist();
+		if (p2)
+		{
+			p2->addcommandlist(CMD_DRAW_BITMAP, (uint8_t *)dinfo->right.c_str(), dinfo->right.size());
+			p2->addcommandlist(CMD_UPDATE);
+			p2->flushcommandlist();
+		}
 	}
 	else
 		Logger::log(LOG_WARN, "Not found displayname : %s\n", pic.c_str());

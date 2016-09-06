@@ -153,7 +153,8 @@ bool	Display::reset()
 		}
 	}
 
-	return ret == COMM_SUCCESS ? true : false;
+	enable = ret == COMM_SUCCESS ? true : false;
+	return enable;
 }
 
 bool	Display::sendcommand(uint16_t command, uint16_t param)
@@ -170,6 +171,12 @@ bool	Display::recvcommand(uint16_t command, uint16_t &param)
 
 void	Display::addcommandlist(uint8_t command, uint8_t *param, int length)
 {
+	if (enable == false)
+	{
+		Logger::log(LOG_WARN, "Display %d diabled\n", side);
+		return;
+	}
+
 	DisplayInfo info;
 	info.side = side;
 	info.command = command;

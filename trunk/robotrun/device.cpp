@@ -27,7 +27,7 @@ Device::~Device()
 bool	Device::init()
 {
 	enablejointport = initdevice("joint");
-	enabledisplayport = initdevice("display");
+	initdevice("display");
 
 	return true;
 }
@@ -394,8 +394,6 @@ void	Device::settimeout(int eyes, double time)
 
 int		Device::recvcommand(int eyes)
 {
-	if( enabledisplayport == false ) return 0;
-
 	int     result = COMM_TX_FAIL;
 	uint8_t checksum = 0;
 	uint8_t rx_length = 0;		// 총 수신 량
@@ -465,8 +463,6 @@ unsigned char Device::verify(const void * ptr, int n)
 
 int		Device::sendcommand(int eyes, uint8_t command, uint8_t *param, int length)
 {
-	if( enabledisplayport == false ) return 0;
-
 	uint8_t txpacket[128] = { 0, };
 	uint8_t checksum = 0;
 	uint8_t total_packet_length = 0;
