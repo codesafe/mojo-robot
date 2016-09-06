@@ -1,12 +1,5 @@
 <data>
 	<animation name="yes">
-		<part deviceid="51">
-			<motion>
-				<starttime>0</starttime>
-				<endtime>16.7625f</endtime>
-				<angle>180.0</angle>
-			</motion>
-		</part>
 		<part deviceid="52">
 			<motion>
 				<starttime>0f</starttime>

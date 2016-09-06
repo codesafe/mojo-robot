@@ -41,13 +41,6 @@
 				<endtime>2.6625f</endtime>
 				<angle>180.0</angle>
 			</motion>
-			<motion>
-				<starttime>2.6625f</starttime>
-				<endtime>16.7625f</endtime>
-				<angle>180.0</angle>
-			</motion>
-		</part>
-		<part deviceid="53">
 		</part>
 		<part deviceid="54">
 			<motion>

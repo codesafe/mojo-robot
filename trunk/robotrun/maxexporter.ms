@@ -3,7 +3,7 @@ function exportData filehandle obj fixvalue neg tempcontroller =
 	local prevtime = 0
     local count  = tempcontroller.keys.count
 	
-	if count > 1 then (
+	if count >= 1 then (
 		format "\t\t<part deviceid=\"%\">\n" obj.name to:filehandle	
 	)
 	
@@ -23,7 +23,7 @@ function exportData filehandle obj fixvalue neg tempcontroller =
 		prevtime = t;		 
      )
 	
-	if count > 1 then (
+	if count >= 1 then (
 		format "\t\t</part>\n" to:filehandle	
 	)	 
 )
@@ -33,31 +33,37 @@ function exportData filehandle obj fixvalue neg tempcontroller =
 function exportNote filehandle obj =
 (
 	local prevtime = 0
-	nt = getNoteTrack obj 1
-	local count = nt.keys.count
-	
-	if count > 1 then (
-		format "\t\t<part deviceid=\"%\">\n" "display" to:filehandle	
-	)
-	
-	for i = 1 to count do (     
-		keys = nt.keys[i]
-		local t = keys.time / 30
-		local v = keys.value
+	ct = numNoteTracks obj
+	if ct > 0 then (
 
-		if t > 0 then (
-			format "\t\t\t<motion>\n" to:filehandle
-			format "\t\t\t\t<starttime>%</starttime>\n" prevtime to:filehandle
-			format "\t\t\t\t<endtime>%</endtime>\n" t to:filehandle
-			format "\t\t\t\t<note>%</note>\n" v to:filehandle
-			format "\t\t\t</motion>\n" to:filehandle
-		 )
-		 prevtime = t;
+		nt = getNoteTrack obj 1
+		local count = nt.keys.count
+		
+		if count >= 1 then (
+			format "\t\t<part deviceid=\"%\">\n" "display" to:filehandle	
+		)
+		
+		for i = 1 to count do (     
+			keys = nt.keys[i]
+			local t = keys.time / 30
+			local v = keys.value
+
+			if t > 0 then (
+				format "\t\t\t<motion>\n" to:filehandle
+				format "\t\t\t\t<starttime>%</starttime>\n" prevtime to:filehandle
+				format "\t\t\t\t<endtime>%</endtime>\n" t to:filehandle
+				format "\t\t\t\t<note>%</note>\n" v to:filehandle
+				format "\t\t\t</motion>\n" to:filehandle
+			 )
+			 prevtime = t;
+		)
+
+		if count >= 1 then (
+			format "\t\t</part>\n" to:filehandle	
+		)	 	
+		
 	)
 
-	if count > 1 then (
-		format "\t\t</part>\n" to:filehandle	
-	)	 	
 )
 
 function startXML filehandle aniname =
