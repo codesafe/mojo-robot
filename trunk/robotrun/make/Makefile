@@ -11,8 +11,17 @@ DIR_OBJS   = .objects
 # compiler options
 CC          = gcc
 CX          = g++
+
+# dump core for debug
+# ulimit -c
+# ulimit -c unlimited
+# gdb -c core ./robotrun
+
+#CCFLAGS     = -O2 -O3 -DLINUX -D_GNU_SOURCE -Wall $(INCLUDES) $(FORMAT) -g -ggdb -std=gnu++11
+#CXFLAGS     = -O2 -O3 -DLINUX -D_GNU_SOURCE -Wall $(INCLUDES) $(FORMAT) -g -ggdb -std=gnu++11
 CCFLAGS     = -O2 -O3 -DLINUX -D_GNU_SOURCE -Wall $(INCLUDES) $(FORMAT) -g -std=gnu++11
 CXFLAGS     = -O2 -O3 -DLINUX -D_GNU_SOURCE -Wall $(INCLUDES) $(FORMAT) -g -std=gnu++11
+
 LNKCC       = $(CX)
 LNKFLAGS    = $(CXFLAGS) #-Wl,-rpath,$(DIR_THOR)/lib
 #FORMAT      = -m32

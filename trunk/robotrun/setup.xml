@@ -14,6 +14,7 @@
     <linuxjointbaudrate>1000000</linuxjointbaudrate>
     <displaybaudrate>115200</displaybaudrate>
     <serveraddress>127.0.0.1</serveraddress>
+    <filelog>true</filelog>
   </global>
 
   <parts>

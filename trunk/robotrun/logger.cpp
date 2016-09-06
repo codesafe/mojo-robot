@@ -8,7 +8,9 @@
 void Logger::log(int logtype, const char* format, ...)
 {
 	bool consolelog_enable = (CONSOLE_LOG & logtype) == 1 ? false : true;
-	bool filelog_enable = (FILE_LOG & logtype) == 0 ? false : true;
+
+	//bool filelog_enable = (FILE_LOG & logtype) == 0 ? false : true;		// define으로 제어
+	bool filelog_enable = MemDB::getInstance()->getBoolValue("filelog");
 
 	char buf[2048] = { 0, };
 	va_list ap;

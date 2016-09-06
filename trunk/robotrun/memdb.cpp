@@ -16,6 +16,15 @@ void	MemDB::reset()
 	keyvalue.clear();
 }
 
+bool	MemDB::getBoolValue(std::string key, bool d)
+{
+	std::string ret = getvalue(key);
+	if (ret.empty())
+		return d;
+
+	return ret == "true" ? true : false;
+}
+
 int		MemDB::getIntValue(std::string key, int d)
 {
 	std::string ret = getvalue(key);

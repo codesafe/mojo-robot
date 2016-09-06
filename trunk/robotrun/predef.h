@@ -33,11 +33,12 @@
 #  define thread_local __thread
 #endif
 
+#define	TESTBUILD
+
 //#define MX_28
 #ifndef MX_28
 #define AX_12
 #endif
-
 
 #define MOTION_JOINT		1
 #define MOTION_DISPLAY		2
@@ -48,8 +49,6 @@
 //#define USE_RAD
 #define RADTODEG(A)		(A * 180.0f / PI);
 #define DEGTORAD(A)		(A * PI / 180.0f)
-
-#define	TESTBUILD
 
 #define LOG_NONE		0
 #define LOG_INFO		1 << 2
