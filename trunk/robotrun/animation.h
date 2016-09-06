@@ -92,7 +92,6 @@ private:
 
 	Motion*								currentmotion;
 	std::map<std::string, Motion*>		animationlist;		// key : motion name , value :   motion
-	std::vector<ANIFILE>				animationfilelist;
 	std::map<std::string, DISPLAYFILE*>	displaynamedic;
 
 	std::deque<std::string>				reservedmotion;

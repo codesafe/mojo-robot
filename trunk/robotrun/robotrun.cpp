@@ -165,6 +165,7 @@ void releaseall()
 {
 	PartController::getInstance()->uninit();
 	Device::getInstance()->uninit();			// close all device and ports
+	Animation::getInstance()->uninit();
 }
 
 

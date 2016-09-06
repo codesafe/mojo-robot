@@ -271,7 +271,6 @@ Animation::~Animation()
 
 bool	Animation::init()
 {
-
 	return true;
 }
 
@@ -284,10 +283,8 @@ void	Animation::uninit()
 		delete it->second;
 	animationlist.clear();
 
-	animationfilelist.clear();
-
 	std::map<std::string, DISPLAYFILE*>::iterator itd = displaynamedic.begin();
-	for (; itd != displaynamedic.end(); it++)
+	for (; itd != displaynamedic.end(); itd++)
 		delete itd->second;
 	displaynamedic.clear();
 
@@ -316,6 +313,8 @@ void	Animation::update()
 void	Animation::load(std::string _filename, std::string displayinfo)
 {
 	uninit();
+
+	std::vector<ANIFILE> animationfilelist;
 
 	XMLNode root = XMLNode::openFileHelper(_filename.c_str(), "");
 	for (int i = 0; i < root.nChildNode(); i++)
@@ -409,6 +408,8 @@ void	Animation::stop()
 		currentmotion->stop();
 		currentmotion = NULL;
 	}
+
+	reservedmotion.clear();
 }
 
 bool	Animation::isplaying()
