@@ -3,67 +3,91 @@
 		<part deviceid="51">
 			<motion>
 				<starttime>0f</starttime>
-				<endtime>0.6625f</endtime>
+				<endtime>0.33125f</endtime>
 				<angle>134.278</angle>
 			</motion>
 			<motion>
-				<starttime>0.6625f</starttime>
-				<endtime>1.33125f</endtime>
+				<starttime>0.33125f</starttime>
+				<endtime>0.6625f</endtime>
 				<angle>183.771</angle>
 			</motion>
 			<motion>
-				<starttime>1.33125f</starttime>
-				<endtime>2f</endtime>
+				<starttime>0.6625f</starttime>
+				<endtime>1f</endtime>
 				<angle>249.225</angle>
 			</motion>
 			<motion>
+				<starttime>1f</starttime>
+				<endtime>1.33125f</endtime>
+				<angle>180.0</angle>
+			</motion>
+			<motion>
+				<starttime>1.33125f</starttime>
+				<endtime>1.6625f</endtime>
+				<angle>134.278</angle>
+			</motion>
+			<motion>
+				<starttime>1.6625f</starttime>
+				<endtime>2f</endtime>
+				<angle>183.771</angle>
+			</motion>
+			<motion>
 				<starttime>2f</starttime>
+				<endtime>2.33125f</endtime>
+				<angle>249.225</angle>
+			</motion>
+			<motion>
+				<starttime>2.33125f</starttime>
 				<endtime>2.6625f</endtime>
 				<angle>180.0</angle>
 			</motion>
 			<motion>
 				<starttime>2.6625f</starttime>
-				<endtime>3.33125f</endtime>
-				<angle>134.278</angle>
+				<endtime>16.7625f</endtime>
+				<angle>180.0</angle>
+			</motion>
+		</part>
+		<part deviceid="53">
+		</part>
+		<part deviceid="54">
+			<motion>
+				<starttime>0f</starttime>
+				<endtime>0.33125f</endtime>
+				<angle>168.257</angle>
 			</motion>
 			<motion>
-				<starttime>3.33125f</starttime>
-				<endtime>4f</endtime>
-				<angle>183.771</angle>
+				<starttime>0.33125f</starttime>
+				<endtime>0.63125f</endtime>
+				<angle>177.74</angle>
 			</motion>
 			<motion>
-				<starttime>4f</starttime>
-				<endtime>4.6625f</endtime>
-				<angle>249.225</angle>
+				<starttime>0.63125f</starttime>
+				<endtime>1f</endtime>
+				<angle>188.903</angle>
 			</motion>
 			<motion>
-				<starttime>4.6625f</starttime>
-				<endtime>5.33125f</endtime>
+				<starttime>1f</starttime>
+				<endtime>1.33125f</endtime>
 				<angle>180.0</angle>
 			</motion>
 			<motion>
-				<starttime>5.33125f</starttime>
-				<endtime>6f</endtime>
-				<angle>134.278</angle>
+				<starttime>1.33125f</starttime>
+				<endtime>1.6625f</endtime>
+				<angle>168.257</angle>
 			</motion>
 			<motion>
-				<starttime>6f</starttime>
-				<endtime>6.6625f</endtime>
-				<angle>183.771</angle>
+				<starttime>1.6625f</starttime>
+				<endtime>1.9625f</endtime>
+				<angle>177.74</angle>
 			</motion>
 			<motion>
-				<starttime>6.6625f</starttime>
-				<endtime>7.33125f</endtime>
-				<angle>249.225</angle>
+				<starttime>1.9625f</starttime>
+				<endtime>2.33125f</endtime>
+				<angle>188.903</angle>
 			</motion>
 			<motion>
-				<starttime>7.33125f</starttime>
-				<endtime>8f</endtime>
-				<angle>177.335</angle>
-			</motion>
-			<motion>
-				<starttime>8f</starttime>
-				<endtime>16.7625f</endtime>
+				<starttime>2.33125f</starttime>
+				<endtime>2.6625f</endtime>
 				<angle>180.0</angle>
 			</motion>
 		</part>
