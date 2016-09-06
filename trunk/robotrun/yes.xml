@@ -1,0 +1,36 @@
+<data>
+	<animation name="yes">
+			<motion>
+				<starttime>0</starttime>
+				<endtime>16.7625f</endtime>
+				<angle>180.0</angle>
+			</motion>
+		<part deviceid="52">
+			<motion>
+				<starttime>0f</starttime>
+				<endtime>0.6625f</endtime>
+				<angle>204.707</angle>
+			</motion>
+			<motion>
+				<starttime>0.6625f</starttime>
+				<endtime>1.33125f</endtime>
+				<angle>171.882</angle>
+			</motion>
+			<motion>
+				<starttime>1.33125f</starttime>
+				<endtime>2f</endtime>
+				<angle>180.0</angle>
+			</motion>
+			<motion>
+				<starttime>2f</starttime>
+				<endtime>2.6625f</endtime>
+				<angle>204.707</angle>
+			</motion>
+			<motion>
+				<starttime>2.6625f</starttime>
+				<endtime>3.33125f</endtime>
+				<angle>171.882</angle>
+			</motion>
+		</part>
+	</animation>
+</data>
