@@ -33,12 +33,9 @@
 #  define thread_local __thread
 #endif
 
-#define	TESTBUILD
+//////////////////////////////////////////////////////////////////////////
 
-//#define MX_28
-#ifndef MX_28
-#define AX_12
-#endif
+#define	TESTBUILD
 
 #define MOTION_JOINT		1
 #define MOTION_DISPLAY		2
@@ -71,11 +68,8 @@
 #define DEVICE_DISABLE			0
 #define DEVICE_ENABLE			1
 
-#ifdef MX_28
-#define FIX_ANGLE				0	// 모터간 제어각 수정 값
-#else
-#define FIX_ANGLE				30	// 모터간 제어각 수정 값
-#endif
+#define MX_FIX_ANGLE			0	// 모터간 제어각 수정 값
+#define AX_FIX_ANGLE			30	// 모터간 제어각 수정 값
 
 // Control Address
 #define TORQUEMODE				24	// 토크 모드
@@ -105,28 +99,23 @@
 
 
 // 동작관련 수치 변형 Macro
-#ifdef MX_28
-	#define ROT_VALUE				(11.377)		// 4096 / 360 (360 to 4096)	--> MX-28 용
-#else
-	#define ROT_VALUE				(3.4133)		// 1024 / 300 (300 to 1023)	--> AX-12 용
-#endif
+#define MX_ROT_VALUE				(11.377)		// 4096 / 360 (360 to 4096)	--> MX-28 용
+#define AX_ROT_VALUE				(3.4133)		// 1024 / 300 (300 to 1023)	--> AX-12 용
 
-#define DEGREE2DXL(A)			(uint16_t)(A*ROT_VALUE)	// degree to dxl value
-#define DXL2DEGREE(A)			(uint16_t)(A/ROT_VALUE)	// dxl value to degree
+// #define DEGREE2DXL(A)			(uint16_t)(A*ROT_VALUE)	// degree to dxl value
+// #define DXL2DEGREE(A)			(uint16_t)(A/ROT_VALUE)	// dxl value to degree
 
 // 회전 Speed 설정에 필요한 DXL 값 얻기
 // N초에 R만큼 회전하려 할때의 RPM / RPM 설정값
 // R / (6 * n) = RPM
-#ifdef MX_28
-	// R / (0.114 * 6 * n) = RPM 설정값
-	#define ROTSPEED				0.114
-#else
-	// R / (0.111 * 6 * n) = RPM 설정값
-	#define ROTSPEED				0.111
-#endif
+
+// R / (0.114 * 6 * n) = RPM 설정값
+#define MX_ROTSPEED				0.114
+// R / (0.111 * 6 * n) = RPM 설정값
+#define AX_ROTSPEED				0.111
 
 // R은 회전량 절대값 <-- ( abs(현재 각도 - 목표 각도) ) 
-#define SPEEDVALUE(N, R)		(uint16_t)(R / (ROTSPEED * 6 * N ))
+//#define SPEEDVALUE(N, R)		(uint16_t)(R / (ROTSPEED * 6 * N ))
 
 
 // animation state		

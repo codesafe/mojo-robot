@@ -241,6 +241,38 @@ namespace Utils
 		return ret == 0 ? true : false;
 	}
 
+	static unsigned short DEGREE2DXL(unsigned short A)
+	{
+		if (MemDB::getInstance()->getValue("motortype") == "mx")
+			return (unsigned short)(A * MX_ROT_VALUE);	// degree to dxl value
+		else
+			return (unsigned short)(A * AX_ROT_VALUE);	// degree to dxl value
+	}
+
+	static unsigned short DXL2DEGREE(unsigned short A)
+	{
+		if (MemDB::getInstance()->getValue("motortype") == "mx")
+			return (unsigned short)(A / MX_ROT_VALUE);	// dxl value to degree
+		else
+			return (unsigned short)(A / AX_ROT_VALUE);	// dxl value to degree
+	}
+
+	static unsigned short SPEEDVALUE(float N, int R)
+	{
+		if (MemDB::getInstance()->getValue("motortype") == "mx")
+			return (unsigned short)(R / (MX_ROTSPEED * 6 * N));
+		else
+			return (unsigned short)(R / (AX_ROTSPEED * 6 * N));
+	}
+
+	static unsigned short FIX_ANGLE()
+	{
+		if (MemDB::getInstance()->getValue("motortype") == "mx")
+			return MX_FIX_ANGLE;
+		else
+			return AX_FIX_ANGLE;
+	}
+
 };
 
 

@@ -14,6 +14,7 @@
 #include <curl/curl.h>
 #endif
 
+
 //////////////////////////////////////////////////////////////////////////
 
 // 온라인으로 패치
@@ -101,7 +102,6 @@ bool setupparts(XMLNode node)
 	return PartController::getInstance()->init(node);
 	//Device::getInstance()->sendqueue();
 }
-
 
 bool loadglobalinfo(XMLNode pnode)
 {

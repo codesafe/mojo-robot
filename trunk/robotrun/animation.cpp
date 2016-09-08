@@ -6,6 +6,7 @@
 #include "joint.h"
 #include "display.h"
 #include "e-ink.h"
+#include "utils.h"
 
 Motion::Motion()
 {
@@ -57,11 +58,11 @@ bool	Motion::init(XMLNode pnode)
 				{
 #ifdef USE_RAD
 					float rad = (float)xmltof(value);
-					_motion.angle = (int)RADTODEG(rad) - FIX_ANGLE;
+					_motion.angle = (int)RADTODEG(rad) - Utils::FIX_ANGLE();
 
 					Logger::log(LOG_INFO, "angle : %d\n", _motion.angle);
 #else
-					_motion.angle = xmltoi(value) - FIX_ANGLE;
+					_motion.angle = xmltoi(value) - Utils::FIX_ANGLE();
 #endif
 					_motion.type = MOTION_JOINT;
 				}
@@ -199,12 +200,12 @@ bool	Motion::_play(int id, _MOTION &motion)
 #if 1
 		if (PartController::getInstance()->recvcommand(id, CURRENT_POSITION, currentangle) == true)
 		{
-			currentangle = DXL2DEGREE(currentangle);
+			currentangle = Utils::DXL2DEGREE(currentangle);
 			int destangle = abs(currentangle - angle);
 
-			uint16_t p = SPEEDVALUE(speed, destangle);
+			uint16_t p = Utils::SPEEDVALUE(speed, destangle);
 			ret = PartController::getInstance()->addsendqueuecommand(id, MOVE_SPEED, p);
-			ret = PartController::getInstance()->addsendqueuecommand(id, DEST_POSITION, DEGREE2DXL(angle));
+			ret = PartController::getInstance()->addsendqueuecommand(id, DEST_POSITION, Utils::DEGREE2DXL(angle));
 			Logger::log(LOG_INFO, "Change motion id:%d speed:%d destpos:%d \n", id, p, destangle);
 		}
 
@@ -215,7 +216,7 @@ bool	Motion::_play(int id, _MOTION &motion)
 			currentangle = DXL2DEGREE(currentangle);
 			int destangle = abs(currentangle - angle);
 
-			uint16_t p = SPEEDVALUE(speed, destangle);
+			uint16_t p = Utils::SPEEDVALUE(speed, destangle);
 			ret = Device::getInstance()->addsendqueue(id, MOVE_SPEED, p);
 			ret = Device::getInstance()->addsendqueue(id, DEST_POSITION, DEGREE2DXL(angle));
 		}

@@ -15,6 +15,7 @@
     <displaybaudrate>115200</displaybaudrate>
     <serveraddress>127.0.0.1</serveraddress>
     <filelog>true</filelog>
+    <motortype>mx</motortype>
   </global>
 
   <parts>
@@ -25,11 +26,9 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
-      <!--      
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-      -->
     </larm0>
     <larm1 type="joint">
       <id>42</id>
@@ -37,11 +36,9 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
-<!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
--->      
     </larm1>
     <rarm0 type="joint">
       <id>43</id>
@@ -49,11 +46,9 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
-      <!--      
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-      -->
     </rarm0>
     <rarm1 type="joint">
       <id>44</id>
@@ -61,11 +56,9 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
-      <!--      
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-      -->
     </rarm1>
     <head0 type="joint">
       <id>53</id>
@@ -73,11 +66,9 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
-      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-      -->
     </head0>
     <head1 type="joint">
       <id>52</id>
@@ -85,11 +76,9 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
-      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-      -->
     </head1>
     <head2 type="joint">
       <id>51</id>
@@ -97,11 +86,9 @@
       <cwlimit>90</cwlimit>
       <ccwlimit>270</ccwlimit>
       <initpos>180</initpos>
-      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-      -->
     </head2>
     <mouth type="joint">
       <id>54</id>
@@ -109,11 +96,9 @@
       <cwlimit>200</cwlimit>
       <ccwlimit>230</ccwlimit>
       <initpos>210</initpos>
-      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-      -->
     </mouth>
     <!-- wheel -->
 
@@ -121,22 +106,18 @@
       <id>32</id>
       <torque>1</torque>
       <torquelimit>512</torquelimit>
-      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-      -->
     </leftwheel>
 
     <rightwheel type="wheel">
       <id>31</id>
       <torque>1</torque>
       <torquelimit>512</torquelimit>
-      <!--
       <p-param>32</p-param>
       <i-param>0</i-param>
       <d-param>0</d-param>
-      -->
     </rightwheel>
 
     <!-- Display -->
