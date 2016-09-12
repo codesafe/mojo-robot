@@ -8,6 +8,7 @@
 Socket::Socket()
 {
 	sock = -1;
+	clisock = -1;
 }
 
 Socket::~Socket()
@@ -16,6 +17,44 @@ Socket::~Socket()
 }
 
 bool	Socket::init()
+{
+#ifdef I_AM_SERVER
+	return initserver();
+#else
+
+	return initclient();
+#endif
+
+
+
+	return true;
+}
+
+bool	Socket::initserver()
+{
+	sock = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock == -1)
+	{
+		Logger::log(LOG_ERR, "Could not create socket\n");
+		return false;
+	}
+
+	memset((void *)&server, 0x00, sizeof(server));
+	server.sin_family = AF_INET;
+	server.sin_addr.s_addr = INADDR_ANY;
+	server.sin_port = htons(SERVER_PORT);
+
+	int status = bind(sock, (struct sockaddr*)&server, sizeof(struct sockaddr_in));
+	if (status == SOCKET_ERROR)
+		Logger::log(LOG_INFO, "Bind Error\n");
+
+	listen(sock, 5);
+	Logger::log(LOG_INFO, "Socket created!\n");
+
+	return true;
+}
+
+bool	Socket::initclient()
 {
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == -1)
@@ -33,8 +72,10 @@ bool	Socket::init()
 	server.sin_addr.s_addr = inet_addr(serveradd.c_str());
 	server.sin_family = AF_INET;
 	server.sin_port = htons(SERVER_PORT);
+
 	return true;
 }
+
 
 void	Socket::uninit()
 {
@@ -45,6 +86,7 @@ void	Socket::uninit()
 
 bool	Socket::connect()
 {
+
 	//Connect to server
 	int err = ::connect(sock, (struct sockaddr *)&server, sizeof(server));
 	if ( err < 0)
@@ -72,6 +114,39 @@ bool	Socket::connect()
 
 void	Socket::closesocket()
 {
+#ifdef I_AM_SERVER
+	closeserver();
+#else
+
+	closeclient();
+#endif
+}
+
+void	Socket::closeserver()
+{
+	if (sock > 0)
+	{
+#if WIN32
+		::closesocket(sock);
+#else
+		close(sock);
+#endif
+		sock = -1;
+	}
+
+	if (clisock > 0)
+	{
+#if WIN32
+		::closesocket(clisock);
+#else
+		close(clisock);
+#endif
+		clisock = -1;
+	}
+}
+
+void	Socket::closeclient()
+{
 	if (sock == -1) return;
 #if WIN32
 	::closesocket(sock);
@@ -81,9 +156,120 @@ void	Socket::closesocket()
 	sock = -1;
 }
 
+
 // select socket
 bool	Socket::update()
 {
+#ifdef I_AM_SERVER
+	return updateserver();
+#else
+	return updateclient();
+#endif
+}
+
+bool	Socket::updateserver()
+{
+	if (clisock == -1)
+	{
+		ZeroMemory(&cli_addr, sizeof(struct sockaddr_in));
+		int sockLen = sizeof(struct sockaddr_in);
+		clisock = accept(sock, (struct sockaddr*)&cli_addr, &sockLen);
+		if (clisock == INVALID_SOCKET)
+		{
+			Logger::log(LOG_INFO, "Accept Error\n");
+#if WIN32
+			::closesocket(sock);
+#else
+			close(sock);
+#endif
+			return false;
+		}
+
+		// client socket --> nonblock
+		unsigned long arg = 1;
+		if (ioctlsocket(clisock, FIONBIO, &arg) != 0) return false;
+		Logger::log(LOG_INFO, "New Client Come !!\n");
+	}
+	else
+	{
+		fd_set read_flags, write_flags;
+		struct timeval waitd;          // the max wait time for an event
+		int sel;
+
+		waitd.tv_sec = 0;
+		waitd.tv_usec = 1000;		// micro second
+		FD_ZERO(&read_flags);
+		FD_ZERO(&write_flags);
+		FD_SET(clisock, &read_flags);
+
+		sel = select(clisock + 1, &read_flags, &write_flags, (fd_set*)0, &waitd);
+		if (sel < 0) return true;	// 아무것도 없다!
+
+		// 읽을것이 있으면 read
+		if (FD_ISSET(clisock, &read_flags))
+		{
+			FD_CLR(clisock, &read_flags);
+			char in[SOCKET_BUFFER];
+			memset(&in, 0, sizeof(in));
+
+			int recvsize = ::recv(clisock, in, sizeof(in), 0);
+			if( recvsize > 0)
+			{
+				if (recvbuffer.totalsize > 0)
+				{
+					// 뒤에 이어 받아야함
+					memcpy(recvbuffer.buffer + recvbuffer.totalsize, in, recvsize);
+					recvbuffer.totalsize += recvsize;
+					recvdone();
+				}
+				else
+				{
+					// 처음 받음
+					recvbuffer.totalsize = recvsize;
+					memcpy(recvbuffer.buffer, in, recvsize);
+					recvdone();
+				}
+			}
+			else
+			{
+#if WIN32
+				::closesocket(clisock);
+#else
+				close(clisock);
+#endif
+				Logger::log(LOG_INFO, "Client Disconnected !\n");
+				clisock = -1;
+				return true;
+			}
+
+		}
+
+		// 보낼것이 있으면 보낸다로 설정
+		if (sendbuffer.totalsize > 0)
+			FD_SET(clisock, &write_flags);
+
+		// 보냄
+		if (FD_ISSET(clisock, &write_flags))
+		{
+			FD_CLR(clisock, &write_flags);
+			int sendsize = ::send(clisock, sendbuffer.buffer + sendbuffer.currentsize, sendbuffer.totalsize - sendbuffer.currentsize, 0);
+			if (sendbuffer.totalsize == sendbuffer.currentsize + sendsize)
+			{
+				senddone();
+			}
+			else
+			{
+				sendbuffer.currentsize += sendsize;
+			}
+		}
+	}
+
+	return true;
+}
+
+bool	Socket::updateclient()
+{
+
 	fd_set read_flags, write_flags;
 	struct timeval waitd;          // the max wait time for an event
 	int sel;
@@ -97,8 +283,8 @@ bool	Socket::update()
 	sel = select(sock + 1, &read_flags, &write_flags, (fd_set*)0, &waitd);
 	if (sel < 0) return true;	// 아무것도 없다!
 
-	// 읽을것이 있으면 read
-	if (FD_ISSET(sock, &read_flags)) 
+								// 읽을것이 있으면 read
+	if (FD_ISSET(sock, &read_flags))
 	{
 		FD_CLR(sock, &read_flags);
 
@@ -139,8 +325,8 @@ bool	Socket::update()
 	if (FD_ISSET(sock, &write_flags))
 	{
 		FD_CLR(sock, &write_flags);
-		int sendsize = ::send(sock, sendbuffer.buffer+sendbuffer.currentsize, sendbuffer.totalsize - sendbuffer.currentsize, 0);
-		if (sendbuffer.totalsize == sendbuffer.currentsize+sendsize)
+		int sendsize = ::send(sock, sendbuffer.buffer + sendbuffer.currentsize, sendbuffer.totalsize - sendbuffer.currentsize, 0);
+		if (sendbuffer.totalsize == sendbuffer.currentsize + sendsize)
 		{
 			senddone();
 		}

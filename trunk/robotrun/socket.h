@@ -61,12 +61,24 @@ private :
 	void	senddone();
 	void	recvdone();
 
+	bool	initserver();
+	bool	initclient();
+
+	void	closeserver();
+	void	closeclient();
+
+	bool	updateserver();
+	bool	updateclient();
+
 #if WIN32
 	SOCKET sock;
+	SOCKET clisock;
 #else
 	int sock;
+	int clisock;
 #endif
 	struct sockaddr_in server;
+	struct sockaddr_in cli_addr;
 
 	std::deque<SocketBuffer>	recvbufferlist;
 	std::deque<SocketBuffer>	sendbufferlist;

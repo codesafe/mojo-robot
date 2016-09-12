@@ -143,6 +143,8 @@
 #define SERVER_PORT			8888
 #define SOCKET_BUFFER		4096
 
+//#define I_AM_SERVER
+
 //////////////////////////////////////////////////////////////////////////
 
 // network packet
