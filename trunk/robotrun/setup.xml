@@ -3,15 +3,15 @@
   <global>
     <protocol>1.0</protocol>
     <!-- for windows -->
-    <jointdevicename>//./COM4</jointdevicename>
+    <jointdevicename>//./COM3</jointdevicename>
     <left_displaydevicename>//./COM5</left_displaydevicename>
     <right_displaydevicename>//./COM6</right_displaydevicename>
     <!-- for linux or raps -->
     <linuxjointdevicename>/dev/ttyUSB0</linuxjointdevicename>
     <left_linuxdisplaydevicename>/dev/ttyUSB1</left_linuxdisplaydevicename>
     <right_linuxdisplaydevicename>/dev/ttyUSB2</right_linuxdisplaydevicename>
-    <jointbaudrate>1000000</jointbaudrate>
-    <linuxjointbaudrate>1000000</linuxjointbaudrate>
+    <jointbaudrate>57142</jointbaudrate>
+    <linuxjointbaudrate>57142</linuxjointbaudrate>
     <displaybaudrate>115200</displaybaudrate>
     <serveraddress>127.0.0.1</serveraddress>
     <filelog>true</filelog>
