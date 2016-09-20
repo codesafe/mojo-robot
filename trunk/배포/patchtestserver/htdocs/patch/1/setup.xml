@@ -1,0 +1,164 @@
+<setup>
+  <version>1</version>
+  <global>
+    <protocol>1.0</protocol>
+    <!-- for windows -->
+    <jointdevicename>//./COM4</jointdevicename>
+    <left_displaydevicename>//./COM5</left_displaydevicename>
+    <right_displaydevicename>//./COM6</right_displaydevicename>
+    <!-- for linux or raps -->
+    <linuxjointdevicename>/dev/ttyUSB0</linuxjointdevicename>
+    <left_linuxdisplaydevicename>/dev/ttyUSB1</left_linuxdisplaydevicename>
+    <right_linuxdisplaydevicename>/dev/ttyUSB2</right_linuxdisplaydevicename>
+    <jointbaudrate>1000000</jointbaudrate>
+    <linuxjointbaudrate>1000000</linuxjointbaudrate>
+    <displaybaudrate>115200</displaybaudrate>
+    <serveraddress>127.0.0.1</serveraddress>
+    <filelog>true</filelog>
+  </global>
+
+  <parts>
+    <!-- Joint -->
+    <larm0 type="joint">
+      <id>41</id>
+      <torque>1</torque>
+      <cwlimit>90</cwlimit>
+      <ccwlimit>270</ccwlimit>
+      <initpos>180</initpos>
+      <!--      
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+      -->
+    </larm0>
+    <larm1 type="joint">
+      <id>42</id>
+      <torque>1</torque>
+      <cwlimit>90</cwlimit>
+      <ccwlimit>270</ccwlimit>
+      <initpos>180</initpos>
+<!--
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+-->      
+    </larm1>
+    <rarm0 type="joint">
+      <id>43</id>
+      <torque>1</torque>
+      <cwlimit>90</cwlimit>
+      <ccwlimit>270</ccwlimit>
+      <initpos>180</initpos>
+      <!--      
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+      -->
+    </rarm0>
+    <rarm1 type="joint">
+      <id>44</id>
+      <torque>1</torque>
+      <cwlimit>90</cwlimit>
+      <ccwlimit>270</ccwlimit>
+      <initpos>180</initpos>
+      <!--      
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+      -->
+    </rarm1>
+    <head0 type="joint">
+      <id>53</id>
+      <torque>1</torque>
+      <cwlimit>90</cwlimit>
+      <ccwlimit>270</ccwlimit>
+      <initpos>180</initpos>
+      <!--
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+      -->
+    </head0>
+    <head1 type="joint">
+      <id>52</id>
+      <torque>1</torque>
+      <cwlimit>90</cwlimit>
+      <ccwlimit>270</ccwlimit>
+      <initpos>180</initpos>
+      <!--
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+      -->
+    </head1>
+    <head2 type="joint">
+      <id>51</id>
+      <torque>1</torque>
+      <cwlimit>90</cwlimit>
+      <ccwlimit>270</ccwlimit>
+      <initpos>180</initpos>
+      <!--
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+      -->
+    </head2>
+    <mouth type="joint">
+      <id>54</id>
+      <torque>1</torque>
+      <cwlimit>200</cwlimit>
+      <ccwlimit>230</ccwlimit>
+      <initpos>210</initpos>
+      <!--
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+      -->
+    </mouth>
+    <!-- wheel -->
+
+    <leftwheel type="wheel">
+      <id>32</id>
+      <torque>1</torque>
+      <torquelimit>512</torquelimit>
+      <!--
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+      -->
+    </leftwheel>
+
+    <rightwheel type="wheel">
+      <id>31</id>
+      <torque>1</torque>
+      <torquelimit>512</torquelimit>
+      <!--
+      <p-param>32</p-param>
+      <i-param>0</i-param>
+      <d-param>0</d-param>
+      -->
+    </rightwheel>
+
+    <!-- Display -->
+
+		<lefteye type="display">
+			<id>100</id>
+			<storage>flash</storage>
+      <side>left</side>
+      <rotation>true</rotation>
+      <initpic>EYE1.BMP</initpic>
+		</lefteye>
+		<righteye type="display">
+      <storage>flash</storage>
+			<id>110</id>
+      <!--
+			<storage>sdcard</storage>
+      -->
+      <side>right</side>
+      <rotation>false</rotation>
+      <initpic>EYE1.BMP</initpic>
+		</righteye>		
+
+  </parts>
+
+</setup>

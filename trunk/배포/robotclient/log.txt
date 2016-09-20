@@ -1,0 +1,10 @@
+22:29:23 log name : filelog value : true
+22:29:23 log name : motortype value : mx
+22:29:23 Try to getHandler //./COM3
+22:29:23 Failed to open the port!
+22:29:23 Try to getHandler display //./COM5
+22:29:23 Failed to open the port!
+22:29:23 41 : torque Read error!! 
+22:29:23 Joint reset Fail...
+22:29:23 Fatal Error.. Load setup faild...
+22:29:23 Exit...

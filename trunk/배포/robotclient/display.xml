@@ -1,0 +1,5 @@
+﻿<data>
+  <picture name="test1" left="EYE1.BMP" right="EYE1.BMP"/>
+  <picture name="test2" left="EYE1.BMP" right="EYE2.BMP"/>
+  <picture name="test3" left="EYE2.BMP" right="EYE2.BMP"/>
+</data>

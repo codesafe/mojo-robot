@@ -1,0 +1,1 @@
+regsvr32 C:\Users\123456\Desktop\e-paper\4.3inch-e-Paper-COM\EPSCOMM\EN\mscomm32.ocx
