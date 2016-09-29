@@ -32,6 +32,7 @@ bool	Socket::init()
 
 bool	Socket::initserver()
 {
+#ifdef I_AM_SERVER
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == -1)
 	{
@@ -50,7 +51,7 @@ bool	Socket::initserver()
 
 	listen(sock, 5);
 	Logger::log(LOG_INFO, "Socket created!\n");
-
+#endif
 	return true;
 }
 
