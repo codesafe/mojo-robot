@@ -169,6 +169,7 @@ bool	Socket::update()
 
 bool	Socket::updateserver()
 {
+#ifdef I_AM_SERVER
 	if (clisock == -1)
 	{
 		ZeroMemory(&cli_addr, sizeof(struct sockaddr_in));
@@ -263,7 +264,7 @@ bool	Socket::updateserver()
 			}
 		}
 	}
-
+#endif
 	return true;
 }
 
